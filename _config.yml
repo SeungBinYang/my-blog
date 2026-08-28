@@ -1,5 +1,31 @@
 title: 양승빈의 개발 일지
-remote_theme: b2a3e8/jekyll-theme-console
-plugins:
-  - jekyll-seo-tag
+# remote_theme: b2a3e8/jekyll-theme-console
 baseurl: "/my-blog"
+
+excerpt_separator: "\n\n\n"
+
+# Layout
+
+show_excerpts: false             # show article excerpts instead of archive list on the home page
+show_frame: true                # display a grey frame on large screens
+show_sidebar: false             # show a sidebar instead of the usual header
+show_minimal: false             # remove all clutter
+
+#show_frame: "/assets/images/background.svg"
+
+# Menu                          # for available icons see https://fontawesome.com/v5/icons/
+
+navigation:                     # accepts {file, title, url, icon, sidebaricon}
+  - {file: "archive.html", sidebaricon: home}
+  # - {file: "README.md", sidebaricon: address-card}
+
+external:                       # accepts {file, title, url, icon, sidebaricon}
+  - {title: Mail, icon: envelope, url: "mailto:sbyang0731@example.com"}
+  - {title: Github, icon: github, url: "https://github.com/SeungBinYang"}
+
+# comments:
+# #  disqus_shortname: ""         # see https://disqus.com
+# #  isso_domain: ""              # see https://isso-comments.de
+
+plugins:
+ - jekyll-feed
