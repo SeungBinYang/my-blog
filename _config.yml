@@ -1,3 +1,5 @@
 title: 양승빈의 학습 노트
-remote_theme: samarsault/plainwhite-jekyll
+remote_theme: b2a3e8/jekyll-theme-console
+plugins:
+  - jekyll-seo-tag
 baseurl: "/my-blog"
