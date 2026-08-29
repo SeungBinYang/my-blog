@@ -20,7 +20,7 @@ navigation:                     # accepts {file, title, url, icon, sidebaricon}
   # - {file: "README.md", sidebaricon: address-card}
 
 external:                       # accepts {file, title, url, icon, sidebaricon}
-  - {title: Mail, icon: envelope, url: "mailto:sbyang0731@example.com"}
+  - {title: Mail, icon: envelope, url: "mailto:sbyang0731@gmail.com"}
   - {title: Github, icon: github, url: "https://github.com/SeungBinYang"}
 
 # comments:
