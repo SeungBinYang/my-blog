@@ -89,4 +89,4 @@ git checkout feature/login
 
 ---
 
-`git fetch`와 `git checkout`(또는 `switch`)의 관계를 이해하면, "받아오기"와 "실제로 그 브랜치에서 작업하기"가 별개의 단계라는 Git의 설계 철학도 자연스럽게 이해할 수 있습니다. 다음 학습 단계로는 `git merge`, `git rebase`, 그리고 fetch한 상태를 병합하는 과정까지 다뤄보면 좋을 것 같습니다.s
+`git fetch`와 `git checkout`(또는 `switch`)의 관계를 이해하면, "받아오기"와 "실제로 그 브랜치에서 작업하기"가 별개의 단계라는 Git의 설계 철학도 자연스럽게 이해할 수 있습니다. 다음 학습 단계로는 `git merge`, `git rebase`, 그리고 fetch한 상태를 병합하는 과정까지 다뤄보면 좋을 것 같습니다.
