@@ -1,6 +1,6 @@
 ---
-layout: default
-title: "Home"
+layout: home
+title: Home
 ---
 
 <section class="profile-intro">
@@ -10,16 +10,3 @@ title: "Home"
     실무에서 부딪히며 겪은 문제, 흥미롭게 느꼈던 사실들을 정리하며 성장 과정을 남기고 있습니다.
   </p>
 </section>
-
-{% if site.show_excerpts %}
-  {% for post in site.posts %}
-    <article>
-      {% include meta.html post=post %}
-      {{ post.excerpt }}
-      <footer class="button"><a href="{{ post.url | relative_url }}">read more</a></footer>
-    </article>
-  {% endfor %}
-{% else %}
-  {% capture source %}{% include_relative archive.html title="Posts" %}{% endcapture %}
-  {{ source | split: "---" | last }}
-{% endif %}

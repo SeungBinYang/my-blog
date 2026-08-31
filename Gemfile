@@ -5,4 +5,7 @@ gem "webrick", "~> 1.9.1"
 
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.17"
+  gem "jekyll-seo-tag"
+  gem "jekyll-sitemap"
+  gem "jekyll-paginate"
 end

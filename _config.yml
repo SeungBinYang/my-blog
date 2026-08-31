@@ -1,31 +1,32 @@
 title: 양승빈의 개발 일지
-# remote_theme: b2a3e8/jekyll-theme-console
+email: sbyang0731@gmail.com
+author: 양승빈
+description: >-
+  개발을 공부하며 배운 내용과 겪은 문제, 그 해결 과정을 기록하는 개발 일지입니다.
+
 baseurl: "/my-blog"
+url: "https://seungbinyang.github.io"
 
 excerpt_separator: "\n\n\n"
 
-# Layout
+markdown: kramdown
+kramdown:
+  input: GFM
 
-show_excerpts: false             # show article excerpts instead of archive list on the home page
-show_frame: true                # display a grey frame on large screens
-show_sidebar: false             # show a sidebar instead of the usual header
-show_minimal: false             # remove all clutter
+# Yat theme settings
+# 전체 옵션은 https://github.com/jeffreytse/jekyll-theme-yat 참고
+yat:
+  date_format: "%Y-%m-%d"
 
-#show_frame: "/assets/images/background.svg"
-
-# Menu                          # for available icons see https://fontawesome.com/v5/icons/
-
-navigation:                     # accepts {file, title, url, icon, sidebaricon}
-  - {file: "archive.html", sidebaricon: home}
-  # - {file: "README.md", sidebaricon: address-card}
-
-external:                       # accepts {file, title, url, icon, sidebaricon}
-  - {title: Mail, icon: envelope, url: "mailto:sbyang0731@gmail.com"}
-  - {title: Github, icon: github, url: "https://github.com/SeungBinYang"}
-
-# comments:
-# #  disqus_shortname: ""         # see https://disqus.com
-# #  isso_domain: ""              # see https://isso-comments.de
+# 헤더에 노출할 페이지 (순서대로)
+header_pages:
+  - archives.html
+  - categories.html
+  - tags.html
+  - about.html
 
 plugins:
- - jekyll-feed
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-paginate
