@@ -2,6 +2,8 @@
 layout: post
 title: "프롬프트 엔지니어링 첫걸음: 프롬프트 구조 뜯어보기"
 date: 2026-08-31
+categories: [AI]
+tags: [ai, prompt-engineering, few-shot, role-prompting, chain-of-thought]
 mermaid: true
 ---
 
