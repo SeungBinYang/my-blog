@@ -2,6 +2,8 @@
 layout: post
 title: "Pull Request을 생성할 때 겪을 수 있는 문제"
 date: 2026-08-28
+categories: [Git]
+tags: [git, pull-request, merge, conflict, revert]
 ---
 
 # PR이 주는 영향
