@@ -2,6 +2,8 @@
 layout: post
 title: "git fetch로 원격 브랜치 가져오기, 그리고 checkout까지"
 date: 2026-08-30
+categories: [Git]
+tags: [git, fetch, checkout, switch, remote-branch]
 ---
 
 Git으로 협업을 하다 보면 원격 저장소(remote repository)에 새로운 브랜치가 생기거나, 팀원이 커밋을 추가하는 일이 자주 일어납니다. 이럴 때 로컬 저장소를 최신 상태로 맞추기 위해 사용하는 명령어가 바로 `git fetch`입니다. 이번 글에서는 `git fetch`의 동작 원리와, 가져온 브랜치를 로컬에서 실제로 사용하기 위한 `git checkout` 과정까지 정리해보겠습니다.
