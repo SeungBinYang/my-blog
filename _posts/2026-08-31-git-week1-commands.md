@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "따로 외운 Git 명령어 10개를, 가상 협업 시나리오 하나로 연결해보기"
-date: 2026-08-31 18:00:00 +0900
+date: 2026-08-31 11:00:00 +0900
 categories: [Git]
 tags: [git, github, branch, reset, revert, 버전관리]
 mermaid: true
