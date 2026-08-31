@@ -9,10 +9,13 @@
   height: 56px;
   font-size: 32px;
   z-index: 10;
-  transition: opacity 0.2s;
+  text-decoration: none;
+  transition: transform 0.2s, filter 0.2s;
 
   &:hover {
-    opacity: 0.7;
+    text-decoration: none;
+    transform: scale(1.15) translateY(-4px);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.25));
   }
 
   @include media-query($on-laptop) {
