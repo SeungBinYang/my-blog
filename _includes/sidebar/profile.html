@@ -1,0 +1,6 @@
+<div class="sidebar-profile{% if include.variant %} sidebar-profile--{{ include.variant }}{% endif %}">
+  <h3 class="sidebar-profile-name">{{ page.heading | default: site.title }}</h3>
+  {%- if page.subheading -%}
+  <p class="sidebar-profile-bio">{{ page.subheading }}</p>
+  {%- endif -%}
+</div>

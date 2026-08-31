@@ -24,8 +24,7 @@
 {%- assign post_image = post.excerpt_image
   | default: post.banner.image
   | default: post.banner
-  | default: default_image
-  | default: '/assets/images/default-image.jpeg' -%}
+  | default: default_image -%}
 
 <li class="post-item {{ post_item_class }}">
   <h2 class="post-title">
