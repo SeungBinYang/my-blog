@@ -15,19 +15,9 @@
     </li>
 
     {% for key in  keys %}
-      {% assign count = 0 %}
-      {% if field == 'date' %}
-        {% for post in site.posts %}
-          {% if post.date | date: '%Y-%m' == key %}
-            {% assign count = count | plus: 1 %}
-          {% endif %}
-        {% endfor %}
-      {% else %}
-        {% assign count = site.posts | where: field, key | size %}
-      {% endif %}
       <li>
         <a href="{{ url }}#h-{{ key }}">
-          {{ key }} <span>{{ count }}</span>
+          {{ key }} <span>{{ site.posts | where: field, key | size }}</span>
         </a>
       </li>
     {% endfor %}
