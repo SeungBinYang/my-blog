@@ -97,11 +97,11 @@ h2 ~ p {
 #### Flexbox의 핵심 개념도
 
 ```mermaid
-flowchart LR
-    A["flex-direction"] -->|행row,열column| B["주축 결정"]
+flowchart TD
+    A["flex-direction<br/>row column"] --> B["주축 결정"]
     B --> C["justify-content<br/>주축 정렬"]
     B --> D["align-items<br/>교차축 정렬"]
-    E["flex-wrap"] -->|wrap,nowrap| F["줄바꿈 여부"]
+    E["flex-wrap<br/>wrap nowrap"] --> F["줄바꿈 여부"]
     F --> G["align-content<br/>여러 줄 정렬"]
 ```
 
