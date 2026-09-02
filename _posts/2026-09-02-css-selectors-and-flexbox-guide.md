@@ -4,6 +4,7 @@ title: "CSS 선택자와 Flexbox 마스터하기 — 게임으로 배우는 레�
 date: 2026-09-02 21:00:00 +0900
 categories: [Frontend]
 tags: [css, selectors, flexbox, layout]
+mermaid: true
 ---
 
 ## 들어가며 (Situation)
@@ -95,20 +96,14 @@ h2 ~ p {
 
 #### Flexbox의 핵심 개념도
 
-Flexbox 레이아웃의 핵심은 **주축(Main Axis)과 교차축(Cross Axis)** 개념입니다:
-
-1. **flex-direction** (row, column, row-reverse, column-reverse)
-   - 주축의 방향을 결정합니다.
-   
-2. **주축 정렬**
-   - `justify-content`: 주축을 따라 아이템을 정렬
-   
-3. **교차축 정렬**
-   - `align-items`: 교차축을 따라 아이템을 정렬 (한 줄)
-   - `align-content`: 여러 줄을 정렬할 때 사용
-   
-4. **flex-wrap** (wrap, nowrap, wrap-reverse)
-   - 줄바꿈 여부를 결정하고, `align-content`와 함께 동작합니다.
+```mermaid
+flowchart TD
+    A["flex-direction<br/>row column"] --> B["주축 결정"]
+    B --> C["justify-content<br/>주축 정렬"]
+    B --> D["align-items<br/>교차축 정렬"]
+    E["flex-wrap<br/>wrap nowrap"] --> F["줄바꿈 여부"]
+    F --> G["align-content<br/>여러 줄 정렬"]
+```
 
 #### 각 속성의 역할
 
