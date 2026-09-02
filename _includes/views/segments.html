@@ -10,14 +10,19 @@
   <ul class="page-segments-list">
     {% for key in keys %}
     <h2 id="{{ key }}" class="segment-name">{{ key }}</h2>
-      {% assign items = site.posts | where: field, key %}
-      {% for item in items %}
-        {% if item != nil %}
+      {% for post in site.posts %}
+        {% if field == 'date' %}
+          {% assign post_value = post.date | date: '%Y-%m' %}
+        {% else %}
+          {% assign post_value = post[field] %}
+        {% endif %}
+        {% if post_value == key %}
           {%- assign post_item_class = "" -%}
-          {%- if item.top -%}
+          {%- if post.top -%}
             {%- assign post_item_class = "top-post" -%}
           {%- endif -%}
           <li class="{{ post_item_class }}">
+            {%- assign item = post -%}
             {%- include views/post-item.html -%}
           </li>
         {% endif %}
