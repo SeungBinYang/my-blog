@@ -6,6 +6,10 @@
   {%- assign field = include.field -%}
 {%- endif -%}
 
+{%- if use_anchor == nil -%}
+  {%- assign use_anchor = true -%}
+{%- endif -%}
+
 <div class="common-list">
   <ul>
     <li>
@@ -15,8 +19,15 @@
     </li>
 
     {% for key in  keys %}
+      {%- if use_anchor -%}
+        {%- assign key_href = url | append: '#h-' | append: key -%}
+      {%- elsif slugify_key -%}
+        {%- assign key_href = url | append: key | slugify: 'raw' | append: '/' -%}
+      {%- else -%}
+        {%- assign key_href = url | append: key | append: '/' -%}
+      {%- endif -%}
       <li>
-        <a href="{{ url }}#h-{{ key }}">
+        <a href="{{ key_href }}">
           {{ key }} <span>{{ site.posts | where: field, key | size }}</span>
         </a>
       </li>

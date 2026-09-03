@@ -1,0 +1,45 @@
+/**
+ * Tag cloud (tags.html main content)
+ */
+.tag-cloud {
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: inline-flex;
+  }
+
+  .tag-cloud-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background-color: mix($theme-color, #eaeaea, 12%);
+    color: $text-color;
+    text-decoration: none;
+    font-weight: normal;
+    transition: background-color 0.2s, color 0.2s;
+
+    &:hover {
+      background-color: $theme-color;
+      color: $white-color;
+    }
+
+    span {
+      @include relative-font-size(0.8);
+      display: inline-block;
+      border-radius: 10px;
+      align-self: center;
+      background: #000000bd;
+      padding: 0px 8px;
+      margin-left: 8px;
+      color: $white-color;
+    }
+  }
+}

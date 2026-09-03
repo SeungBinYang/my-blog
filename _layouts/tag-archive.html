@@ -1,0 +1,21 @@
+---
+layout: framework
+sidebar: tag-list
+---
+
+<div class="page-segments">
+  <h2 class="segment-name">{{ page.title }}</h2>
+  <ul class="page-segments-list">
+    {% for item in page.posts %}
+      {% if item != nil %}
+        {%- assign post_item_class = "" -%}
+        {%- if item.top -%}
+          {%- assign post_item_class = "top-post" -%}
+        {%- endif -%}
+        <li class="{{ post_item_class }}">
+          {%- include views/post-item.html -%}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>
