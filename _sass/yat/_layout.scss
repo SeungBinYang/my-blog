@@ -831,9 +831,17 @@ html {
   display: inline-block;
 }
 
+// CSS 변수로 분리하는 이유: 라이트/다크 값을 각각의 :visited 규칙으로 중복 선언하면
+// data-theme 토글마다 :visited 선택자 자체가 새로 매칭/해제되는 것으로 취급되어,
+// 브라우저의 :visited 이중 렌더링(방문 이력 타이밍 공격 방지용) 지연이 발생해
+// NEW 뱃지가 잠깐 노출되는 문제가 있었다. 값만 변수로 바꾸면 선택자는 그대로 유지된다.
+html {
+  --post-badge-hidden-bg: #{$background-color};
+}
+
 a:visited .post-badges .post-badge.badge-new {
   display: none;
   transition: none;
-  color: $background-color;
-  background-color: $background-color;
+  color: var(--post-badge-hidden-bg);
+  background-color: var(--post-badge-hidden-bg);
 }

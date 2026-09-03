@@ -216,10 +216,8 @@ html[data-theme="dark"]  {
     color: $dark-background-color !important;
   }
 
-  a:visited .post-badges .post-badge.badge-new {
-    display: none;
-    transition: none;
-    background-color: $dark-background-color;
-  }
+  // :visited 선택자 자체는 라이트 모드와 동일하게 유지하고 값만 교체한다.
+  // (이유는 _layout.scss의 --post-badge-hidden-bg 선언부 주석 참고)
+  --post-badge-hidden-bg: #{$dark-background-color};
 }
 
