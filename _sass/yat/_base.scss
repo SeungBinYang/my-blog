@@ -21,7 +21,6 @@ body {
   line-height: #{$base-line-height};
   color: $text-color;
   background-color: $background-color;
-  transition: background-color $theme-transition-duration ease, color $theme-transition-duration ease;
   -webkit-text-size-adjust: 100%;
   -webkit-font-feature-settings: "kern" 1;
      -moz-font-feature-settings: "kern" 1;
