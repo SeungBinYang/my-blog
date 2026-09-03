@@ -81,28 +81,8 @@
       };
     }
 
-    // 라이트/다크 전환 시 브라우저가 :visited 스타일을 재적용하는 짧은 순간
-    // NEW 뱃지가 잠깐 노출되는 것을 막기 위해, 토글 클릭 직후 뱃지를 강제로
-    // 숨겨뒀다가 스타일이 안정된 뒤 다시 드러낸다. 연타 시에는 타이머를 매번
-    // 갱신해서 마지막 클릭 기준으로 다시 계산한다.
-    var badgeMaskTimeout = null;
-
-    function maskNewBadgesDuringSwitch() {
-      html.classList.add('theme-switching');
-
-      if (badgeMaskTimeout) {
-        clearTimeout(badgeMaskTimeout);
-      }
-
-      badgeMaskTimeout = setTimeout(function() {
-        html.classList.remove('theme-switching');
-        badgeMaskTimeout = null;
-      }, 400);
-    }
-
     // Listen the theme toggle event
     sw.addEventListener('change', function(event) {
-      maskNewBadgesDuringSwitch();
       handleThemeToggle(event.target.checked);
     });
 

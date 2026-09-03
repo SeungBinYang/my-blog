@@ -845,10 +845,3 @@ a:visited .post-badges .post-badge.badge-new {
   color: var(--post-badge-hidden-bg);
   background-color: var(--post-badge-hidden-bg);
 }
-
-// 위 :visited 대응으로도 못 막는, 브라우저의 :visited 재렌더링 지연에 의한
-// 깜빡임을 임시로 가리기 위한 안전장치. theme-toggle.html에서 토글 클릭 시
-// 잠깐 부여되는 클래스이며, 스타일이 안정된 뒤 자동으로 제거된다.
-html.theme-switching .post-badge.badge-new {
-  visibility: hidden !important;
-}
