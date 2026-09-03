@@ -178,8 +178,7 @@ html[data-theme="dark"]  {
       color: #ddd;
 
       &:hover {
-        background-color: $theme-color;
-        color: $white-color;
+        color: $brand-color;
       }
 
       span {
