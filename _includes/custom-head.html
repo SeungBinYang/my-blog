@@ -6,5 +6,14 @@
 {% endcomment %}
 {%- if page.mermaid or site.mermaid -%}
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
-<script>document.addEventListener("DOMContentLoaded", function () { mermaid.initialize({ startOnLoad: true }); });</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll("pre > code.language-mermaid").forEach(function (code) {
+      var pre = code.parentElement;
+      pre.className = "mermaid";
+      pre.textContent = code.textContent;
+    });
+    mermaid.initialize({ startOnLoad: true });
+  });
+</script>
 {%- endif -%}
