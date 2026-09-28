@@ -42,3 +42,7 @@ jekyll-archives:
   slug_mode: raw
   permalinks:
     tag: "/tags/:name/"
+
+# Theme toggle: remember the visitor choice in localStorage instead of
+# auto-switching by time of day (19:00-07:00), which the default "auto" does.
+night_mode: manual

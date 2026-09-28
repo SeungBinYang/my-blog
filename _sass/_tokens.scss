@@ -1,0 +1,112 @@
+// =============================================================================
+// Design tokens -- 90s skater punk
+//
+// All colors live here as CSS custom properties. :root holds the light theme
+// (a photocopied black-and-white flyer); html[data-theme="dark"] overrides it
+// (the default look: near-black with one fluorescent accent).
+//
+// Component SCSS must reference var(--x) and never hardcode a hex or call
+// lighten()/darken()/invert()/mix() on a color -- those Sass functions cannot
+// operate on a CSS variable.
+//
+// Accent differs per theme on purpose: the fluorescent green (#c4ff00) sits at
+// roughly 1.4:1 against white, so it is unreadable in the light theme. The
+// light theme uses orangered instead, which plays the same "highlighter" role
+// at a contrast ratio that actually works.
+// =============================================================================
+
+:root {
+  --bg:              #f2f0eb;
+  --bg-elev:         #fff;
+  --fg:              #111;
+  --fg-muted:        #5a5a5a;
+  --fg-subtle:       #8b877e;
+
+  --accent:          #ff3b00;
+  --accent-hover:    #ff6333;
+  --accent-fg:       #fff;
+
+  --header-bg:       #f2f0eb;
+  --header-fg:       #111;
+  --header-fg-dim:   rgba(17, 17, 17, 0.75);
+  --footer-bg:       #111;
+  --footer-fg:       #f2f0eb;
+  --banner-fg:       #fff;
+
+  --rule:            #1a1a1a;
+  --rule-strong:     #111;
+  --rule-soft:       #d6d2c8;
+
+  --surface:         #e6e2d9;
+  --surface-hover:   #dcd7cb;
+  --code-bg:         #1a1a1a;
+  --code-fg:         #e8e6e0;
+  --code-inline-bg:  #e0dcd2;
+
+  --chip-bg:         #111;
+  --chip-fg:         #f2f0eb;
+
+  --widget-bg:       #111;
+  --widget-fg:       #f2f0eb;
+
+  --table-fg:        #111;
+  --table-head-bg:   #111;
+  --table-head-fg:   #f2f0eb;
+  --table-stripe-bg: #e9e5dc;
+  --table-border:    #111;
+
+  // The deck needs a surface tone of its own. Reusing --bg-elev made half the
+  // board read as hollow in the dark theme, where it is almost the page bg.
+  --deck-wood:       #e0d9c9;
+
+  --img-bg:          transparent;
+  --selection-bg:    #ff3b00;
+  --selection-fg:    #fff;
+}
+
+html[data-theme="dark"] {
+  --bg:              #0d0d0d;
+  --bg-elev:         #161616;
+  --fg:              #f5f5f5;
+  --fg-muted:        #8a8a8a;
+  --fg-subtle:       #6a6a6a;
+
+  --accent:          #c4ff00;
+  --accent-hover:    #d8ff4d;
+  --accent-fg:       #0d0d0d;
+
+  --header-bg:       #0d0d0d;
+  --header-fg:       #f5f5f5;
+  --header-fg-dim:   rgba(245, 245, 245, 0.75);
+  --footer-bg:       #000;
+  --footer-fg:       #f5f5f5;
+  --banner-fg:       #fff;
+
+  --rule:            #2e2e2e;
+  --rule-strong:     #3d3d3d;
+  --rule-soft:       #222;
+
+  --surface:         #1c1c1c;
+  --surface-hover:   #262626;
+  --code-bg:         #161616;
+  --code-fg:         #e8e6e0;
+  --code-inline-bg:  #262626;
+
+  --chip-bg:         #c4ff00;
+  --chip-fg:         #0d0d0d;
+
+  --widget-bg:       #161616;
+  --widget-fg:       #f5f5f5;
+
+  --table-fg:        #f5f5f5;
+  --table-head-bg:   #c4ff00;
+  --table-head-fg:   #0d0d0d;
+  --table-stripe-bg: #141414;
+  --table-border:    #3d3d3d;
+
+  --deck-wood:       #2c2c2c;
+
+  --img-bg:          #ffffff11;
+  --selection-bg:    #c4ff00;
+  --selection-fg:    #0d0d0d;
+}

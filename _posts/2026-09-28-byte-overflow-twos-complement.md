@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "byte에 127+1을 더했더니 -128이 나온 이유, lossy conversion 에러로 추적하기"
-date: 2026-09-28 16:00:00 +0900
+date: 2026-09-28 15:00:00 +0900
 categories: [Java]
 tags: [java, byte, overflow, casting, twos-complement]
 mermaid: true

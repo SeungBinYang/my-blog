@@ -19,8 +19,8 @@ body {
   font-size: #{$base-font-size};
   font-display: swap;
   line-height: #{$base-line-height};
-  color: $text-color;
-  background-color: $background-color;
+  color: var(--fg);
+  background-color: var(--bg);
   -webkit-text-size-adjust: 100%;
   -webkit-font-feature-settings: "kern" 1;
      -moz-font-feature-settings: "kern" 1;
@@ -97,20 +97,33 @@ li {
 
 /**
  * Headings
+ *
+ * Anton carries no Hangul, so Korean headings fall through to Pretendard.
+ * font-synthesis-weight: none stops the browser from smearing a fake bold
+ * onto Anton (already ultra-heavy at 400) while Pretendard still uses its
+ * real 700 weight. The skew is applied per-component, not here -- skewing
+ * every h2/h3 inside a long technical post hurts more than it looks good.
  */
 h1, h2, h3, h4, h5, h6 {
-  font-weight: $base-font-weight * 1.5;
+  font-family: $display-font-family;
+  font-weight: 700;
+  font-synthesis-weight: none;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  text-transform: uppercase;
 }
 
 /**
  * Links
  */
 a {
-  color: $brand-color;
+  color: var(--accent);
   text-decoration: none;
 
   &:hover {
     text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
   }
 
   .social-media-list &:hover {
@@ -126,12 +139,10 @@ a {
  * Blockquotes
  */
 blockquote {
-  color: $grey-color;
-  border-left: 4px solid $grey-color-light;
+  color: var(--fg-muted);
+  border-left: 6px solid var(--accent);
   padding-left: divide($spacing-unit, 2);
-  @include relative-font-size(1.125);
-  letter-spacing: -1px;
-  font-style: italic;
+  @include relative-font-size(1.0);
 
   > :last-child {
     margin-bottom: 0;
@@ -145,21 +156,23 @@ blockquote {
  */
 pre,
 code {
-  @include relative-font-size(0.9375);
-  color: $text-color;
+  font-family: $mono-font-family;
+  @include relative-font-size(0.875);
+  color: var(--fg);
 }
 
 *:not(pre) > code {
-  padding: 3px 6px;
-  border-radius: 3px;
-  background-color: #eee;
-  margin: 0 5px;
+  padding: 2px 6px;
+  background-color: var(--code-inline-bg);
+  margin: 0 3px;
 }
 
 pre {
   overflow-x: auto;
   position: relative;
-  background-color: #f0f0f0;
+  background-color: var(--code-bg);
+  color: var(--code-fg);
+  border-left: 6px solid var(--accent);
 
   > code {
     display: inline-block;
@@ -211,13 +224,14 @@ table {
   margin-bottom: $spacing-unit;
   width: 100%;
   text-align: $table-text-align;
-  color: lighten($text-color, 5%);
+  color: var(--table-fg);
   border-collapse: collapse;
   overflow: auto;
+  border: 2px solid var(--table-border);
 
   tr {
     &:nth-child(even) {
-      background-color: lighten($grey-color-light, 6%);
+      background-color: var(--table-stripe-bg);
     }
   }
 
@@ -226,13 +240,17 @@ table {
   }
 
   th {
-    background-color: lighten($grey-color-light, 3%);
-    border: 1px solid darken($grey-color-light, 4%);
-    border-bottom-color: darken($grey-color-light, 12%);
+    font-family: $mono-font-family;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    background-color: var(--table-head-bg);
+    color: var(--table-head-fg);
+    border: 2px solid var(--table-border);
   }
 
   td {
-    border: 1px solid $grey-color-light;
+    border: 2px solid var(--table-border);
   }
 }
 
@@ -295,22 +313,22 @@ table {
  * Text Selection
  */
 ::selection {
-  color: $selection-color;
-  background-color: $selection-background-color;
+  color: var(--selection-fg);
+  background-color: var(--selection-bg);
 }
 ::-moz-selection { /* Code for Firefox */
-  color: $selection-color;
-  background-color: $selection-background-color;
+  color: var(--selection-fg);
+  background-color: var(--selection-bg);
 }
 ::-ms-selection {
-  color: $selection-color;
-  background-color: $selection-background-color;
+  color: var(--selection-fg);
+  background-color: var(--selection-bg);
 }
 ::-o-selection {
-  color: $selection-color;
-  background-color: $selection-background-color;
+  color: var(--selection-fg);
+  background-color: var(--selection-bg);
 }
 ::-webkit-selection {
-  color: $selection-color;
-  background-color: $selection-background-color;
+  color: var(--selection-fg);
+  background-color: var(--selection-bg);
 }

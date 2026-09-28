@@ -13,7 +13,28 @@
       pre.className = "mermaid";
       pre.textContent = code.textContent;
     });
-    mermaid.initialize({ startOnLoad: true });
+    // Pull the live theme tokens so diagrams match whichever theme is active.
+    var css = getComputedStyle(document.documentElement);
+    var token = function (name) { return css.getPropertyValue(name).trim(); };
+
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "base",
+      fontFamily: "JetBrains Mono, ui-monospace, monospace",
+      themeVariables: {
+        background: token("--bg"),
+        primaryColor: token("--bg-elev"),
+        primaryTextColor: token("--fg"),
+        primaryBorderColor: token("--accent"),
+        lineColor: token("--accent"),
+        textColor: token("--fg"),
+        mainBkg: token("--bg-elev"),
+        nodeBorder: token("--accent"),
+        clusterBkg: token("--bg"),
+        clusterBorder: token("--rule"),
+        titleColor: token("--fg")
+      }
+    });
   });
 </script>
 {%- endif -%}

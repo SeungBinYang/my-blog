@@ -23,24 +23,15 @@ html {
 
         @include media-query($on-laptop) {
           .page-link {
-            color: $header-text-color;
+            color: var(--header-fg);
           }
 
           .menu-icon {
             > svg {
-              fill: $white-color;
+              fill: #fff;
             }
           }
         }
-      }
-    }
-
-    footer.site-footer {
-      color: unset;
-      background-color: transparent;
-
-      .site-footer-inner {
-        border-top: solid 1px #eee;
       }
     }
   }
@@ -60,11 +51,11 @@ html {
  * Site header
  */
 .site-header {
-  background-color: $header-background-color;
+  background-color: var(--header-bg);
   height: $header-height;
   width: 100%;
   transition: height 0.2s, text-shadow 0.2s, top 0.2s;
-  box-shadow: 0 1px 0 0 rgba(0, 0, 0, .06);
+  border-bottom: 3px solid var(--fg);
 
   // Positioning context for the mobile navigation icon
   @include flex-sticky(0);
@@ -96,13 +87,18 @@ html {
   margin-right: 50px;
 
   .site-brand-inner {
-    @include relative-font-size(1.125);
-    font-weight: $base-font-weight;
-    letter-spacing: -1px;
+    font-family: $display-font-family;
+    font-synthesis-weight: none;
+    @include relative-font-size(1.375);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    display: inline-block;
+    transform: skewX(-3deg);
     transition: 0.1s filter color;
 
     &, &:visited {
-      color: $header-text-color;
+      color: var(--header-fg);
     }
 
     .site-favicon {
@@ -130,15 +126,22 @@ html {
 
   .page-link {
     line-height: $base-line-height;
-    color: $header-text-color;
+    font-family: $mono-font-family;
+    font-weight: 700;
+    @include relative-font-size(0.8125);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--header-fg);
     transition: 0.1s ease-in-out;
+
+    &:hover {
+      color: var(--accent);
+      text-decoration: none;
+    }
 
     // Gaps between nav items, but not on the last one
     &:not(:last-child) {
       margin-right: 24px;
-      &:hover {
-        text-decoration: underline;
-      }
     }
   }
 
@@ -159,7 +162,7 @@ html {
       text-align: center;
 
       > svg {
-        fill: rgba($header-text-color, 80%);
+        fill: var(--header-fg-dim);
         transition: 0.1s fill;
       }
     }
@@ -173,13 +176,13 @@ html {
 
     input:checked ~ .trigger {
       display: block;
-      background: $header-background-color;
+      background: var(--header-bg);
     }
 
     .page-link {
       display: block;
       padding: 5px 10px;
-      color: rgba($header-text-color, 80%);
+      color: var(--header-fg-dim);
       margin: 0 25px;
     }
   }
@@ -189,9 +192,11 @@ html {
  * Site footer
  */
 .site-footer {
-  @include relative-font-size(1.0);
-  color: $footer-text-color;
-  background-color: $footer-background-color;
+  @include relative-font-size(0.875);
+  font-family: $mono-font-family;
+  color: var(--footer-fg);
+  background-color: var(--footer-bg);
+  border-top: 3px solid var(--fg);
   text-align: left;
   transition: background-color 0.2s;
 
@@ -201,11 +206,10 @@ html {
   }
 
   a {
-    $a-color: $brand-color;
-    color: $a-color;
+    color: var(--accent);
 
     &:hover {
-      color: lighten($a-color, 10%);
+      color: var(--accent-hover);
     }
   }
 }
@@ -268,13 +272,39 @@ html {
   .post-list {
     margin-left: 0;
     list-style: none;
+    counter-reset: post;
 
     > li {
-      margin-bottom: $spacing-unit * 1.5;
-      padding-bottom: 30px;
+      counter-increment: post;
+      position: relative;
+      margin-bottom: $spacing-unit * 1.2;
+      padding-bottom: 28px;
+      padding-left: 56px;
+
+      // Track number, in the style of a video part listing.
+      &::before {
+        content: counter(post, decimal-leading-zero);
+        position: absolute;
+        left: 0;
+        top: 2px;
+        font-family: $mono-font-family;
+        font-weight: 700;
+        @include relative-font-size(1.25);
+        color: var(--accent);
+      }
 
       &:not(:last-child) {
-        border-bottom: 1px solid #e3e3e3;
+        border-bottom: 2px solid var(--rule);
+      }
+
+      @include media-query($on-palm) {
+        padding-left: 0;
+
+        &::before {
+          position: static;
+          display: block;
+          margin-bottom: 4px;
+        }
       }
     }
   }
@@ -289,14 +319,23 @@ html {
   }
 
   .post-link {
-    @include relative-font-size(1.65);
-    font-weight: $base-font-weight * 1.5;
-    color: #333;
+    @include relative-font-size(1.5);
+    color: var(--fg);
+    display: inline-block;
+    transform: skewX(-2deg);
+
+    &:hover {
+      color: var(--accent);
+      text-decoration: none;
+    }
   }
 
   .post-meta {
-    color: $grey-color;
-    font-size: $base-font-size;
+    font-family: $mono-font-family;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--fg-muted);
+    font-size: $small-font-size;
     margin-bottom: $spacing-unit * 0.5;
   }
 
@@ -350,7 +389,7 @@ html {
   }
 
   .post-text {
-    color: $grey-color;
+    color: var(--fg-muted);
     word-break: break-word;
     overflow-wrap: break-word;
     flex: 1;
@@ -359,18 +398,22 @@ html {
   .post-tags .post-tag {
     display: inline-block;
     text-decoration: none;
-    border: 1px solid;
-    padding: 2px 4px;
-    border-radius: 2px;
-    transition: color 0.2s;
+    font-family: $mono-font-family;
+    font-size: $small-font-size;
+    text-transform: uppercase;
+    border: 2px solid;
+    padding: 1px 6px;
+    transition: color 0.2s, background-color 0.2s;
     margin-bottom: 8px;
+
+    &:hover {
+      background-color: var(--accent);
+      color: var(--accent-fg);
+      text-decoration: none;
+    }
 
     &:not(:last-child) {
       margin-right: 8px;
-    }
-
-    &:hover {
-      color: #787878;
     }
   }
 
@@ -379,7 +422,7 @@ html {
 
     & > .previous:before {
       content: ' ';
-      border: solid #787878;
+      border: solid var(--fg-muted);
       border-width: 0 2px 2px 0;
       display: inline-block;
       padding: 4px;
@@ -390,7 +433,7 @@ html {
 
     & > .next:after {
       content: ' ';
-      border: solid #787878;
+      border: solid var(--fg-muted);
       border-width: 0 2px 2px 0;
       display: inline-block;
       padding: 4px;
@@ -400,7 +443,7 @@ html {
     }
 
     .previous span, .next span {
-      color: #b3b3b3;
+      color: var(--fg-subtle);
     }
 
     .indicator {
@@ -419,7 +462,7 @@ html {
   .post-header {
     margin: 50px auto 60px;
     padding: 0 0 20px;
-    border-bottom: 1px solid #ebebeb;
+    border-bottom: 1px solid var(--rule-soft);
 
     .post-title {
       margin-bottom: 6px;
@@ -430,7 +473,7 @@ html {
     }
 
     .post-meta {
-      color: $grey-color;
+      color: var(--fg-muted);
       padding-bottom: 15px;
     }
   }
@@ -485,7 +528,7 @@ html {
 
     hr {
       height: 1px;
-      background-color: #ebebeb;
+      background-color: var(--rule-soft);
       border: none;
       margin: 60px 0;
     }
@@ -494,7 +537,7 @@ html {
   .post-related {
     &>*:first-child {
       @include relative-font-size(1.425);
-      color: #333;
+      color: var(--fg);
       margin-bottom: 14px;
     }
 
@@ -504,10 +547,10 @@ html {
 
     .post-link {
       @include relative-font-size(1.075);
-      color: $grey-color;
+      color: var(--fg-muted);
 
       &:hover {
-        color: darken($grey-color, 50%);
+        color: var(--fg);
       }
     }
   }
@@ -529,7 +572,7 @@ html {
 
   a {
     @include relative-font-size(1.125);
-    color: $grey-color;
+    color: var(--fg-muted);
     max-width: 45%;
     display: flex;
     align-items: center;
@@ -543,7 +586,7 @@ html {
 
   .previous:before {
     content: ' ';
-    border: solid #787878;
+    border: solid var(--fg-muted);
     border-width: 0 2px 2px 0;
     display: inline-block;
     padding: 4px;
@@ -554,7 +597,7 @@ html {
 
   .next:after {
     content: ' ';
-    border: solid #787878;
+    border: solid var(--fg-muted);
     border-width: 0 2px 2px 0;
     display: inline-block;
     padding: 4px;
@@ -585,7 +628,7 @@ html {
 
   .post-meta {
     font-size: $small-font-size;
-    color: $grey-color;
+    color: var(--fg-muted);
   }
 }
 
@@ -628,7 +671,7 @@ html {
   .page-banner-inner {
     @include vertical-center(relative);
 
-    color: $banner-text-color;
+    color: var(--banner-fg);
     padding: 10px 5px;
     text-shadow: 1px 1px 2px #33333355;
 
@@ -762,7 +805,7 @@ html {
 
   .post-meta {
     font-size: $small-font-size;
-    color: $grey-color;
+    color: var(--fg-muted);
   }
 
   li a {
@@ -770,10 +813,10 @@ html {
       margin-left: 5px;
     }
 
-    color: #303030;
+    color: var(--fg);
 
     &:hover {
-      color: #000;
+      color: var(--accent);
     }
   }
 }
@@ -784,12 +827,17 @@ html {
   width: 1px;
   height: 10px;
   margin: 0 10px;
-  background-color: #e3e3e3e3;
+  background-color: var(--rule);
   vertical-align: baseline;
 }
 
+
 /**
  * Post badge
+ *
+ * The badge is emitted by _includes/views/post-badges.html only when the post
+ * is recent, so there is no :visited trickery and no transition here -- that
+ * combination is what made the badge flicker on every theme toggle.
  */
 .post-badges {
   display: inline-block;
@@ -812,26 +860,343 @@ html {
 }
 
 .post-badge {
-  display: none;
-  padding: 0px 3px;
-  background-color: $brand-color;
-  color: #fff;
+  display: inline-block;
+  padding: 1px 5px;
+  background-color: var(--accent);
+  color: var(--accent-fg);
   font-size: 10px;
-  font-weight: 600;
-  border-radius: 2px;
-  transition-duration: $base-transition-duration;
+  font-weight: 700;
+  letter-spacing: 0.06em;
 }
 
-.post-badge.badge-new {
+/**
+ * =========================================================================
+ * Skater punk layer
+ *
+ * Everything below is the redesign proper: the graphic treatment that makes
+ * the site read as a skate zine rather than a blog theme with new colors.
+ *
+ * Rule of thumb applied throughout: the chrome (masthead, header, list,
+ * footer, tags) goes loud, the article body stays calm. These are long
+ * Korean technical posts -- texture and rotation on the reading column would
+ * cost more than it buys.
+ * =========================================================================
+ */
+
+// Photocopier grain. SVG turbulence beats an image file: no asset, no extra
+// request, and it scales to any viewport.
+$grain-svg: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E";
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  // Kept low: mix-blend-mode over a saturated accent fill drags the
+  // fluorescent green toward olive, and the accent is the whole point.
+  opacity: 0.09;
+  background-image: url($grain-svg);
+  mix-blend-mode: overlay;
+}
+
+// Checkerboard strip -- the Vans-era divider, used where a plain rule would
+// be flat. Calmer than diagonal hazard tape and closer to the deck graphic.
+@mixin checker-strip($height: 14px, $color: var(--fg)) {
+  height: $height;
+  background-image:
+    linear-gradient(45deg, $color 25%, transparent 25%, transparent 75%, $color 75%),
+    linear-gradient(45deg, $color 25%, transparent 25%, transparent 75%, $color 75%);
+  background-size: #{$height * 2} #{$height * 2};
+  background-position: 0 0, #{$height} #{$height};
+}
+
+/**
+ * Site header
+ */
+.site-header {
+  border-bottom: 4px solid var(--fg);
+
+  .site-brand-inner {
+    @include relative-font-size(1.625);
+    letter-spacing: -0.03em;
+    transform: skewX(-2deg);
+  }
+}
+
+/**
+ * Masthead -- the skateboard graphic carries the hero; no display copy.
+ */
+.masthead {
+  position: relative;
+  padding: $spacing-unit * 0.6 0 $spacing-unit * 1.1;
+  margin-bottom: $spacing-unit * 1.2;
+  border-bottom: 6px solid var(--fg);
+}
+
+.deck {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.deck-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  transform: rotate(-2.5deg);
+}
+
+.deck-truck path {
+  fill: var(--fg-muted);
+}
+
+.deck-wheel rect {
+  fill: var(--deck-wood);
+  stroke: var(--fg);
+  stroke-width: 5;
+}
+
+// The blank shows through as the bare rim around the inset art.
+.deck-blank {
+  fill: var(--deck-wood);
+}
+
+.deck-star {
+  fill: var(--deck-wood);
+}
+
+.deck-pinline {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 3;
+}
+
+// Bolt pads: a wood-toned disc behind each bore. It disappears where the
+// bolts land on bare deck and only shows over the accent field, which is
+// what keeps the four-bolt pattern legible without turning it into a
+// feature -- a stroked pad read like a pair of eyes next to the star.
+.deck-hole-pad circle {
+  fill: var(--deck-wood);
+}
+
+// The bore shows the page through the deck, so it takes --bg, not --fg.
+// The ring is what keeps it readable where bg and the deck tone are close,
+// which is the case on the bare tail in the light theme.
+.deck-hole-bore circle {
+  fill: var(--bg);
+  stroke: var(--fg-muted);
+  stroke-width: 1.5;
+}
+
+.deck-outline {
+  fill: none;
+  stroke: var(--fg);
+  stroke-width: 6;
+  stroke-linejoin: round;
+}
+
+.masthead-subheading {
+  display: block;
+  margin: $spacing-unit * 0.7 0 0;
+  font-family: $mono-font-family;
+  @include relative-font-size(0.8125);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--fg-muted);
+  text-align: center;
+}
+/**
+ * Post list -- a video parts listing. Oversized knocked-out track numbers,
+ * and the whole row swipes to accent on hover.
+ */
+.pagination .post-list > li {
+  padding: 22px 18px 24px 92px;
+  margin-left: -18px;
+  margin-right: -18px;
+  transition: background-color 0.12s ease-out;
+
+  &::before {
+    left: 14px;
+    top: 16px;
+    @include relative-font-size(3.25);
+    line-height: 0.9;
+    color: transparent;
+    -webkit-text-stroke: 2px var(--accent);
+  }
+
+  &:not(:last-child) {
+    border-bottom: 3px solid var(--rule);
+  }
+
+  &:hover {
+    background-color: var(--accent);
+
+    &::before {
+      color: var(--accent-fg);
+      -webkit-text-stroke-color: var(--accent-fg);
+    }
+
+    .post-link,
+    .post-meta,
+    .post-text,
+    .post-tags .post-tag {
+      color: var(--accent-fg);
+    }
+
+    .post-tags .post-tag {
+      border-color: var(--accent-fg);
+    }
+  }
+
+  @include media-query($on-palm) {
+    padding: 18px 12px 20px;
+    margin-left: -12px;
+    margin-right: -12px;
+
+    &::before {
+      position: static;
+      display: block;
+      margin-bottom: 2px;
+      @include relative-font-size(2.25);
+    }
+  }
+}
+
+.pagination .post-link {
+  @include relative-font-size(1.875);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  transform: skewX(-3deg);
+}
+
+.pagination .post-excerpt .post-text {
+  @include relative-font-size(0.9375);
+  color: var(--fg-muted);
+}
+
+/**
+ * Post page. The header shouts; the reading column does not.
+ */
+.post .post-header {
+  border-bottom: 10px solid var(--fg);
+}
+
+.post .post-header .post-title {
+  @include relative-font-size(3.25);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
   display: inline-block;
+  transform: skewX(-3deg);
+
+  @include media-query($on-palm) {
+    @include relative-font-size(2.125);
+  }
 }
 
-.top-post .post-badges .post-badge.badge-top {
-  display: inline-block;
+.post .post-meta,
+.page-segments .post-meta,
+.post-nav .post-meta {
+  font-family: $mono-font-family;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-a:visited .post-badges .post-badge.badge-new {
-  display: none;
-  color: $background-color;
-  background-color: $background-color;
+.post .post-content img:not(.emoji):not([raw]) {
+  background-color: var(--img-bg);
+}
+
+// Section headings inside an article get an accent tick rather than a skew --
+// readability wins inside the reading column.
+.post .post-content h2 {
+  position: relative;
+  margin-top: 1.8em;
+  padding-left: 18px;
+  @include relative-font-size(1.75);
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.1em;
+    bottom: 0.1em;
+    width: 7px;
+    background-color: var(--accent);
+  }
+}
+
+.post .post-content hr {
+  background-color: transparent;
+  border: none;
+  @include checker-strip(12px);
+}
+
+/**
+ * NEW badge -- a sticker slapped on, not a rounded pill.
+ */
+.post-badge {
+  transform: rotate(-7deg);
+  border: 2px solid var(--fg);
+  box-shadow: 3px 3px 0 var(--fg);
+}
+
+/**
+ * Tag chips pick up the same sticker treatment.
+ */
+.tag-cloud .tag-cloud-item {
+  box-shadow: 3px 3px 0 var(--fg);
+  transition: transform 0.12s, background-color 0.2s, color 0.2s;
+
+  &:hover {
+    transform: rotate(-3deg) translate(-1px, -1px);
+  }
+}
+
+/**
+ * Footer
+ */
+.site-footer {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    // Accent, not --fg: the footer background IS --fg in the light theme,
+    // so a default checker strip would be invisible there.
+    @include checker-strip(12px, var(--accent));
+  }
+
+  .site-footer-inner {
+    padding-top: $spacing-unit * 1.6;
+  }
+}
+
+/**
+ * Code highlighting
+ *
+ * highlight.js ships a grayscale base; the accent is re-applied here so the
+ * "one fluorescent color" rule holds inside code blocks too.
+ */
+.hljs {
+  background: var(--code-bg) !important;
+  color: var(--code-fg) !important;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-section,
+.hljs-name,
+.hljs-title {
+  color: var(--accent) !important;
+  font-weight: 700;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: var(--fg-subtle) !important;
+  font-style: normal;
 }

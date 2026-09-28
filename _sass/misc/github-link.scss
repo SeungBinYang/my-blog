@@ -27,14 +27,6 @@
   }
 }
 
-html[data-theme="light"] {
-  .github-link {
-    color: $text-color;
-  }
-}
-
-html[data-theme="dark"] {
-  .github-link {
-    color: $white-color;
-  }
+.github-link {
+  color: var(--fg);
 }

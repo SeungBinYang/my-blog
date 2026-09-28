@@ -1,0 +1,125 @@
+{%- comment -%}
+  Hero graphic: a skateboard deck seen from underneath, 1990s graphic.
+
+  Inline SVG rather than an image file on purpose -- it paints from the theme
+  tokens (var(--accent), var(--fg) ...), so it flips with light/dark on its
+  own and there is no asset to keep in sync with the palette.
+
+  Construction notes, since the geometry is deliberate rather than eyeballed:
+
+  - The silhouette is a popsicle deck, not a rounded rectangle: the rails pull
+    in slightly at the wheelbase, and nose and tail are true semicircles (the
+    arc radius is exactly half the rail-to-rail height, so the caps meet the
+    rails without a kink).
+  - The art is clipped to a path inset 9px from the outline, leaving the bare
+    rim a real deck has, and a pinline is stroked on that same inset path so
+    the art ends on a crisp edge instead of just stopping.
+  - Two fields meeting on one diagonal, not three separate blocks. The first
+    pass had dead gaps between the blocks, which read as unfinished rather
+    than graphic.
+  - Trucks poke out from under the deck to meet the wheels; the wheels are
+    seen from above, so they run longer along the board than across it
+    (a 54mm wheel is about 32mm wide).
+  - The star is a true five-point star: ten points alternating between an
+    outer radius of 36 and an inner radius of 13.75 (the 0.382 ratio that
+    makes the arms meet at a straight edge), stepping 36 degrees each time.
+
+  Purely decorative, so it is hidden from assistive tech.
+{%- endcomment -%}
+<div class="deck" aria-hidden="true">
+  <svg class="deck-svg" viewBox="0 0 900 250" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <clipPath id="deck-art">
+        <path d="M 116 87
+                 Q 285 85 450 91
+                 Q 615 85 784 87
+                 A 38 38 0 0 1 784 163
+                 Q 615 165 450 159
+                 Q 285 165 116 163
+                 A 38 38 0 0 1 116 87 Z" />
+      </clipPath>
+
+      <pattern id="deck-check" width="24" height="24" patternUnits="userSpaceOnUse">
+        <rect width="24" height="24" fill="var(--deck-wood)" />
+        <rect width="12" height="12" fill="var(--fg)" />
+        <rect x="12" y="12" width="12" height="12" fill="var(--fg)" />
+      </pattern>
+    </defs>
+
+    {%- comment -%} Hardware sits behind the deck. {%- endcomment -%}
+    <g class="deck-truck">
+      <path d="M241 57 h18 v26 h-18 z" />
+      <path d="M241 167 h18 v26 h-18 z" />
+      <path d="M641 57 h18 v26 h-18 z" />
+      <path d="M641 167 h18 v26 h-18 z" />
+    </g>
+    <g class="deck-wheel">
+      <rect x="228" y="31" width="44" height="27" rx="11" />
+      <rect x="228" y="192" width="44" height="27" rx="11" />
+      <rect x="628" y="31" width="44" height="27" rx="11" />
+      <rect x="628" y="192" width="44" height="27" rx="11" />
+    </g>
+
+    {%- comment -%} The blank. Shows through as the bare rim around the art. {%- endcomment -%}
+    <path class="deck-blank"
+          d="M 107 78
+             Q 283 76 450 82
+             Q 617 76 793 78
+             A 47 47 0 0 1 793 172
+             Q 617 174 450 168
+             Q 283 174 107 172
+             A 47 47 0 0 1 107 78 Z" />
+
+    {%- comment -%} Underside art: two fields, one diagonal seam. {%- endcomment -%}
+    <g clip-path="url(#deck-art)">
+      {%- comment -%} Nose field. {%- endcomment -%}
+      <polygon points="90,60 560,60 440,190 90,190" fill="var(--accent)" />
+
+      {%- comment -%}
+        Checker band riding the seam. A constant horizontal offset makes the
+        band parallel to the diagonal rather than wedge-shaped.
+      {%- endcomment -%}
+      <polygon points="560,60 650,60 530,190 440,190" fill="url(#deck-check)" />
+
+      <polygon class="deck-star"
+        points="178,90 186.1,114.9 212.2,114.9 191.1,130.2 199.2,155.1
+                178,139.8 156.8,155.1 164.9,130.2 143.8,114.9 169.9,114.9" />
+    </g>
+
+    {%- comment -%} Pinline: the art's own edge, just inside the rim. {%- endcomment -%}
+    <path class="deck-pinline"
+          d="M 116 87
+             Q 285 85 450 91
+             Q 615 85 784 87
+             A 38 38 0 0 1 784 163
+             Q 615 165 450 159
+             Q 285 165 116 163
+             A 38 38 0 0 1 116 87 Z" />
+
+    {%- comment -%} Mounting holes, two four-bolt patterns. {%- endcomment -%}
+    <g class="deck-hole">
+      <g class="deck-hole-pad">
+        <circle cx="233" cy="109" r="9" /><circle cx="267" cy="109" r="9" />
+        <circle cx="233" cy="141" r="9" /><circle cx="267" cy="141" r="9" />
+        <circle cx="633" cy="109" r="9" /><circle cx="667" cy="109" r="9" />
+        <circle cx="633" cy="141" r="9" /><circle cx="667" cy="141" r="9" />
+      </g>
+      <g class="deck-hole-bore">
+        <circle cx="233" cy="109" r="4" /><circle cx="267" cy="109" r="4" />
+        <circle cx="233" cy="141" r="4" /><circle cx="267" cy="141" r="4" />
+        <circle cx="633" cy="109" r="4" /><circle cx="667" cy="109" r="4" />
+        <circle cx="633" cy="141" r="4" /><circle cx="667" cy="141" r="4" />
+      </g>
+    </g>
+
+    {%- comment -%} Outline last so nothing paints over the silhouette. {%- endcomment -%}
+    <path class="deck-outline"
+          d="M 107 78
+             Q 283 76 450 82
+             Q 617 76 793 78
+             A 47 47 0 0 1 793 172
+             Q 617 174 450 168
+             Q 283 174 107 172
+             A 47 47 0 0 1 107 78 Z" />
+  </svg>
+</div>

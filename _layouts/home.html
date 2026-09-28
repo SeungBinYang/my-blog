@@ -2,4 +2,9 @@
 layout: articles
 ---
 
+<header class="masthead">
+  {%- include views/deck.html -%}
+  <p class="masthead-subheading">{{ site.data.defaults.home.subheading }}</p>
+</header>
+
 {{ content }}

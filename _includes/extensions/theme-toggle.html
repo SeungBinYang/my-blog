@@ -97,7 +97,9 @@
         handleThemeToggle(themeData.nightShift);
       }
     } else if (nightModeOption == 'manual') {
-      handleThemeToggle(themeData.nightShift);
+      // Dark is the design's default; only an explicit choice overrides it.
+      var stored = themeData.nightShift;
+      handleThemeToggle(stored === undefined ? true : stored);
     } else {
       var nightShift = themeData.nightShift;
       if (nightShift === undefined) {

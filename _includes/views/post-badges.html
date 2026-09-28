@@ -1,4 +1,13 @@
-<span class="post-badges">
-  <span class="post-badge badge-top">TOP</span>
-  <span class="post-badge badge-new">NEW</span>
-</span>
+{%- comment -%}
+  NEW badge, by publish date. Rendered at build time, so a post stops being
+  "new" on the next build after 14 days. Previously this was a :visited CSS
+  trick, which meant any unread post was "new" no matter how old.
+  `plus: 0` coerces the `date: '%s'` strings to integers so `minus` works.
+{%- endcomment -%}
+{%- assign badge_max_age = 1209600 -%}
+{%- assign now_seconds = site.time | date: '%s' | plus: 0 -%}
+{%- assign post_seconds = post.date | date: '%s' | plus: 0 -%}
+{%- assign post_age = now_seconds | minus: post_seconds -%}
+{%- if post_age < badge_max_age -%}
+<span class="post-badges"><span class="post-badge badge-new">NEW</span></span>
+{%- endif -%}

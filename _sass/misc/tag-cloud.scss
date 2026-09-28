@@ -19,26 +19,28 @@
     display: inline-flex;
     align-items: center;
     padding: 6px 14px;
-    border-radius: 20px;
-    background-color: mix($theme-color, #eaeaea, 12%);
-    color: $text-color;
+    border: 2px solid var(--rule-strong);
+    background-color: var(--surface);
+    color: var(--fg);
     text-decoration: none;
     font-weight: normal;
     transition: background-color 0.2s, color 0.2s;
 
     &:hover {
-      color: $brand-color;
+      background-color: var(--accent);
+      color: var(--accent-fg);
     }
 
     span {
       @include relative-font-size(0.8);
       display: inline-block;
-      border-radius: 10px;
+      font-family: $mono-font-family;
+      font-weight: 700;
       align-self: center;
-      background: #000000bd;
+      background: var(--chip-bg);
       padding: 0px 8px;
       margin-left: 8px;
-      color: $white-color;
+      color: var(--chip-fg);
     }
   }
 }
