@@ -1065,7 +1065,7 @@ body::after {
 
 .pagination .post-link {
   @include relative-font-size(1.875);
-  line-height: 1.05;
+  line-height: 1.5;
   letter-spacing: -0.02em;
   transform: skewX(-3deg);
 }
@@ -1084,7 +1084,7 @@ body::after {
 
 .post .post-header .post-title {
   @include relative-font-size(3.25);
-  line-height: 0.92;
+  line-height: 1.55;
   letter-spacing: -0.03em;
   display: inline-block;
   transform: skewX(-3deg);
