@@ -934,7 +934,7 @@ body::after {
   border-bottom: 6px solid var(--fg);
 }
 
-// The hero is a button: click it (or Enter / Space) and the board kickflips.
+// The hero is a button: click it (or Enter / Space) and the board does a trick.
 .deck {
   display: block;
   width: 100%;
@@ -1009,7 +1009,7 @@ body::after {
   transform: translateZ(calc(var(--u) * -6)) rotateX(180deg);
 }
 
-// Washes the kickflip script fades in as a face turns from or into the
+// Washes the trick script fades in as a face turns from or into the
 // light. At rest they are clear and the faces look as drawn.
 .deck-shade,
 .deck-shine {
@@ -1108,13 +1108,47 @@ body::after {
   border-radius: 50%;
   background: radial-gradient(circle, var(--deck-hardware) 0 11%, var(--deck-metal) 12% 19%, var(--deck-wheel-shade) 20% 24%, var(--deck-wheel) 25%);
   transform: translateZ(calc(var(--u) * 58)) rotateX(90deg);
-  opacity: 0;  // the kickflip script shows them as the board turns side-on
+  opacity: 0;  // the trick script shows them as the board turns side-on
 }
 
 .deck-wheel-side--top-out    { top: -2.308%; }   // y = 41
 .deck-wheel-side--top-in     { top: 14.615%; }   // y = 85
 .deck-wheel-side--bottom-in  { top: 64.615%; }   // y = 215
 .deck-wheel-side--bottom-out { top: 81.538%; }   // y = 259
+
+// Cross-sections: planes standing across the long axis, edge-on except when
+// the board points at the viewer. rotateY(-90deg) turns the box's x into
+// height off the deck, counted the way --z is.
+.deck-section {
+  transform: translateZ(calc(var(--u) * var(--z, 0))) rotateY(-90deg);
+  opacity: 0;  // the trick script shows them as the board turns end-on
+}
+
+// The deck where nose and tail start: full width, 12 thick, plies and all.
+.deck-section--deck {
+  top: 11.538%;     // y 50..250
+  width: 1.333%;    // 12 units
+  height: 76.923%;
+  border-radius: calc(var(--u) * 3);
+  background: linear-gradient(90deg,
+    var(--deck-grip) 0 12%, var(--deck-ply) 12% 28%, var(--deck-ply-dark) 28% 40%,
+    var(--deck-ply) 40% 60%, var(--deck-ply-dark) 60% 72%, var(--deck-ply) 72% 88%,
+    var(--deck-blue) 88%);
+}
+
+.deck-section--nose { left: 16.667%; }   // centred on x = 156
+.deck-section--tail { left: 82%; }       // x = 744
+
+// The truck through x = 215, from the baseplate (6) to the wheels' tread (85).
+.deck-section--truck {
+  left: 19.5%;
+  top: 8.077%;      // y 41..259, the wheels' outer faces
+  width: 8.778%;    // 79 units
+  height: 83.846%;
+  --z: 45.5;
+}
+
+.deck-tread { fill: url(#deck-tread); }
 
 @media (prefers-reduced-motion: reduce) {
   .deck-pop { transition: none; }
@@ -1141,6 +1175,8 @@ body::after {
 .deck-stop-metal-hi { stop-color: var(--deck-metal-hi); }
 .deck-stop-metal    { stop-color: var(--deck-metal); }
 .deck-stop-metal-dk { stop-color: var(--deck-metal-dk); }
+.deck-stop-wheel       { stop-color: var(--deck-wheel); }
+.deck-stop-wheel-shade { stop-color: var(--deck-wheel-shade); }
 
 .deck-cast {
   fill: var(--deck-shadow);

@@ -38,10 +38,19 @@
   height in units; .deck-flip turns those into pixels with container
   units, so the depth scales with the board.
 
-  Click it and it kickflips. The script below samples the trick into
-  keyframes for the Web Animations API: the ollie on .deck-pop, the roll on
-  .deck-flip, and the shading of each face, which is worked out from where
-  its normal points relative to a light above the viewer.
+  All of those lie flat to the deck or across it, so when a shove-it
+  points the board at the viewer they would all be edge-on: the deck
+  would thin to a few ply lines and the wheels to combs. Cross-sections
+  fill that view in -- the deck cut across where nose and tail start
+  (x=156 and 744, its full 200 x 12), and each truck cut at x=215, between
+  axle and kingpin.
+
+  Each click does the next trick in turn: kickflip, heelflip, 360
+  shove-it, 360 flip, double kickflip, then round again. The script below
+  samples each trick into keyframes for the Web Animations API: the ollie
+  on .deck-pop, the turn on .deck-flip, and the shading of each face,
+  which is worked out from where its normal points relative to a light
+  above the viewer.
 
   The drawings are decorative and hidden from assistive tech; the button
   around them is labelled, so the trick is reachable from the keyboard.
@@ -88,9 +97,19 @@
 <span class="deck-layer deck-wheel-side deck-wheel-side--{{ side }}-out"></span>
 <span class="deck-layer deck-wheel-side deck-wheel-side--{{ side }}-in"></span>
 {%- endfor -%}
+{%- comment -%} The truck seen end-on: x is height off the deck, y runs across the board as in the art. {%- endcomment -%}
+<svg class="deck-layer deck-section deck-section--truck" viewBox="6 41 79 218" aria-hidden="true">
+  <rect class="deck-baseplate" x="6" y="122.5" width="6" height="55" rx="1" />
+  <rect class="deck-hardware" x="12" y="137" width="34" height="26" rx="5" />
+  <rect fill="url(#deck-chrome)" x="54.5" y="50" width="7" height="200" rx="2" />
+  <rect class="deck-hanger" fill="url(#deck-chrome)" x="46" y="84" width="14" height="132" rx="4" />
+  <rect class="deck-nut" x="60" y="143" width="6" height="14" />
+  <rect class="deck-tread" x="31" y="41" width="54" height="44" rx="12" />
+  <rect class="deck-tread" x="31" y="215" width="54" height="44" rx="12" />
+</svg>
 {%- endcapture -%}
 
-<button class="deck" type="button" aria-label="보드 킥플립">
+<button class="deck" type="button" aria-label="보드 트릭">
   <span class="deck-pop">
   <span class="deck-flip">
 
@@ -114,6 +133,8 @@
   <span class="deck-layer deck-ply deck-ply--dark" style="--z: 0"></span>
   <span class="deck-layer deck-ply" style="--z: 2.4"></span>
   <span class="deck-layer deck-ply deck-ply--dark" style="--z: 4.8"></span>
+  <span class="deck-layer deck-section deck-section--deck deck-section--nose"></span>
+  <span class="deck-layer deck-section deck-section--deck deck-section--tail"></span>
 
   {%- comment -%} Underside: the graphic, plus the shadows the trucks throw on it. {%- endcomment -%}
   <svg class="deck-layer deck-face deck-face--art" viewBox="0 20 900 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -146,6 +167,13 @@
         <stop offset="0.2" class="deck-stop-metal-hi" />
         <stop offset="0.42" class="deck-stop-metal" />
         <stop offset="1" class="deck-stop-metal-dk" />
+      </linearGradient>
+      {%- comment -%} Tread seen end-on: brightest where it faces the viewer, darker as it curves away. {%- endcomment -%}
+      <linearGradient id="deck-tread" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" class="deck-stop-wheel-shade" />
+        <stop offset="0.35" class="deck-stop-wheel" />
+        <stop offset="0.65" class="deck-stop-wheel" />
+        <stop offset="1" class="deck-stop-wheel-shade" />
       </linearGradient>
       <filter id="deck-soft" x="-50%" y="-50%" width="200%" height="200%">
         <feGaussianBlur stdDeviation="7" />
@@ -219,50 +247,77 @@
       q('.deck-face--art .deck-shade'), q('.deck-face--art .deck-shine'),
       q('.deck-face--grip .deck-shade'), q('.deck-face--grip .deck-shine')
     ];
-    // wheel sides: needed only while the board is side-on; from below, at
-    // rest, perspective would show them as hairlines past the tread
+    // wheel sides and cross-sections: each is needed only while the board
+    // turns side-on or end-on; at rest, perspective would show them as
+    // hairlines past the parts they fill in
     var sides = [].slice.call(deck.querySelectorAll('.deck-wheel-side'));
+    var sections = [].slice.call(deck.querySelectorAll('.deck-section'));
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
     var LY = -0.28, LZ = 0.96;   // the light: above and in front of the viewer
     var clamp = function (x, a, b) { return Math.max(a, Math.min(b, x)); };
     var span = function (t, a, b) { return clamp((t - a) / (b - a), 0, 1); };
+    // opacity for a part facing along a board axis, from how far that axis points at the viewer
+    var facing = function (z) { var u = span(Math.abs(z), 0.2, 0.45); return (u * u * (3 - 2 * u)).toFixed(3); };
 
-    // Sample the trick once. One keyframe per 1/60 of it, so every track
-    // shares the same clock and the lighting stays locked to the roll.
-    var tracks = targets.map(function () { return []; }), sideTrack = [];
-    for (var i = 0; i <= 60; i++) {
-      var t = i / 60, y, u;
-      // height, % of the board: the pop, a gravity arc up and down, knees on landing
-      if (t < 0.14) y = -6 * (1 - Math.pow(1 - t / 0.14, 2));
-      else if (t < 0.5) { u = (t - 0.14) / 0.36; y = -6 - 36 * (1 - (1 - u) * (1 - u)); }
-      else if (t < 0.86) { u = (t - 0.5) / 0.36; y = -42 * (1 - u * u); }
-      else y = 1.6 * Math.sin(Math.PI * span(t, 0.86, 0.98));
-      // pitch: the tail snaps so the nose lifts, then the board levels out
-      u = span(t, 0.14, 0.5);
-      var pitch = t < 0.14 ? 9 * Math.sin(Math.PI / 2 * t / 0.14) : 9 * (1 - u * u * (3 - 2 * u));
-      // roll: one turn about the long axis between the kick and the catch
-      u = span(t, 0.16, 0.76);
-      var roll = -360 * (0.35 * u + 0.65 * (0.5 - 0.5 * Math.cos(Math.PI * u)));
-      tracks[0].push({ transform: 'translateY(' + y.toFixed(2) + '%) rotate(' + pitch.toFixed(2) + 'deg)' });
-      tracks[1].push({ transform: 'rotateX(' + roll.toFixed(2) + 'deg)' });
-      // light on each face, relative to rest: the art face's normal after
-      // rotateX is (0, -sin, cos); the griptape faces the other way
-      var a = roll * Math.PI / 180, art = (-Math.sin(a) * LY + Math.cos(a) * LZ) / LZ;
-      [art, (Math.sin(a) * LY - Math.cos(a) * LZ) / LZ].forEach(function (lit, k) {
-        tracks[2 + 2 * k].push({ opacity: clamp((1 - lit) * 0.8, 0, 0.75).toFixed(3) });
-        tracks[3 + 2 * k].push({ opacity: clamp((lit - 1) * 1.5, 0, 0.3).toFixed(3) });
-      });
-      u = span(Math.abs(Math.sin(a)), 0.2, 0.45);
-      sideTrack.push({ opacity: (u * u * (3 - 2 * u)).toFixed(3) });
-    }
+    // Sample a trick once: flip degrees about the long axis, shove degrees
+    // about the vertical. One keyframe per 1/60 of it, so every track
+    // shares the same clock and the lighting stays locked to the turn.
+    var sample = function (flip, shove) {
+      var tracks = targets.map(function () { return []; }), sideTrack = [], sectionTrack = [];
+      for (var i = 0; i <= 60; i++) {
+        var t = i / 60, y, u;
+        // height, % of the board: the pop, a gravity arc up and down, knees on landing
+        if (t < 0.14) y = -6 * (1 - Math.pow(1 - t / 0.14, 2));
+        else if (t < 0.5) { u = (t - 0.14) / 0.36; y = -6 - 36 * (1 - (1 - u) * (1 - u)); }
+        else if (t < 0.86) { u = (t - 0.5) / 0.36; y = -42 * (1 - u * u); }
+        else y = 1.6 * Math.sin(Math.PI * span(t, 0.86, 0.98));
+        // pitch: the tail snaps so the nose lifts, then the board levels out
+        u = span(t, 0.14, 0.5);
+        var pitch = t < 0.14 ? 9 * Math.sin(Math.PI / 2 * t / 0.14) : 9 * (1 - u * u * (3 - 2 * u));
+        // the turns, between the kick and the catch. The shove-it goes
+        // outermost, so pitch and flip stay about the board's own axes
+        // wherever it has pointed the board.
+        u = span(t, 0.16, 0.76);
+        var spin = 0.35 * u + 0.65 * (0.5 - 0.5 * Math.cos(Math.PI * u));
+        var turn = 'rotateY(' + (shove * spin).toFixed(2) + 'deg) rotate(' + pitch.toFixed(2) + 'deg) rotateX(' + (flip * spin).toFixed(2) + 'deg)';
+        tracks[0].push({ transform: 'translateY(' + y.toFixed(2) + '%)' });
+        tracks[1].push({ transform: turn });
+        // where the board's axes point now: the columns of the same
+        // rotation. Light on each face, relative to rest: the art face's
+        // normal is the board's z axis; the griptape faces the other way.
+        var m = new DOMMatrix(turn), art = (m.m32 * LY + m.m33 * LZ) / LZ;
+        [art, -art].forEach(function (lit, k) {
+          tracks[2 + 2 * k].push({ opacity: clamp((1 - lit) * 0.8, 0, 0.75).toFixed(3) });
+          tracks[3 + 2 * k].push({ opacity: clamp((lit - 1) * 1.5, 0, 0.3).toFixed(3) });
+        });
+        sideTrack.push({ opacity: facing(m.m23) });      // wheel sides face along the board's y axis
+        sectionTrack.push({ opacity: facing(m.m13) });   // cross-sections along its x axis
+      }
+      return { tracks: tracks, sides: sideTrack, sections: sectionTrack };
+    };
 
-    var busy = false;
+    // Each click plays the next of these. Signs follow a real board: a
+    // kickflip and a backside shove-it both turn negative here, a heelflip
+    // and a frontside one positive, so the 360 flip -- kickflip plus
+    // backside 360 shove-it -- is the two added.
+    var tricks = [
+      [-360, 0],     // kickflip
+      [360, 0],      // heelflip
+      [0, -360],     // 360 shove-it, backside
+      [-360, -360],  // 360 flip
+      [-720, 0]      // double kickflip
+    ].map(function (d) { return sample(d[0], d[1]); });
+
+    var next = 0, busy = false;
     var done = function () { busy = false; };
     deck.addEventListener('click', function () {
       if (busy || reduce.matches) return;   // a click mid-trick is ignored
       busy = true;
-      var runs = targets.map(function (el, k) { return el.animate(tracks[k], { duration: 1000 }); });
-      sides.forEach(function (el) { el.animate(sideTrack, { duration: 1000 }); });
+      var trick = tricks[next];
+      next = (next + 1) % tricks.length;
+      var runs = targets.map(function (el, k) { return el.animate(trick.tracks[k], { duration: 1000 }); });
+      sides.forEach(function (el) { el.animate(trick.sides, { duration: 1000 }); });
+      sections.forEach(function (el) { el.animate(trick.sections, { duration: 1000 }); });
       runs[0].finished.then(done, done);
     });
   })();
