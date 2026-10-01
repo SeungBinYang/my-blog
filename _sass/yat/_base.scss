@@ -316,6 +316,14 @@ table {
   color: var(--selection-fg);
   background-color: var(--selection-bg);
 }
+// SVG <text> (Mermaid sequence diagrams) is painted with `fill`, which
+// ::selection cannot override in Chrome, so the opaque highlight above leaves
+// light text on lime in the dark theme. Tint the highlight instead of swapping
+// the glyph color.
+svg text::selection,
+svg tspan::selection {
+  background-color: color-mix(in srgb, var(--selection-bg) 40%, transparent);
+}
 ::-moz-selection { /* Code for Firefox */
   color: var(--selection-fg);
   background-color: var(--selection-bg);
