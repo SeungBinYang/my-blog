@@ -28,23 +28,100 @@
     mirrored, which also mirrors which side of the hanger catches light,
     as it does in the photo.
 
-  Click it and it kickflips: .deck-pop carries the ollie (pop, nose up,
-  level out, land) and .deck-flip the 360 deg roll about the long axis, so
-  each gets its own easing. Mid-roll the board shows its griptape face
-  (wheels peeking past the rails, eight bolt heads). There is no edge
-  plane for the side-on instant: one through the middle shows through the
-  faces at shallow angles, and the board is edge-on for under a frame.
+  It is built as a real object in CSS 3D, not two flat pictures: the art
+  and griptape faces sit 12 units apart with five plies between them, and
+  the trucks stand off the deck at their real heights (baseplate 12,
+  bushings 22-40, hanger 46-60, kingpin nut 66). Each wheel is a 54-unit
+  cylinder: seven slices make the tread, shaded like a cylinder seen from
+  below, and two discs at right angles to them make the sides, so turned
+  side-on it shows a round wheel with its bearing. --z on a layer is its
+  height in units; .deck-flip turns those into pixels with container
+  units, so the depth scales with the board.
+
+  Click it and it kickflips. The script below samples the trick into
+  keyframes for the Web Animations API: the ollie on .deck-pop, the roll on
+  .deck-flip, and the shading of each face, which is worked out from where
+  its normal points relative to a light above the viewer.
 
   The drawings are decorative and hidden from assistive tech; the button
   around them is labelled, so the trick is reachable from the keyboard.
 {%- endcomment -%}
+
+{%- capture deck_truck -%}
+<svg class="deck-layer deck-part--plate" viewBox="192 118 86 64" aria-hidden="true">
+  <rect class="deck-baseplate" x="196" y="122.5" width="77" height="55" rx="4" />
+  <rect class="deck-recess" x="251" y="140" width="6" height="20" rx="2" />
+  <circle class="deck-hardware" cx="265" cy="128.5" r="4.6" />
+  <circle class="deck-hardware" cx="265" cy="171.5" r="4.6" />
+  <circle class="deck-bolt-end" cx="265" cy="128.5" r="1.6" />
+  <circle class="deck-bolt-end" cx="265" cy="171.5" r="1.6" />
+</svg>
+<span class="deck-layer deck-bushing" style="--z: 22"></span>
+<span class="deck-layer deck-bushing" style="--z: 31"></span>
+<span class="deck-layer deck-bushing" style="--z: 40"></span>
+<svg class="deck-layer deck-part--hanger deck-hanger--back" viewBox="190 46 66 208" aria-hidden="true">
+  <use href="#deck-hanger-shape" />
+</svg>
+<svg class="deck-layer deck-part--hanger deck-hanger--mid" viewBox="190 46 66 208" aria-hidden="true">
+  <use href="#deck-hanger-shape" />
+</svg>
+<svg class="deck-layer deck-part--hanger" viewBox="190 46 66 208" aria-hidden="true">
+  <rect fill="url(#deck-chrome)" x="203.5" y="50" width="7" height="200" />
+  <use href="#deck-hanger-shape" class="deck-hanger" fill="url(#deck-chrome)" />
+</svg>
+<svg class="deck-layer deck-part--kingpin" viewBox="208 130 40 40" aria-hidden="true">
+  <circle class="deck-pivot" cx="228" cy="150" r="17" />
+  <circle class="deck-hardware" cx="228" cy="150" r="14" />
+  <polygon class="deck-nut" points="235,150 231.5,156.06 224.5,156.06 221,150 224.5,143.94 231.5,143.94" />
+  <circle class="deck-bolt-end" cx="228" cy="150" r="2.6" />
+</svg>
+{%- comment -%} Wheel slices: --w is the chord at depth --z, --s how far into shade it is. {%- endcomment -%}
+{%- assign deck_sides = "top,bottom" | split: "," -%}
+{%- for side in deck_sides -%}
+<span class="deck-layer deck-wheel-slice deck-wheel-slice--{{ side }}" style="--w: 14;   --z: 84.1; --s: 0"></span>
+<span class="deck-layer deck-wheel-slice deck-wheel-slice--{{ side }}" style="--w: 34.7; --z: 78.7; --s: 0.15"></span>
+<span class="deck-layer deck-wheel-slice deck-wheel-slice--{{ side }}" style="--w: 48.9; --z: 69.4; --s: 0.4"></span>
+<span class="deck-layer deck-wheel-slice deck-wheel-slice--{{ side }}" style="--w: 54;   --z: 58;   --s: 0.75"></span>
+<span class="deck-layer deck-wheel-slice deck-wheel-slice--{{ side }}" style="--w: 48.9; --z: 46.6; --s: 0.9"></span>
+<span class="deck-layer deck-wheel-slice deck-wheel-slice--{{ side }}" style="--w: 34.7; --z: 37.3; --s: 1"></span>
+<span class="deck-layer deck-wheel-slice deck-wheel-slice--{{ side }}" style="--w: 14;   --z: 31.9; --s: 1"></span>
+<span class="deck-layer deck-wheel-side deck-wheel-side--{{ side }}-out"></span>
+<span class="deck-layer deck-wheel-side deck-wheel-side--{{ side }}-in"></span>
+{%- endfor -%}
+{%- endcapture -%}
+
 <button class="deck" type="button" aria-label="보드 킥플립">
   <span class="deck-pop">
   <span class="deck-flip">
-  <svg class="deck-svg deck-face" viewBox="0 20 900 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+  {%- comment -%} Top side: griptape and the eight bolt heads. {%- endcomment -%}
+  <svg class="deck-layer deck-face deck-face--grip" viewBox="0 20 900 260" aria-hidden="true">
+    <use href="#deck-shape" class="deck-grip" />
+    <g class="deck-bolt-heads">
+      <circle cx="211" cy="128.5" r="4.4" /><circle cx="211" cy="171.5" r="4.4" />
+      <circle cx="265" cy="128.5" r="4.4" /><circle cx="265" cy="171.5" r="4.4" />
+      <circle cx="635" cy="128.5" r="4.4" /><circle cx="635" cy="171.5" r="4.4" />
+      <circle cx="689" cy="128.5" r="4.4" /><circle cx="689" cy="171.5" r="4.4" />
+    </g>
+    <use href="#deck-shape" fill="none" stroke="url(#deck-edge)" stroke-width="2" />
+    <use href="#deck-shape" class="deck-shade" />
+    <use href="#deck-shape" class="deck-shine" />
+  </svg>
+
+  {%- comment -%} The plies, so the rail has a thickness when the board turns. {%- endcomment -%}
+  <span class="deck-layer deck-ply deck-ply--dark" style="--z: -4.8"></span>
+  <span class="deck-layer deck-ply" style="--z: -2.4"></span>
+  <span class="deck-layer deck-ply deck-ply--dark" style="--z: 0"></span>
+  <span class="deck-layer deck-ply" style="--z: 2.4"></span>
+  <span class="deck-layer deck-ply deck-ply--dark" style="--z: 4.8"></span>
+
+  {%- comment -%} Underside: the graphic, plus the shadows the trucks throw on it. {%- endcomment -%}
+  <svg class="deck-layer deck-face deck-face--art" viewBox="0 20 900 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
       <path id="deck-shape" d="M156 50H744A100 100 0 0 1 744 250H156A100 100 0 0 1 156 50Z" />
       <clipPath id="deck-clip"><use href="#deck-shape" /></clipPath>
+      {%- comment -%} Hanger: the axle bar, with fillets running in to the kingpin boss. {%- endcomment -%}
+      <path id="deck-hanger-shape" d="M199 84H215L218 96C220 114 223 124 228 129A21 21 0 0 1 228 171C223 176 220 186 218 204L215 216H199L196 204V96Z" />
 
       {%- comment -%} Light falls off from nose to tail, as in the photo. {%- endcomment -%}
       <linearGradient id="deck-falloff" x1="0" y1="0" x2="1" y2="0">
@@ -70,17 +147,11 @@
         <stop offset="0.42" class="deck-stop-metal" />
         <stop offset="1" class="deck-stop-metal-dk" />
       </linearGradient>
-      <linearGradient id="deck-urethane" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0" class="deck-stop-wheel-shade" />
-        <stop offset="0.35" class="deck-stop-wheel" />
-        <stop offset="0.65" class="deck-stop-wheel" />
-        <stop offset="1" class="deck-stop-wheel-shade" />
-      </linearGradient>
-      <filter id="deck-drop" x="-20%" y="-20%" width="140%" height="140%">
-        <feDropShadow class="deck-shadow" dx="6" dy="2.5" stdDeviation="3" />
-      </filter>
       <filter id="deck-soft" x="-50%" y="-50%" width="200%" height="200%">
         <feGaussianBlur stdDeviation="7" />
+      </filter>
+      <filter id="deck-cast-blur" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="3.5" />
       </filter>
     </defs>
 
@@ -107,60 +178,92 @@
         <text x="181.75" y="152" transform="rotate(-90 181.75 152)" dy="1.3"
               text-anchor="middle" textLength="27" lengthAdjust="spacingAndGlyphs">MADE IN CHINA</text>
       </g>
-    </g>
-    <use href="#deck-shape" fill="none" stroke="url(#deck-edge)" stroke-width="2" />
 
-    {%- comment -%} Trucks share one drop shadow so both cast it the same way, away from the light. {%- endcomment -%}
-    <g filter="url(#deck-drop)">
-      <g id="deck-truck">
-        <rect class="deck-baseplate" x="196" y="122.5" width="77" height="55" rx="4" />
-        <rect class="deck-recess" x="251" y="140" width="6" height="20" rx="2" />
-        <circle class="deck-hardware" cx="265" cy="128.5" r="4.6" />
-        <circle class="deck-hardware" cx="265" cy="171.5" r="4.6" />
-        <circle class="deck-bolt-end" cx="265" cy="128.5" r="1.6" />
-        <circle class="deck-bolt-end" cx="265" cy="171.5" r="1.6" />
-        <rect fill="url(#deck-chrome)" x="203.5" y="50" width="7" height="200" />
-        {%- comment -%} Hanger: the axle bar, with fillets running in to the kingpin boss. {%- endcomment -%}
-        <path class="deck-hanger" fill="url(#deck-chrome)"
-              d="M199 84H215L218 96C220 114 223 124 228 129A21 21 0 0 1 228 171C223 176 220 186 218 204L215 216H199L196 204V96Z" />
-        <circle class="deck-pivot" cx="228" cy="150" r="17" />
-        <circle class="deck-hardware" cx="228" cy="150" r="14" />
-        <polygon class="deck-nut" points="235,150 231.5,156.06 224.5,156.06 221,150 224.5,143.94 231.5,143.94" />
-        <circle class="deck-bolt-end" cx="228" cy="150" r="2.6" />
-        <rect class="deck-wheel" fill="url(#deck-urethane)" x="177.5" y="41" width="61" height="44" rx="13" />
-        <rect class="deck-wheel" fill="url(#deck-urethane)" x="177.5" y="215" width="61" height="44" rx="13" />
+      {%- comment -%}
+        Truck shadows, light from above and in front: the higher the part,
+        the further down and right its shadow lands. Each height band holds
+        the nose part and its mirror, so both trucks throw the same way.
+      {%- endcomment -%}
+      <g class="deck-cast" filter="url(#deck-cast-blur)">
+        <g transform="translate(1.5 2.5)">
+          <rect id="deck-cast-plate" x="196" y="122.5" width="77" height="55" rx="4" />
+          <use href="#deck-cast-plate" transform="translate(900 0) scale(-1 1)" />
+        </g>
+        <g transform="translate(8 13)">
+          <g id="deck-cast-hanger"><use href="#deck-hanger-shape" /><rect x="203.5" y="50" width="7" height="200" /></g>
+          <use href="#deck-cast-hanger" transform="translate(900 0) scale(-1 1)" />
+        </g>
+        <g transform="translate(10 15)">
+          <g id="deck-cast-wheels"><rect x="181" y="41" width="54" height="44" rx="13" /><rect x="181" y="215" width="54" height="44" rx="13" /></g>
+          <use href="#deck-cast-wheels" transform="translate(900 0) scale(-1 1)" />
+        </g>
       </g>
-      <use href="#deck-truck" transform="translate(900 0) scale(-1 1)" />
-    </g>
-  </svg>
-
-  {%- comment -%} Top side, seen mid-flip. Reuses the shape and gradients defined above. {%- endcomment -%}
-  <svg class="deck-svg deck-face deck-face--grip" viewBox="0 20 900 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <rect class="deck-wheel" fill="url(#deck-urethane)" x="177.5" y="41" width="61" height="44" rx="13" />
-    <rect class="deck-wheel" fill="url(#deck-urethane)" x="177.5" y="215" width="61" height="44" rx="13" />
-    <rect class="deck-wheel" fill="url(#deck-urethane)" x="661.5" y="41" width="61" height="44" rx="13" />
-    <rect class="deck-wheel" fill="url(#deck-urethane)" x="661.5" y="215" width="61" height="44" rx="13" />
-    <use href="#deck-shape" class="deck-grip" />
-    <g class="deck-bolt-heads">
-      <circle cx="211" cy="128.5" r="4.4" /><circle cx="211" cy="171.5" r="4.4" />
-      <circle cx="265" cy="128.5" r="4.4" /><circle cx="265" cy="171.5" r="4.4" />
-      <circle cx="635" cy="128.5" r="4.4" /><circle cx="635" cy="171.5" r="4.4" />
-      <circle cx="689" cy="128.5" r="4.4" /><circle cx="689" cy="171.5" r="4.4" />
     </g>
     <use href="#deck-shape" fill="none" stroke="url(#deck-edge)" stroke-width="2" />
+    <use href="#deck-shape" class="deck-shade" />
+    <use href="#deck-shape" class="deck-shine" />
   </svg>
+
+  <span class="deck-layer deck-truck">{{ deck_truck }}</span>
+  <span class="deck-layer deck-truck deck-truck--tail">{{ deck_truck }}</span>
   </span>
   </span>
 </button>
 <script>
   (function () {
     var deck = document.querySelector('.deck');
-    if (!deck) return;
+    if (!deck || !deck.animate) return;
+    var q = function (s) { return deck.querySelector(s); };
+    var targets = [
+      q('.deck-pop'), q('.deck-flip'),
+      q('.deck-face--art .deck-shade'), q('.deck-face--art .deck-shine'),
+      q('.deck-face--grip .deck-shade'), q('.deck-face--grip .deck-shine')
+    ];
+    // wheel sides: needed only while the board is side-on; from below, at
+    // rest, perspective would show them as hairlines past the tread
+    var sides = [].slice.call(deck.querySelectorAll('.deck-wheel-side'));
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var LY = -0.28, LZ = 0.96;   // the light: above and in front of the viewer
+    var clamp = function (x, a, b) { return Math.max(a, Math.min(b, x)); };
+    var span = function (t, a, b) { return clamp((t - a) / (b - a), 0, 1); };
+
+    // Sample the trick once. One keyframe per 1/60 of it, so every track
+    // shares the same clock and the lighting stays locked to the roll.
+    var tracks = targets.map(function () { return []; }), sideTrack = [];
+    for (var i = 0; i <= 60; i++) {
+      var t = i / 60, y, u;
+      // height, % of the board: the pop, a gravity arc up and down, knees on landing
+      if (t < 0.14) y = -6 * (1 - Math.pow(1 - t / 0.14, 2));
+      else if (t < 0.5) { u = (t - 0.14) / 0.36; y = -6 - 36 * (1 - (1 - u) * (1 - u)); }
+      else if (t < 0.86) { u = (t - 0.5) / 0.36; y = -42 * (1 - u * u); }
+      else y = 1.6 * Math.sin(Math.PI * span(t, 0.86, 0.98));
+      // pitch: the tail snaps so the nose lifts, then the board levels out
+      u = span(t, 0.14, 0.5);
+      var pitch = t < 0.14 ? 9 * Math.sin(Math.PI / 2 * t / 0.14) : 9 * (1 - u * u * (3 - 2 * u));
+      // roll: one turn about the long axis between the kick and the catch
+      u = span(t, 0.16, 0.76);
+      var roll = -360 * (0.35 * u + 0.65 * (0.5 - 0.5 * Math.cos(Math.PI * u)));
+      tracks[0].push({ transform: 'translateY(' + y.toFixed(2) + '%) rotate(' + pitch.toFixed(2) + 'deg)' });
+      tracks[1].push({ transform: 'rotateX(' + roll.toFixed(2) + 'deg)' });
+      // light on each face, relative to rest: the art face's normal after
+      // rotateX is (0, -sin, cos); the griptape faces the other way
+      var a = roll * Math.PI / 180, art = (-Math.sin(a) * LY + Math.cos(a) * LZ) / LZ;
+      [art, (Math.sin(a) * LY - Math.cos(a) * LZ) / LZ].forEach(function (lit, k) {
+        tracks[2 + 2 * k].push({ opacity: clamp((1 - lit) * 0.8, 0, 0.75).toFixed(3) });
+        tracks[3 + 2 * k].push({ opacity: clamp((lit - 1) * 1.5, 0, 0.3).toFixed(3) });
+      });
+      u = span(Math.abs(Math.sin(a)), 0.2, 0.45);
+      sideTrack.push({ opacity: (u * u * (3 - 2 * u)).toFixed(3) });
+    }
+
+    var busy = false;
+    var done = function () { busy = false; };
     deck.addEventListener('click', function () {
-      deck.classList.add('is-flipping');      // a click mid-trick is ignored
-    });
-    deck.addEventListener('animationend', function (e) {
-      if (e.animationName === 'deck-pop') deck.classList.remove('is-flipping');
+      if (busy || reduce.matches) return;   // a click mid-trick is ignored
+      busy = true;
+      var runs = targets.map(function (el, k) { return el.animate(tracks[k], { duration: 1000 }); });
+      sides.forEach(function (el) { el.animate(sideTrack, { duration: 1000 }); });
+      runs[0].finished.then(done, done);
     });
   })();
 </script>

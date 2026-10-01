@@ -948,6 +948,7 @@ body::after {
   cursor: pointer;
   border-radius: 999px;  // so the focus ring follows the board, not its box
   -webkit-tap-highlight-color: transparent;
+  container-type: inline-size;  // 100cqw = the board's width, for the depth below
 
   &:focus-visible {
     outline: 3px solid var(--accent);
@@ -961,7 +962,10 @@ body::after {
   position: relative;
 }
 
+// The viewer stands three board-widths away. In container units, so the
+// depth reads the same on a phone as on a desktop.
 .deck-pop {
+  perspective: 300cqw;
   transition: transform 0.2s ease;
 }
 
@@ -973,28 +977,47 @@ body::after {
   }
 }
 
+// The board's own space: 900 x 260 units like the SVG viewBox, with --u the
+// size of one unit, so a layer's --z (its height in units) is a translateZ.
 .deck-flip {
+  aspect-ratio: 900 / 260;
   transform-style: preserve-3d;
+  --u: calc(100cqw / 900);
 }
 
-.deck-svg {
+.deck-layer {
+  position: absolute;
   display: block;
-  width: 100%;
-  height: auto;
-  overflow: visible;
+  transform: translateZ(calc(var(--u) * var(--z, 0)));
 }
 
 .deck-face {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
 
-.deck-face--grip {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: rotateX(180deg);
+.deck-face--art {
+  --z: 6;
 }
+
+.deck-face--grip {
+  transform: translateZ(calc(var(--u) * -6)) rotateX(180deg);
+}
+
+// Washes the kickflip script fades in as a face turns from or into the
+// light. At rest they are clear and the faces look as drawn.
+.deck-shade,
+.deck-shine {
+  opacity: 0;
+}
+
+.deck-shade { fill: black; }
+.deck-shine { fill: white; }
 
 .deck-grip {
   fill: var(--deck-grip);
@@ -1006,35 +1029,95 @@ body::after {
   stroke-width: 1;
 }
 
-.deck.is-flipping {
-  .deck-pop  { animation: deck-pop 0.95s both; }
-  .deck-flip { animation: deck-flip 0.95s both; }
+// Plies: the deck outline stacked between the faces. Percentages are of the
+// 900 x 260 box -- the deck spans x 56..844, y 50..250 -- inset half a unit
+// so no ply edge peeks round the art at rest.
+.deck-ply {
+  left: 6.278%;
+  top: 11.731%;
+  width: 87.444%;
+  height: 76.538%;
+  border-radius: 999px;
+  background: var(--deck-ply);
 }
 
-// Ollie: the tail snaps and the nose lifts, the board rises as it levels,
-// floats at the top and drops back flat, knees soaking up the landing.
-@keyframes deck-pop {
-  0%   { transform: translateY(0) rotate(0); animation-timing-function: cubic-bezier(0.2, 0.8, 0.4, 1); }
-  14%  { transform: translateY(-6%) rotate(9deg); animation-timing-function: cubic-bezier(0.25, 0.6, 0.45, 1); }
-  52%  { transform: translateY(-42%) rotate(0); animation-timing-function: cubic-bezier(0.55, 0, 0.8, 0.45); }
-  86%  { transform: translateY(0) rotate(0); animation-timing-function: ease-out; }
-  92%  { transform: translateY(1.5%) rotate(0); animation-timing-function: ease-in-out; }
-  100% { transform: translateY(0) rotate(0); }
+.deck-ply--dark {
+  background: var(--deck-ply-dark);
 }
 
-// The flip itself: one full roll about the long axis while airborne.
-// perspective() lives in the keyframes so the roll foreshortens.
-@keyframes deck-flip {
-  0%   { transform: perspective(1400px) rotateX(0); }
-  16%  { transform: perspective(1400px) rotateX(0); animation-timing-function: cubic-bezier(0.35, 0.1, 0.4, 1); }
-  76%  { transform: perspective(1400px) rotateX(-360deg); }
-  100% { transform: perspective(1400px) rotateX(-360deg); }
+.deck-truck {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
 }
+
+// The deck is symmetric about its centre, so the tail truck is a mirror.
+.deck-truck--tail {
+  transform: scaleX(-1);
+}
+
+// Truck parts sit where the art has them (their viewBox is in the same
+// units) and at their real height above the deck.
+.deck-part--plate   { left: 21.333%; top: 37.692%; width: 9.556%; height: 24.615%; --z: 12; }
+.deck-part--hanger  { left: 21.111%; top: 10%;     width: 7.333%; height: 80%;     --z: 60; }
+.deck-part--kingpin { left: 23.111%; top: 42.308%; width: 4.444%; height: 15.385%; --z: 66; }
+
+// The hanger casting is 14 units thick: two more copies of its outline
+// behind the front one, darker as they go up towards the deck.
+.deck-hanger--back {
+  --z: 46;
+  fill: var(--deck-metal-dk);
+}
+
+.deck-hanger--mid {
+  --z: 53;
+  fill: var(--deck-metal);
+}
+
+// The bushing stack the kingpin runs through, baseplate to hanger.
+.deck-bushing {
+  left: 23.889%;
+  top: 45%;
+  width: 2.889%;
+  height: 10%;
+  border-radius: 50%;
+  background: var(--deck-hardware);
+}
+
+// Wheel slices, centred on the axle at x=208, --w units wide at height --z.
+.deck-wheel-slice {
+  left: calc((208 - var(--w) / 2) / 9 * 1%);
+  width: calc(var(--w) / 9 * 1%);
+  height: 16.923%;
+  border-radius: 30%;
+  background: color-mix(in srgb, var(--deck-wheel-shade) calc(var(--s) * 100%), var(--deck-wheel));
+}
+
+.deck-wheel-slice--top    { top: 8.077%; }
+.deck-wheel-slice--bottom { top: 75%; }
+
+// Wheel sides: 54-unit discs standing at right angles to the deck on the
+// axle (height 58), at the outer and inner face of each wheel. Edge-on from
+// below; face-on, bearing and all, when the board is side-on.
+.deck-wheel-side {
+  left: 20.111%;
+  width: 6%;
+  height: 20.769%;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--deck-hardware) 0 11%, var(--deck-metal) 12% 19%, var(--deck-wheel-shade) 20% 24%, var(--deck-wheel) 25%);
+  transform: translateZ(calc(var(--u) * 58)) rotateX(90deg);
+  opacity: 0;  // the kickflip script shows them as the board turns side-on
+}
+
+.deck-wheel-side--top-out    { top: -2.308%; }   // y = 41
+.deck-wheel-side--top-in     { top: 14.615%; }   // y = 85
+.deck-wheel-side--bottom-in  { top: 64.615%; }   // y = 215
+.deck-wheel-side--bottom-out { top: 81.538%; }   // y = 259
 
 @media (prefers-reduced-motion: reduce) {
   .deck-pop { transition: none; }
-  .deck.is-flipping .deck-pop,
-  .deck.is-flipping .deck-flip { animation: none; }
 }
 
 .deck-board {
@@ -1055,15 +1138,13 @@ body::after {
 
 // Gradient stops and the shadow take their colour from CSS so the tokens
 // stay the only source of hex values.
-.deck-stop-metal-hi    { stop-color: var(--deck-metal-hi); }
-.deck-stop-metal       { stop-color: var(--deck-metal); }
-.deck-stop-metal-dk    { stop-color: var(--deck-metal-dk); }
-.deck-stop-wheel       { stop-color: var(--deck-wheel); }
-.deck-stop-wheel-shade { stop-color: var(--deck-wheel-shade); }
+.deck-stop-metal-hi { stop-color: var(--deck-metal-hi); }
+.deck-stop-metal    { stop-color: var(--deck-metal); }
+.deck-stop-metal-dk { stop-color: var(--deck-metal-dk); }
 
-.deck-shadow {
-  flood-color: var(--deck-shadow);
-  flood-opacity: 0.5;
+.deck-cast {
+  fill: var(--deck-shadow);
+  opacity: 0.45;
 }
 
 .deck-sticker {
@@ -1104,11 +1185,6 @@ body::after {
 
 .deck-bolt-end {
   fill: var(--deck-bolt-end);
-}
-
-.deck-wheel {
-  stroke: var(--deck-wheel-shade);
-  stroke-width: 1;
 }
 
 .masthead-subheading {
