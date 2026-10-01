@@ -28,10 +28,20 @@
     mirrored, which also mirrors which side of the hanger catches light,
     as it does in the photo.
 
-  Purely decorative, so it is hidden from assistive tech.
+  Click it and it kickflips: .deck-pop carries the ollie (pop, nose up,
+  level out, land) and .deck-flip the 360 deg roll about the long axis, so
+  each gets its own easing. Mid-roll the board shows its griptape face
+  (wheels peeking past the rails, eight bolt heads). There is no edge
+  plane for the side-on instant: one through the middle shows through the
+  faces at shallow angles, and the board is edge-on for under a frame.
+
+  The drawings are decorative and hidden from assistive tech; the button
+  around them is labelled, so the trick is reachable from the keyboard.
 {%- endcomment -%}
-<div class="deck" aria-hidden="true">
-  <svg class="deck-svg" viewBox="0 20 900 260" xmlns="http://www.w3.org/2000/svg">
+<button class="deck" type="button" aria-label="보드 킥플립">
+  <span class="deck-pop">
+  <span class="deck-flip">
+  <svg class="deck-svg deck-face" viewBox="0 20 900 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
       <path id="deck-shape" d="M156 50H744A100 100 0 0 1 744 250H156A100 100 0 0 1 156 50Z" />
       <clipPath id="deck-clip"><use href="#deck-shape" /></clipPath>
@@ -123,4 +133,34 @@
       <use href="#deck-truck" transform="translate(900 0) scale(-1 1)" />
     </g>
   </svg>
-</div>
+
+  {%- comment -%} Top side, seen mid-flip. Reuses the shape and gradients defined above. {%- endcomment -%}
+  <svg class="deck-svg deck-face deck-face--grip" viewBox="0 20 900 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect class="deck-wheel" fill="url(#deck-urethane)" x="177.5" y="41" width="61" height="44" rx="13" />
+    <rect class="deck-wheel" fill="url(#deck-urethane)" x="177.5" y="215" width="61" height="44" rx="13" />
+    <rect class="deck-wheel" fill="url(#deck-urethane)" x="661.5" y="41" width="61" height="44" rx="13" />
+    <rect class="deck-wheel" fill="url(#deck-urethane)" x="661.5" y="215" width="61" height="44" rx="13" />
+    <use href="#deck-shape" class="deck-grip" />
+    <g class="deck-bolt-heads">
+      <circle cx="211" cy="128.5" r="4.4" /><circle cx="211" cy="171.5" r="4.4" />
+      <circle cx="265" cy="128.5" r="4.4" /><circle cx="265" cy="171.5" r="4.4" />
+      <circle cx="635" cy="128.5" r="4.4" /><circle cx="635" cy="171.5" r="4.4" />
+      <circle cx="689" cy="128.5" r="4.4" /><circle cx="689" cy="171.5" r="4.4" />
+    </g>
+    <use href="#deck-shape" fill="none" stroke="url(#deck-edge)" stroke-width="2" />
+  </svg>
+  </span>
+  </span>
+</button>
+<script>
+  (function () {
+    var deck = document.querySelector('.deck');
+    if (!deck) return;
+    deck.addEventListener('click', function () {
+      deck.classList.add('is-flipping');      // a click mid-trick is ignored
+    });
+    deck.addEventListener('animationend', function (e) {
+      if (e.animationName === 'deck-pop') deck.classList.remove('is-flipping');
+    });
+  })();
+</script>
