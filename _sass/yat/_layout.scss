@@ -944,56 +944,80 @@ body::after {
   width: 100%;
   height: auto;
   overflow: visible;
-  transform: rotate(-2.5deg);
 }
 
-.deck-truck path {
-  fill: var(--fg-muted);
+.deck-board {
+  fill: var(--deck-blue);
 }
 
-.deck-wheel rect {
-  fill: var(--deck-wood);
-  stroke: var(--fg);
-  stroke-width: 5;
-}
-
-// The blank shows through as the bare rim around the inset art.
-.deck-blank {
-  fill: var(--deck-wood);
-}
-
-.deck-star {
-  fill: var(--deck-wood);
-}
-
-.deck-pinline {
-  fill: none;
-  stroke: var(--fg);
-  stroke-width: 3;
-}
-
-// Bolt pads: a wood-toned disc behind each bore. It disappears where the
-// bolts land on bare deck and only shows over the accent field, which is
-// what keeps the four-bolt pattern legible without turning it into a
-// feature -- a stroked pad read like a pair of eyes next to the star.
-.deck-hole-pad circle {
-  fill: var(--deck-wood);
-}
-
-// The bore shows the page through the deck, so it takes --bg, not --fg.
-// The ring is what keeps it readable where bg and the deck tone are close,
-// which is the case on the bare tail in the light theme.
-.deck-hole-bore circle {
-  fill: var(--bg);
-  stroke: var(--fg-muted);
-  stroke-width: 1.5;
-}
-
-.deck-outline {
-  fill: none;
-  stroke: var(--fg);
-  stroke-width: 6;
+// Cream letters with a red keyline. paint-order puts the stroke behind the
+// fill, so only its outer half (1.8 units, as measured on the print) shows
+// and the letters keep the weight they were traced at. One path for the
+// whole word, so the g's ear, neck and bowl share a single keyline.
+.deck-word {
+  fill: var(--deck-cream);
+  stroke: var(--deck-red);
+  stroke-width: 3.6;
   stroke-linejoin: round;
+  paint-order: stroke;
+}
+
+// Gradient stops and the shadow take their colour from CSS so the tokens
+// stay the only source of hex values.
+.deck-stop-metal-hi    { stop-color: var(--deck-metal-hi); }
+.deck-stop-metal       { stop-color: var(--deck-metal); }
+.deck-stop-metal-dk    { stop-color: var(--deck-metal-dk); }
+.deck-stop-wheel       { stop-color: var(--deck-wheel); }
+.deck-stop-wheel-shade { stop-color: var(--deck-wheel-shade); }
+
+.deck-shadow {
+  flood-color: var(--deck-shadow);
+  flood-opacity: 0.5;
+}
+
+.deck-sticker {
+  rect { fill: var(--deck-sticker); }
+  text {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 3.4px;
+    font-weight: 700;
+    fill: var(--deck-sticker-ink);
+  }
+}
+
+.deck-baseplate,
+.deck-pivot {
+  fill: var(--deck-metal);
+  stroke: var(--deck-metal-dk);
+  stroke-width: 1;
+}
+
+.deck-recess {
+  fill: var(--deck-recess);
+}
+
+.deck-hanger {
+  stroke: var(--deck-metal-dk);
+  stroke-width: 1;
+}
+
+.deck-hardware,
+.deck-nut {
+  fill: var(--deck-hardware);
+}
+
+.deck-nut {
+  stroke: var(--deck-bolt-end);
+  stroke-width: 0.8;
+}
+
+.deck-bolt-end {
+  fill: var(--deck-bolt-end);
+}
+
+.deck-wheel {
+  stroke: var(--deck-wheel-shade);
+  stroke-width: 1;
 }
 
 .masthead-subheading {

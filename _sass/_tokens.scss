@@ -55,9 +55,24 @@
   --table-stripe-bg: #e9e5dc;
   --table-border:    #111;
 
-  // The deck needs a surface tone of its own. Reusing --bg-elev made half the
-  // board read as hollow in the dark theme, where it is almost the page bg.
-  --deck-wood:       #e0d9c9;
+  // Hero skateboard: a physical object, so it looks the same in both themes
+  // (defined here only; the dark block inherits). Sampled from a photo of
+  // the real deck; the neutrals are white-balanced against its wheels, the
+  // blue is kept as photographed because balancing it read as dull.
+  --deck-blue:        #2b37c2;
+  --deck-cream:       #f7f8db;
+  --deck-red:         #c42b31;
+  --deck-metal-hi:    #f2f3f5;
+  --deck-metal:       #b4b8c1;
+  --deck-metal-dk:    #7d838e;
+  --deck-recess:      #3a3d45;
+  --deck-hardware:    #202227;
+  --deck-bolt-end:    #5b5f68;
+  --deck-wheel:       #fff;
+  --deck-wheel-shade: #d3d6dc;
+  --deck-shadow:      #0b1050;
+  --deck-sticker:     #f4f4ef;
+  --deck-sticker-ink: #55575c;
 
   --img-bg:          transparent;
   --selection-bg:    #ff3b00;
@@ -103,8 +118,6 @@ html[data-theme="dark"] {
   --table-head-fg:   #0d0d0d;
   --table-stripe-bg: #141414;
   --table-border:    #3d3d3d;
-
-  --deck-wood:       #2c2c2c;
 
   --img-bg:          #ffffff11;
   --selection-bg:    #c4ff00;
