@@ -1,59 +1,59 @@
 // =============================================================================
-// Design tokens -- 90s skater punk
+// Design tokens -- colors of the owner's skateboard (blue deck, cream logo
+// with a red outline; see about.html and the hero deck)
 //
 // All colors live here as CSS custom properties. :root holds the light theme
-// (a photocopied black-and-white flyer); html[data-theme="dark"] overrides it
-// (the default look: near-black with one fluorescent accent).
+// (cream paper, navy ink, deck-blue links); html[data-theme="dark"] overrides
+// it (deck blue darkened to navy, cream text, logo-outline red links).
 //
 // Component SCSS must reference var(--x) and never hardcode a hex or call
 // lighten()/darken()/invert()/mix() on a color -- those Sass functions cannot
 // operate on a CSS variable.
 //
-// Accent differs per theme on purpose: the fluorescent green (#c4ff00) sits at
-// roughly 1.4:1 against white, so it is unreadable in the light theme. The
-// light theme uses orangered instead, which plays the same "highlighter" role
-// at a contrast ratio that actually works.
+// Accent differs per theme on purpose: deck blue (#2b37c2) is 8:1 on cream
+// but only 2.2:1 on navy, so the dark theme uses a lightened deck red
+// (#ff6a6f, 6.8:1) for links instead.
 // =============================================================================
 
 :root {
-  --bg:              #f2f0eb;
-  --bg-elev:         #fff;
-  --fg:              #111;
-  --fg-muted:        #5a5a5a;
-  --fg-subtle:       #8b877e;
+  --bg:              #f7f6ea;
+  --bg-elev:         #fffef6;
+  --fg:              #121641;
+  --fg-muted:        #4d5170;
+  --fg-subtle:       #7d8099;
 
-  --accent:          #ff3b00;
-  --accent-hover:    #ff6333;
-  --accent-fg:       #fff;
+  --accent:          #2b37c2;
+  --accent-hover:    #c42b31;
+  --accent-fg:       #f7f8db;
 
-  --header-bg:       #f2f0eb;
-  --header-fg:       #111;
-  --header-fg-dim:   rgba(17, 17, 17, 0.75);
-  --footer-bg:       #111;
-  --footer-fg:       #f2f0eb;
+  --header-bg:       #f7f6ea;
+  --header-fg:       #121641;
+  --header-fg-dim:   rgba(18, 22, 65, 0.75);
+  --footer-bg:       #2b37c2;
+  --footer-fg:       #f7f8db;
   --banner-fg:       #fff;
 
-  --rule:            #1a1a1a;
-  --rule-strong:     #111;
-  --rule-soft:       #d6d2c8;
+  --rule:            #121641;
+  --rule-strong:     #121641;
+  --rule-soft:       #dcdbc6;
 
-  --surface:         #e6e2d9;
-  --surface-hover:   #dcd7cb;
-  --code-bg:         #1a1a1a;
-  --code-fg:         #e8e6e0;
-  --code-inline-bg:  #e0dcd2;
+  --surface:         #ecebd8;
+  --surface-hover:   #e2e1c9;
+  --code-bg:         #121641;
+  --code-fg:         #f7f8db;
+  --code-inline-bg:  #e8e7d2;
 
-  --chip-bg:         #111;
-  --chip-fg:         #f2f0eb;
+  --chip-bg:         #2b37c2;
+  --chip-fg:         #f7f8db;
 
-  --widget-bg:       #111;
-  --widget-fg:       #f2f0eb;
+  --widget-bg:       #121641;
+  --widget-fg:       #f7f8db;
 
-  --table-fg:        #111;
-  --table-head-bg:   #111;
-  --table-head-fg:   #f2f0eb;
-  --table-stripe-bg: #e9e5dc;
-  --table-border:    #111;
+  --table-fg:        #121641;
+  --table-head-bg:   #2b37c2;
+  --table-head-fg:   #f7f8db;
+  --table-stripe-bg: #efeee0;
+  --table-border:    #121641;
 
   // Hero skateboard: a physical object, so it looks the same in both themes
   // (defined here only; the dark block inherits). Sampled from a photo of
@@ -78,51 +78,51 @@
   --deck-ply-dark:    #c8ab7c;
 
   --img-bg:          transparent;
-  --selection-bg:    #ff3b00;
-  --selection-fg:    #fff;
+  --selection-bg:    #2b37c2;
+  --selection-fg:    #f7f8db;
 }
 
 html[data-theme="dark"] {
-  --bg:              #0d0d0d;
-  --bg-elev:         #161616;
-  --fg:              #f5f5f5;
-  --fg-muted:        #8a8a8a;
-  --fg-subtle:       #6a6a6a;
+  --bg:              #0b0e2a;
+  --bg-elev:         #121638;
+  --fg:              #f2f3e1;
+  --fg-muted:        #9a9dbb;
+  --fg-subtle:       #6d7090;
 
-  --accent:          #c4ff00;
-  --accent-hover:    #d8ff4d;
-  --accent-fg:       #0d0d0d;
+  --accent:          #ff6a6f;
+  --accent-hover:    #ff9599;
+  --accent-fg:       #0b0e2a;
 
-  --header-bg:       #0d0d0d;
-  --header-fg:       #f5f5f5;
-  --header-fg-dim:   rgba(245, 245, 245, 0.75);
-  --footer-bg:       #000;
-  --footer-fg:       #f5f5f5;
+  --header-bg:       #0b0e2a;
+  --header-fg:       #f2f3e1;
+  --header-fg-dim:   rgba(242, 243, 225, 0.75);
+  --footer-bg:       #070920;
+  --footer-fg:       #f2f3e1;
   --banner-fg:       #fff;
 
-  --rule:            #2e2e2e;
-  --rule-strong:     #3d3d3d;
-  --rule-soft:       #222;
+  --rule:            #262a52;
+  --rule-strong:     #343970;
+  --rule-soft:       #1a1e44;
 
-  --surface:         #1c1c1c;
-  --surface-hover:   #262626;
-  --code-bg:         #161616;
-  --code-fg:         #e8e6e0;
-  --code-inline-bg:  #262626;
+  --surface:         #161a40;
+  --surface-hover:   #1f2350;
+  --code-bg:         #121638;
+  --code-fg:         #f2f3e1;
+  --code-inline-bg:  #1f2350;
 
-  --chip-bg:         #c4ff00;
-  --chip-fg:         #0d0d0d;
+  --chip-bg:         #2b37c2;
+  --chip-fg:         #f7f8db;
 
-  --widget-bg:       #161616;
-  --widget-fg:       #f5f5f5;
+  --widget-bg:       #121638;
+  --widget-fg:       #f2f3e1;
 
-  --table-fg:        #f5f5f5;
-  --table-head-bg:   #c4ff00;
-  --table-head-fg:   #0d0d0d;
-  --table-stripe-bg: #141414;
-  --table-border:    #3d3d3d;
+  --table-fg:        #f2f3e1;
+  --table-head-bg:   #2b37c2;
+  --table-head-fg:   #f7f8db;
+  --table-stripe-bg: #0f1233;
+  --table-border:    #343970;
 
   --img-bg:          #ffffff11;
-  --selection-bg:    #c4ff00;
-  --selection-fg:    #0d0d0d;
+  --selection-bg:    #ff6a6f;
+  --selection-fg:    #0b0e2a;
 }
