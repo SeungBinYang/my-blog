@@ -949,6 +949,10 @@ body::after {
   border-radius: 999px;  // so the focus ring follows the board, not its box
   -webkit-tap-highlight-color: transparent;
   container-type: inline-size;  // 100cqw = the board's width, for the depth below
+  // Each kick bends this twice (20 deg in all). The photo's nose and tail
+  // are foreshortened to 0.93-1.0 of a flat semicircle; the deck shows
+  // 3.84 x its width from above, 3.88 with this (3.94 flat).
+  --kick: 10deg;
 
   &:focus-visible {
     outline: 3px solid var(--accent);
@@ -990,6 +994,32 @@ body::after {
   display: block;
   transform: translateZ(calc(var(--u) * var(--z, 0)));
 }
+
+// A piece of the deck: the middle, or one bend of a kick. Its layers are
+// whole-board drawings cut down to x = --x0..--x1. A kick piece turns about
+// its inner edge, toward the griptape, and carries the piece beyond it.
+.deck-seg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+
+  > .deck-face {
+    clip-path: inset(0 calc((900 - var(--x1)) * var(--u)) 0 calc(var(--x0) * var(--u)));
+  }
+
+  // plies span x 56.5..843.5
+  > .deck-ply {
+    clip-path: inset(0 max(0px, calc((843.5 - var(--x1)) * var(--u))) 0 max(0px, calc((var(--x0) - 56.5) * var(--u))));
+  }
+}
+
+.deck-seg--nose     { transform-origin: 21.333% 50%; transform: rotateY(calc(-1 * var(--kick))); }  // x = 192
+.deck-seg--nose-tip { transform-origin: 16.667% 50%; transform: rotateY(calc(-1 * var(--kick))); }  // x = 150
+.deck-seg--tail     { transform-origin: 78.667% 50%; transform: rotateY(var(--kick)); }             // x = 708
+.deck-seg--tail-tip { transform-origin: 83.333% 50%; transform: rotateY(var(--kick)); }             // x = 750
 
 .deck-face {
   top: 0;

@@ -5,7 +5,8 @@
   Inline SVG rather than an image file on purpose -- it paints from the
   --deck-* tokens, so there is no asset to keep in sync with the palette.
   The board is a physical object, so those tokens are the same in both
-  themes. 1 unit is about 1mm: the deck is 788 x 200 (8" x 31").
+  themes, bar the ply wood (see _tokens.scss). 1 unit is about 1mm: the
+  deck is 788 x 200 (8" x 31") laid flat.
 
   Construction notes, since the geometry is measured rather than eyeballed
   (the photo was levelled -- it sat 1.04 deg off -- and rescaled so the
@@ -37,6 +38,12 @@
   side-on it shows a round wheel with its bearing. --z on a layer is its
   height in units; .deck-flip turns those into pixels with container
   units, so the depth scales with the board.
+
+  The deck is not flat: nose and tail kick up toward the griptape, 20 deg
+  in two bends (at x=192 and 150, mirrored at 708 and 750), starting just
+  outside the trucks' baseplates as on a real deck. Each bend is a
+  .deck-seg holding its own cut of both faces and the plies; the faces
+  reuse the middle's paint (#deck-grip-paint, #deck-art-paint) via <use>.
 
   All of those lie flat to the deck or across it, so when a shove-it
   points the board at the viewer they would all be edge-on: the deck
@@ -109,32 +116,57 @@
 </svg>
 {%- endcapture -%}
 
+{%- comment -%} The plies, so the rail has a thickness when the board turns. {%- endcomment -%}
+{%- capture deck_plies -%}
+<span class="deck-layer deck-ply deck-ply--dark" style="--z: -4.8"></span>
+<span class="deck-layer deck-ply" style="--z: -2.4"></span>
+<span class="deck-layer deck-ply deck-ply--dark" style="--z: 0"></span>
+<span class="deck-layer deck-ply" style="--z: 2.4"></span>
+<span class="deck-layer deck-ply deck-ply--dark" style="--z: 4.8"></span>
+{%- endcapture -%}
+
+{%- comment -%}
+  One bent piece of a kick: both faces reuse the middle's paint, each
+  with its own shade and shine, since a kick meets the light at its own angle.
+{%- endcomment -%}
+{%- capture deck_slab -%}
+<svg class="deck-layer deck-face deck-face--grip" viewBox="0 20 900 260" aria-hidden="true">
+  <use href="#deck-grip-paint" />
+  <use href="#deck-shape" class="deck-shade" />
+  <use href="#deck-shape" class="deck-shine" />
+</svg>
+{{ deck_plies }}
+<svg class="deck-layer deck-face deck-face--art" viewBox="0 20 900 260" aria-hidden="true">
+  <use href="#deck-art-paint" />
+  <use href="#deck-shape" class="deck-shade" />
+  <use href="#deck-shape" class="deck-shine" />
+</svg>
+{%- endcapture -%}
+
 <button class="deck" type="button" aria-label="보드 트릭">
   <span class="deck-pop">
   <span class="deck-flip">
 
+  {%- comment -%} The flat middle, between the kicks. --x0/--x1 is the span of the deck a piece shows. {%- endcomment -%}
+  <span class="deck-seg" data-kick="0" style="--x0: 190; --x1: 710">
+
   {%- comment -%} Top side: griptape and the eight bolt heads. {%- endcomment -%}
   <svg class="deck-layer deck-face deck-face--grip" viewBox="0 20 900 260" aria-hidden="true">
-    <use href="#deck-shape" class="deck-grip" />
-    <g class="deck-bolt-heads">
-      <circle cx="211" cy="128.5" r="4.4" /><circle cx="211" cy="171.5" r="4.4" />
-      <circle cx="265" cy="128.5" r="4.4" /><circle cx="265" cy="171.5" r="4.4" />
-      <circle cx="635" cy="128.5" r="4.4" /><circle cx="635" cy="171.5" r="4.4" />
-      <circle cx="689" cy="128.5" r="4.4" /><circle cx="689" cy="171.5" r="4.4" />
+    <g id="deck-grip-paint">
+      <use href="#deck-shape" class="deck-grip" />
+      <g class="deck-bolt-heads">
+        <circle cx="211" cy="128.5" r="4.4" /><circle cx="211" cy="171.5" r="4.4" />
+        <circle cx="265" cy="128.5" r="4.4" /><circle cx="265" cy="171.5" r="4.4" />
+        <circle cx="635" cy="128.5" r="4.4" /><circle cx="635" cy="171.5" r="4.4" />
+        <circle cx="689" cy="128.5" r="4.4" /><circle cx="689" cy="171.5" r="4.4" />
+      </g>
+      <use href="#deck-shape" fill="none" stroke="url(#deck-edge)" stroke-width="2" />
     </g>
-    <use href="#deck-shape" fill="none" stroke="url(#deck-edge)" stroke-width="2" />
     <use href="#deck-shape" class="deck-shade" />
     <use href="#deck-shape" class="deck-shine" />
   </svg>
 
-  {%- comment -%} The plies, so the rail has a thickness when the board turns. {%- endcomment -%}
-  <span class="deck-layer deck-ply deck-ply--dark" style="--z: -4.8"></span>
-  <span class="deck-layer deck-ply" style="--z: -2.4"></span>
-  <span class="deck-layer deck-ply deck-ply--dark" style="--z: 0"></span>
-  <span class="deck-layer deck-ply" style="--z: 2.4"></span>
-  <span class="deck-layer deck-ply deck-ply--dark" style="--z: 4.8"></span>
-  <span class="deck-layer deck-section deck-section--deck deck-section--nose"></span>
-  <span class="deck-layer deck-section deck-section--deck deck-section--tail"></span>
+  {{ deck_plies }}
 
   {%- comment -%} Underside: the graphic, plus the shadows the trucks throw on it. {%- endcomment -%}
   <svg class="deck-layer deck-face deck-face--art" viewBox="0 20 900 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -183,6 +215,7 @@
       </filter>
     </defs>
 
+    <g id="deck-art-paint">
     <g clip-path="url(#deck-clip)">
       <use href="#deck-shape" class="deck-board" />
 
@@ -228,9 +261,28 @@
       </g>
     </g>
     <use href="#deck-shape" fill="none" stroke="url(#deck-edge)" stroke-width="2" />
+    </g>
     <use href="#deck-shape" class="deck-shade" />
     <use href="#deck-shape" class="deck-shine" />
   </svg>
+  </span>
+
+  {%- comment -%}
+    The kicks: each bends up off the middle in two steps of --kick, so the
+    rail reads as a curve rather than a crease. A piece overlaps the next
+    one in by 2 units; bending about the deck's mid-plane opens a gap that
+    wide on the art face at each step.
+  {%- endcomment -%}
+  <span class="deck-seg deck-seg--nose" data-kick="-1" style="--x0: 148; --x1: 192">
+    {{ deck_slab }}
+    <span class="deck-layer deck-section deck-section--deck deck-section--nose"></span>
+    <span class="deck-seg deck-seg--nose-tip" data-kick="-2" style="--x0: 0; --x1: 150">{{ deck_slab }}</span>
+  </span>
+  <span class="deck-seg deck-seg--tail" data-kick="1" style="--x0: 708; --x1: 752">
+    {{ deck_slab }}
+    <span class="deck-layer deck-section deck-section--deck deck-section--tail"></span>
+    <span class="deck-seg deck-seg--tail-tip" data-kick="2" style="--x0: 750; --x1: 900">{{ deck_slab }}</span>
+  </span>
 
   <span class="deck-layer deck-truck">{{ deck_truck }}</span>
   <span class="deck-layer deck-truck deck-truck--tail">{{ deck_truck }}</span>
@@ -242,11 +294,15 @@
     var deck = document.querySelector('.deck');
     if (!deck || !deck.animate) return;
     var q = function (s) { return deck.querySelector(s); };
-    var targets = [
-      q('.deck-pop'), q('.deck-flip'),
-      q('.deck-face--art .deck-shade'), q('.deck-face--art .deck-shine'),
-      q('.deck-face--grip .deck-shade'), q('.deck-face--grip .deck-shine')
-    ];
+    // every face, middle and kicks, with how far it is bent off the middle
+    var kick = parseFloat(getComputedStyle(deck).getPropertyValue('--kick')) || 0;
+    var faces = [].slice.call(deck.querySelectorAll('.deck-face')).map(function (f) {
+      return { grip: f.classList.contains('deck-face--grip'), bend: kick * f.closest('.deck-seg').dataset.kick };
+    });
+    var targets = [q('.deck-pop'), q('.deck-flip')];
+    deck.querySelectorAll('.deck-face').forEach(function (f) {
+      targets.push(f.querySelector('.deck-shade'), f.querySelector('.deck-shine'));
+    });
     // wheel sides and cross-sections: each is needed only while the board
     // turns side-on or end-on; at rest, perspective would show them as
     // hairlines past the parts they fill in
@@ -283,10 +339,15 @@
         tracks[0].push({ transform: 'translateY(' + y.toFixed(2) + '%)' });
         tracks[1].push({ transform: turn });
         // where the board's axes point now: the columns of the same
-        // rotation. Light on each face, relative to rest: the art face's
-        // normal is the board's z axis; the griptape faces the other way.
-        var m = new DOMMatrix(turn), art = (m.m32 * LY + m.m33 * LZ) / LZ;
-        [art, -art].forEach(function (lit, k) {
+        // rotation. Light on each face, relative to rest: an art face's
+        // normal is its piece's z axis -- the board's, turned by the bend --
+        // and the griptape faces the other way. Relative to the face's own
+        // rest, so a kick does not jump darker as a trick starts.
+        var m = new DOMMatrix(turn);
+        faces.forEach(function (f, k) {
+          var n = f.bend ? m.multiply(new DOMMatrix('rotateY(' + f.bend + 'deg)')) : m;
+          var lit = (n.m32 * LY + n.m33 * LZ) / (LZ * Math.cos(f.bend * Math.PI / 180));
+          if (f.grip) lit = -lit;
           tracks[2 + 2 * k].push({ opacity: clamp((1 - lit) * 0.8, 0, 0.75).toFixed(3) });
           tracks[3 + 2 * k].push({ opacity: clamp((lit - 1) * 1.5, 0, 0.3).toFixed(3) });
         });
