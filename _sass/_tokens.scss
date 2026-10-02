@@ -59,6 +59,9 @@
   // (defined here only; the dark block inherits). Sampled from a photo of
   // the real deck; the neutrals are white-balanced against its wheels, the
   // blue is kept as photographed because balancing it read as dull.
+  // Exception: the plies. The real pale maple (kept in the dark block) is
+  // 1.3:1 on the cream page, so mid-trick the rail vanished and the board
+  // looked paper-thin; light mode uses a darker wood.
   --deck-blue:        #2b37c2;
   --deck-cream:       #f7f8db;
   --deck-red:         #c42b31;
@@ -74,8 +77,8 @@
   --deck-sticker:     #f4f4ef;
   --deck-sticker-ink: #55575c;
   --deck-grip:        #232326;
-  --deck-ply:         #e6d6b8;
-  --deck-ply-dark:    #c8ab7c;
+  --deck-ply:         #c9a46a;
+  --deck-ply-dark:    #8f6a3a;
 
   --img-bg:          transparent;
   --selection-bg:    #2b37c2;
@@ -121,6 +124,9 @@ html[data-theme="dark"] {
   --table-head-fg:   #f7f8db;
   --table-stripe-bg: #0f1233;
   --table-border:    #343970;
+
+  --deck-ply:        #e6d6b8;
+  --deck-ply-dark:   #c8ab7c;
 
   --img-bg:          #ffffff11;
   --selection-bg:    #ff6a6f;
