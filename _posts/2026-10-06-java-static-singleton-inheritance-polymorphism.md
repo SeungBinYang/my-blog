@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "자바 챕터3, 포켓 던전 게임부터 static·싱글톤·상속·다형성까지 실행해서 확인하기"
+title: "자바 챕터3, 오버로딩·static·싱글톤·상속·다형성 수업 주석을 실행해서 검증하기"
 date: 2026-10-06 15:20:00 +0900
 categories: [Java]
 tags: [java, static, inheritance, polymorphism, 자바기초]
@@ -13,7 +13,6 @@ mermaid: true
 
 | 패키지 | 주제 | 실습 내용 |
 |--------|------|-----------|
-| `d_abstration.practice_dungeon` | 추상화 종합 실습 | 포켓몬 던전 탈출 게임 (`Player`, `Monster`, `Dungeon`) |
 | `e_overloading` | 오버로딩 | 메서드 시그니처가 무엇인지 컴파일 에러로 확인 |
 | `f_keyword.a_static` | `static` | 인스턴스 변수와 클래스 변수 비교 |
 | `f_keyword.b_singleton` | 싱글톤 패턴 | 이른 초기화(Eager) / 게으른 초기화(Lazy) |
@@ -32,84 +31,11 @@ mermaid: true
 - 인터페이스는 "구현부가 있는 메서드를 못 쓴다"
 - 경찰차(`CopsCar`)는 `run()`을 오버라이딩해도 차로서 똑같이 동작한다
 
-과제는 두 가지였다.
-
-1. 던전 게임으로 지금까지 배운 캡슐화·추상화를 한 프로그램에 묶어본다.
-2. 오늘 배운 키워드와 상속·다형성 코드를 실행해서, 위 문장들이 공식 문서와 실행 결과에 맞는지 확인한다.
+과제는 오늘 배운 키워드와 상속·다형성 코드를 실행해서, 위 문장들이 공식 문서와 실행 결과에 맞는지 확인하는 것이었다.
 
 ## 해결 과정 (Action)
 
-### 1. 포켓 던전 탈출기 — 요구사항에서 객체 3개 뽑기
-
-요구사항은 이렇다.
-
-> 1. 주인공은 지하 5층에서 시작해 한 층씩 올라가 출구로 탈출한다.
-> 2. 층마다 몬스터(1세대 포켓몬), 함정, 포션 중 하나가 있다.
-> 3. 몬스터를 만나면 공격 / 포션 / 도망 중 선택한다. 도망은 50% 확률이다.
-> 4. 체력은 0 아래로, 최대 체력 위로 바뀔 수 없다.
-> 5. 어느 한 몬스터가 열쇠를 가지고 있고, 열쇠 없이 출구에 오면 문이 열리지 않는다.
-
-지난 시간 카레이서 실습처럼 문장의 주어에서 객체를 뽑았다. 주인공(`Player`), 몬스터(`Monster`), 그리고 층과 이벤트를 관리하는 던전(`Dungeon`)이다. 이번에 새로 신경 쓴 점은 **누가 누구에게 메시지를 보내는가**였다.
-
-```mermaid
-flowchart LR
-    A[Application<br/>메뉴 입력] -->|goUp / attack / flee| D[Dungeon<br/>층·이벤트·전투 진행]
-    D -->|takeDamage / drinkPotion / pickUpKey| P[Player]
-    D -->|takeDamage / isAlive| M[Monster]
-    P -->|attack: monster.takeDamage| M
-```
-
-`Application`은 `Dungeon`에게만 말을 건다. `Player`와 `Monster`의 필드는 모두 `private`이라서 `Dungeon`도 메서드로만 다룰 수 있다. 특히 `Player`의 `setHp()`는 아예 `private`으로 숨겼다.
-
-```java
-// Player.java — 체력은 0 ~ maxHp 범위를 벗어날 수 없다
-private void setHp(int hp) {
-    if (hp < 0) {
-        this.hp = 0;
-    } else if (hp > maxHp) {
-        this.hp = maxHp;
-    } else {
-        this.hp = hp;
-    }
-}
-
-public void takeDamage(int damage) { setHp(this.hp - damage); }
-```
-
-체력을 바꾸는 길은 `takeDamage()`와 `drinkPotion()` 두 개뿐이고, 둘 다 `setHp()`를 거친다. 그래서 요구사항 4번(0 ~ 최대 체력)을 **한 곳에서만** 지키면 된다. 지난 시간 캡슐화 실습에서 배운 것을 그대로 적용한 부분이다.
-
-입력도 한 가지 처리했다. `nextInt()`는 숫자가 아닌 글자가 들어오면 `InputMismatchException`으로 프로그램이 멈춘다. 그래서 `hasNextInt()`로 먼저 확인하고, 숫자가 아니면 그 글자를 버린 뒤 `-1`을 돌려 `switch`의 `default`로 보냈다.
-
-```java
-private static int readNo(Scanner sc) {
-    if (sc.hasNextInt()) {
-        return sc.nextInt();
-    }
-    sc.next();   // 숫자가 아닌 입력을 버린다
-    return -1;
-}
-```
-
-실제로 "계속 위로 올라가기(1)"만 입력해서 실행한 결과 일부다. 이번 판에는 지하 2층의 디그다가 열쇠를 갖고 있었다.
-
-```text
-========== 지하 2층 ==========
-야생의 디그다이(가) 나타났다! ⚔️
-어...? 목에 반짝이는 열쇠🔑를 걸고 있다!
-👾 디그다 | HP 46 | 공격력 12
-...
-🏆 디그다은(는) 쓰러졌다!
-🔑 디그다이(가) 떨어뜨린 열쇠를 주웠다!
-...
-========== 🚪 출구 ==========
-🔑 철컥! 문이 열렸다! 눈부신 햇빛이...☀️
-```
-
-도망치면 `enemy = null`만 하고 `events[floor]`는 `MONSTER`로 그대로 둔다. 그래서 열쇠 몬스터에게서 도망친 뒤 다시 그 층으로 내려오면, **체력이 깎인 상태 그대로인 같은 몬스터**와 다시 싸우게 된다. 몬스터를 배열(`monsters[]`)에 객체로 저장해두었기 때문에 상태가 유지되는 것이다.
-
-**코드를 다시 읽으며 발견한 점**: `Dungeon`의 이벤트 상수가 `private final int MONSTER = 1;`처럼 `static` 없이 선언되어 있다. 오늘 오후에 배운 내용으로 보면, 모든 `Dungeon` 객체가 똑같이 가지는 상수라면 객체마다 따로 둘 이유가 없으니 `private static final`이 더 맞다. 참고로 `static`이 없어도 `case MONSTER:`가 컴파일되는 이유는, 상수식으로 초기화된 `final` 기본형 변수는 **상수 변수(constant variable)**로 취급되기 때문이다([JLS 4.12.4](https://docs.oracle.com/javase/specs/jls/se21/html/jls-4.html#jls-4.12.4)).
-
-### 2. 오버로딩 — "시그니처"가 무엇인지 컴파일러에게 물어보기
+### 1. 오버로딩 — "시그니처"가 무엇인지 컴파일러에게 물어보기
 
 같은 이름의 메서드를 여러 개 만드는 것이 오버로딩이다. 어떤 경우에 허용되는지는 **메서드 시그니처**로 결정된다. 공식 명세에서 시그니처는 **메서드 이름 + 매개변수 타입(순서 포함)**이다([JLS 8.4.2](https://docs.oracle.com/javase/specs/jls/se21/html/jls-8.html#jls-8.4.2)).
 
@@ -127,7 +53,7 @@ private static int readNo(Scanner sc) {
 
 처음에는 "반환 타입이 다르면 다른 메서드 아닌가?"라고 생각했다. 하지만 `obj.test();`처럼 반환값을 쓰지 않고 호출하면 컴파일러는 어느 쪽을 부를지 고를 수 없다. 호출하는 쪽에서 구분할 수 있는 정보(이름과 인자)만 시그니처가 된다고 이해하니 표가 자연스럽게 외워졌다. `System.out.println()`이 `int`, `String`, `boolean` 등 무엇을 넣어도 동작하는 것도 오버로딩 덕분이다.
 
-### 3. static — 객체가 아니라 클래스에 하나
+### 2. static — 객체가 아니라 클래스에 하나
 
 `StaticFieldTest`에는 필드가 두 개 있다.
 
@@ -158,7 +84,7 @@ st2 = static 변수 값 확인 : 1
 
 **주석 수정**: 수업 주석에는 "static은 어플리케이션 시작 시점에 초기화된다"고 적었다. 그런데 공식 명세를 보면 클래스는 **처음 사용되는 순간**(인스턴스 생성, static 메서드 호출, static 필드 접근 등) 초기화된다([JLS 12.4.1](https://docs.oracle.com/javase/specs/jls/se21/html/jls-12.html#jls-12.4.1)). 프로그램이 시작될 때 모든 클래스의 static 변수가 한꺼번에 준비되는 것은 아니다. 이 차이는 바로 다음 싱글톤에서 실험으로 확인했다.
 
-### 4. 싱글톤 — 생성자를 막고 static으로 하나만 공유
+### 3. 싱글톤 — 생성자를 막고 static으로 하나만 공유
 
 싱글톤은 "인스턴스를 하나만 만들어서 공유"하는 디자인 패턴이다. 수업에서는 TV 리모컨에 비유했다. 핵심은 두 가지다.
 
@@ -236,7 +162,7 @@ getInstance 호출 직전
 
 프로그램 시작이 아니라 **`get()`을 처음 부른 순간** 인스턴스가 만들어졌다. 클래스에 다른 static 멤버가 없다면 Eager와 Lazy의 생성 시점 차이는 생각보다 작다. 둘의 진짜 차이는 "클래스가 초기화될 때 무조건 만드느냐, 정말 필요할 때 `null` 검사 후 만드느냐"와 위 표의 스레드 안전성이다.
 
-### 5. final — 딱 한 번만 대입
+### 4. final — 딱 한 번만 대입
 
 `final` 필드는 값을 한 번 넣으면 바꿀 수 없다. 관례상 이름을 대문자와 `_`로 쓴다. 초기화 방법은 두 가지다.
 
@@ -258,7 +184,7 @@ public class F { private final int A; }
 
 final 필드에는 값을 다시 넣는 setter도 만들 수 없다. 지난 글에서 "더 학습하면 좋은 개념"으로 적었던 **불변 객체**가 바로 이 `final` + 생성자 초기화 + setter 없음의 조합이다.
 
-### 6. 상속 — 경찰차는 차다 (IS-A)
+### 5. 상속 — 경찰차는 차다 (IS-A)
 
 `CopsCar extends Car`로 `Car`의 `run()`, `stop()`, `soundHorn()`, `isRunning()`을 물려받고, 다르게 동작해야 하는 `run()`과 `soundHorn()`만 `@Override`로 다시 썼다. 경찰차만의 `무전하기()`도 추가했다.
 
@@ -309,7 +235,7 @@ public void run() {
 
 오버라이딩은 부모 메서드를 **통째로 대체**하는 것이라, 부모가 그 안에서 하던 일을 자식이 책임져야 한다는 것을 배웠다.
 
-### 7. 다형성 — 부모 타입 변수에 자식 객체 담기
+### 6. 다형성 — 부모 타입 변수에 자식 객체 담기
 
 `Animal`을 상속한 `Raccoon`과 `Koala`가 각각 `eat()`, `run()`, `bark()`를 오버라이딩했다. 핵심은 이 한 줄이다.
 
@@ -342,7 +268,7 @@ flowchart LR
 
 형 변환은 실제 객체가 그 타입일 때만 안전하다. `a1`에 `Koala`가 들어 있는데 `(Raccoon)`으로 바꾸면 컴파일은 되지만 실행 중 `ClassCastException`이 난다. 그래서 실무에서는 `instanceof`로 먼저 확인한다고 한다(다음 수업 범위로 보인다).
 
-### 8. 인터페이스 — "할 수 있는 것(Can-Do)"을 강제
+### 7. 인터페이스 — "할 수 있는 것(Can-Do)"을 강제
 
 마지막으로 `Animal`을 `class` 대신 `interface`로 만들었다.
 
@@ -389,7 +315,6 @@ class R implements Can { public void run() {} }
 
 | 확인한 내용 | 실행 결과 | 판정 |
 |-------------|-----------|------|
-| 던전 게임 열쇠 획득 → 출구 탈출 | 지하 5층 → 출구, 탈출 성공 | 요구사항대로 동작 |
 | 오버로딩 기준 7가지 | 성립 4개, 에러 3개 | 시그니처 = 이름 + 매개변수 타입 |
 | `st2` 생성 직후 값 | non-static 0, static 1 | static은 클래스에 하나 |
 | 싱글톤 `getInstance()` 2회 | `hashCode()` 동일 (Eager, Lazy 모두) | 인스턴스 1개 |
@@ -427,11 +352,10 @@ class R implements Can { public void run() {} }
 - [Java Language Specification SE 21 - 12.4.1 When Initialization Occurs](https://docs.oracle.com/javase/specs/jls/se21/html/jls-12.html#jls-12.4.1)
 - [Java Language Specification SE 21 - 8.3.1.2 final Fields](https://docs.oracle.com/javase/specs/jls/se21/html/jls-8.html#jls-8.3.1.2)
 - [Java Language Specification SE 21 - 8.8.7 Constructor Body](https://docs.oracle.com/javase/specs/jls/se21/html/jls-8.html#jls-8.8.7)
-- [Java Language Specification SE 21 - 4.12.4 final Variables](https://docs.oracle.com/javase/specs/jls/se21/html/jls-4.html#jls-4.12.4)
 
 ---
 
 **요약**
-1. 던전 게임에서 `Application → Dungeon → Player/Monster`로 메시지 흐름을 정하고 체력 검증을 `private setHp()` 한 곳에 모아 캡슐화·추상화를 종합했다.
-2. 오버로딩은 이름 + 매개변수 타입(시그니처)으로 구분하고, `static`은 클래스에 하나라서 싱글톤의 기반이 되며, `final`은 한 번만 대입된다. static 초기화는 앱 시작이 아니라 클래스 첫 사용 시점이었다.
+1. 오버로딩은 이름 + 매개변수 타입(시그니처)으로 구분하고, `final` 필드는 선언 또는 생성자에서 딱 한 번 대입된다.
+2. `static`은 객체가 아니라 클래스에 하나라서 싱글톤의 기반이 되며, static 초기화는 앱 시작이 아니라 클래스 첫 사용 시점이었다.
 3. 상속에서 오버라이딩은 부모 메서드를 통째로 대체하므로 `CopsCar`처럼 `super.run()`을 빼면 상태가 바뀌지 않고, 다형성은 컴파일러는 변수 타입을, 실행은 실제 객체를 따른다.
