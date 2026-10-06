@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "포켓 던전 탈출 게임으로 캡슐화·추상화를 한 프로그램에 묶어보기"
-date: 2026-10-06 16:00:00 +0900
+date: 2026-10-02 18:00:00 +0900
 categories: [Java]
 tags: [java, encapsulation, abstraction, oop, 자바기초]
 mermaid: true
