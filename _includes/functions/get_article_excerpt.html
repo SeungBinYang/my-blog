@@ -13,27 +13,19 @@
 {% else %}
   {% assign excerpt_size = excerpt_size
     | default: site.excerpt.text_size
-    | default: 350 %}
+    | default: 160 %}
 {% endif %}
 
-{%- include functions.html func='get_article_words' -%}
-{% assign words = return %}
+{% comment %}
+  Build the excerpt from <p> paragraphs only, so headings, tables, code
+  blocks and Mermaid sources don't leak into the preview as plain text.
+{% endcomment %}
+{% assign _paras = article | split: '<p>' %}
+{% assign _text = '' %}
+{% for _para in _paras offset: 1 %}
+  {% assign _t = _para | split: '</p>' | first | strip_html | strip %}
+  {% assign _text = _text | append: ' ' | append: _t %}
+  {% if _text.size > excerpt_size %}{% break %}{% endif %}
+{% endfor %}
 
-{% assign _article = article | strip_html %}
-{% assign _words = _article | size %}
-
-{% assign _size = excerpt_size %}
-
-{% if lang != "en" %}
-  {% assign _size = words
-    | times: 1.0
-    | divided_by: _words
-    | times: _size
-    | round %}
-{% endif %}
-
-{% if _size > excerpt_size %}
-  {% assign _size = excerpt_size %}
-{% endif %}
-
-{% assign return = _article | truncate: _size %}
+{% assign return = _text | strip | truncate: excerpt_size %}
