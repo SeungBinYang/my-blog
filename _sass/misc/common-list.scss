@@ -11,7 +11,7 @@
   }
 
   li {
-    border-bottom: solid 2px var(--rule);
+    border-bottom: solid 1px var(--rule);
 
     &:last-child {
       border-bottom: none;
@@ -27,16 +27,16 @@
       transition: background 0.2s;
 
       &:hover {
-        background-color: var(--accent);
-        color: var(--accent-fg);
+        background-color: var(--surface-hover);
+        color: var(--fg);
       }
     }
 
     span {
       @include relative-font-size(0.8);
       display: inline-block;
-      font-family: $mono-font-family;
-      font-weight: 700;
+      font-weight: 500;
+      border-radius: 999px;
       align-self: center;
       background: var(--chip-bg);
       padding: 0px 8px;

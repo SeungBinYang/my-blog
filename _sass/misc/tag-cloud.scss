@@ -19,7 +19,8 @@
     display: inline-flex;
     align-items: center;
     padding: 6px 14px;
-    border: 2px solid var(--rule-strong);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
     background-color: var(--surface);
     color: var(--fg);
     text-decoration: none;
@@ -27,15 +28,15 @@
     transition: background-color 0.2s, color 0.2s;
 
     &:hover {
-      background-color: var(--accent);
-      color: var(--accent-fg);
+      background-color: var(--surface-hover);
+      color: var(--fg);
     }
 
     span {
       @include relative-font-size(0.8);
       display: inline-block;
-      font-family: $mono-font-family;
-      font-weight: 700;
+      font-weight: 500;
+      border-radius: 999px;
       align-self: center;
       background: var(--chip-bg);
       padding: 0px 8px;

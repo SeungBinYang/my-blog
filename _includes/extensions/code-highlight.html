@@ -72,11 +72,13 @@ document.addEventListener('DOMContentLoaded', function(event) {
   /* code language badge */
   pre.badge::before {
     content: attr(data-lang);
-    /* Follows the theme accent instead of a fixed orange. */
-    color: var(--accent-fg);
-    background-color: var(--accent);
+    /* Muted gray on the dark code block; colors come from _config.yml code_badge. */
+    color: {{ badge_color }};
+    background-color: {{ badge_background_color }};
+    border-bottom-left-radius: 4px;
+    font-size: .75em;
     font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-weight: 700;
+    font-weight: 500;
     letter-spacing: 0.06em;
     padding: 0 .5em;
     text-transform: {{badge_text_transform}};

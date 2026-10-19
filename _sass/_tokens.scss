@@ -1,67 +1,67 @@
 // =============================================================================
-// Design tokens -- colors of the owner's skateboard (blue deck, cream logo
-// with a red outline; see about.html and the hero deck)
+// Design tokens -- a quiet, near-neutral palette tuned for reading long
+// Korean technical posts. One desaturated blue for links; everything else is
+// gray. The hero skateboard keeps its own real-world colors (--deck-*).
 //
-// All colors live here as CSS custom properties. :root holds the light theme
-// (cream paper, navy ink, deck-blue links); html[data-theme="dark"] overrides
-// it (deck blue darkened to navy, cream text, logo-outline red links).
+// All colors live here as CSS custom properties. :root holds the light theme;
+// html[data-theme="dark"] overrides it.
 //
 // Component SCSS must reference var(--x) and never hardcode a hex or call
 // lighten()/darken()/invert()/mix() on a color -- those Sass functions cannot
 // operate on a CSS variable.
 //
-// Accent differs per theme on purpose: deck blue (#2b37c2) is 8:1 on cream
-// but only 2.2:1 on navy, so the dark theme uses a lightened deck red
-// (#ff6a6f, 6.8:1) for links instead.
+// Code blocks stay dark in both themes so the bundled highlight.js
+// grayscale-dark theme reads correctly without swapping stylesheets.
 // =============================================================================
 
 :root {
-  --bg:              #f7f6ea;
-  --bg-elev:         #fffef6;
-  --fg:              #121641;
-  --fg-muted:        #4d5170;
-  --fg-subtle:       #7d8099;
+  --bg:              #ffffff;
+  --bg-elev:         #ffffff;
+  --fg:              #1f2328;
+  --fg-muted:        #59636e;
+  --fg-subtle:       #8b949e;
 
-  --accent:          #2b37c2;
-  --accent-hover:    #c42b31;
-  --accent-fg:       #f7f8db;
+  --accent:          #2f5f98;
+  --accent-hover:    #1f4470;
+  --accent-fg:       #ffffff;
 
-  --header-bg:       #f7f6ea;
-  --header-fg:       #121641;
-  --header-fg-dim:   rgba(18, 22, 65, 0.75);
-  --footer-bg:       #2b37c2;
-  --footer-fg:       #f7f8db;
+  --header-bg:       #ffffff;
+  --header-fg:       #1f2328;
+  --header-fg-dim:   #59636e;
+  --footer-bg:       #ffffff;
+  --footer-fg:       #59636e;
   --banner-fg:       #fff;
 
-  --rule:            #121641;
-  --rule-strong:     #121641;
-  --rule-soft:       #dcdbc6;
+  --rule:            #e5e7eb;
+  --rule-strong:     #d0d7de;
+  --rule-soft:       #eef0f2;
 
-  --surface:         #ecebd8;
-  --surface-hover:   #e2e1c9;
-  --code-bg:         #121641;
-  --code-fg:         #f7f8db;
-  --code-inline-bg:  #e8e7d2;
+  --surface:         #f6f8fa;
+  --surface-hover:   #eef1f4;
+  --code-bg:         #1f2328;
+  --code-fg:         #e6edf3;
+  --code-keyword:    #9ecbff;
+  --code-inline-bg:  #eff1f3;
 
-  --chip-bg:         #2b37c2;
-  --chip-fg:         #f7f8db;
+  --chip-bg:         #e5e7eb;
+  --chip-fg:         #1f2328;
 
-  --widget-bg:       #121641;
-  --widget-fg:       #f7f8db;
+  --widget-bg:       #f6f8fa;
+  --widget-fg:       #1f2328;
 
-  --table-fg:        #121641;
-  --table-head-bg:   #2b37c2;
-  --table-head-fg:   #f7f8db;
-  --table-stripe-bg: #efeee0;
-  --table-border:    #121641;
+  --table-fg:        #1f2328;
+  --table-head-bg:   #f6f8fa;
+  --table-head-fg:   #1f2328;
+  --table-stripe-bg: #fafbfc;
+  --table-border:    #d0d7de;
 
   // Hero skateboard: a physical object, so it looks the same in both themes
   // (defined here only; the dark block inherits). Sampled from a photo of
   // the real deck; the neutrals are white-balanced against its wheels, the
   // blue is kept as photographed because balancing it read as dull.
   // Exception: the plies. The real pale maple (kept in the dark block) is
-  // 1.3:1 on the cream page, so mid-trick the rail vanished and the board
-  // looked paper-thin; light mode uses a darker wood.
+  // too faint on the light page, so mid-trick the rail vanished and the
+  // board looked paper-thin; light mode uses a darker wood.
   --deck-blue:        #2b37c2;
   --deck-cream:       #f7f8db;
   --deck-red:         #c42b31;
@@ -81,54 +81,55 @@
   --deck-ply-dark:    #8f6a3a;
 
   --img-bg:          transparent;
-  --selection-bg:    #2b37c2;
-  --selection-fg:    #f7f8db;
+  --selection-bg:    #cfe0f5;
+  --selection-fg:    #1f2328;
 }
 
 html[data-theme="dark"] {
-  --bg:              #0b0e2a;
-  --bg-elev:         #121638;
-  --fg:              #f2f3e1;
-  --fg-muted:        #9a9dbb;
-  --fg-subtle:       #6d7090;
+  --bg:              #16181c;
+  --bg-elev:         #1c1f24;
+  --fg:              #e6e8eb;
+  --fg-muted:        #9aa1aa;
+  --fg-subtle:       #6e7681;
 
-  --accent:          #ff6a6f;
-  --accent-hover:    #ff9599;
-  --accent-fg:       #0b0e2a;
+  --accent:          #8fb3dd;
+  --accent-hover:    #b5cdea;
+  --accent-fg:       #16181c;
 
-  --header-bg:       #0b0e2a;
-  --header-fg:       #f2f3e1;
-  --header-fg-dim:   rgba(242, 243, 225, 0.75);
-  --footer-bg:       #070920;
-  --footer-fg:       #f2f3e1;
+  --header-bg:       #16181c;
+  --header-fg:       #e6e8eb;
+  --header-fg-dim:   #9aa1aa;
+  --footer-bg:       #16181c;
+  --footer-fg:       #9aa1aa;
   --banner-fg:       #fff;
 
-  --rule:            #262a52;
-  --rule-strong:     #343970;
-  --rule-soft:       #1a1e44;
+  --rule:            #2d3138;
+  --rule-strong:     #3a3f47;
+  --rule-soft:       #23262b;
 
-  --surface:         #161a40;
-  --surface-hover:   #1f2350;
-  --code-bg:         #121638;
-  --code-fg:         #f2f3e1;
-  --code-inline-bg:  #1f2350;
+  --surface:         #1f2227;
+  --surface-hover:   #272b31;
+  --code-bg:         #0f1114;
+  --code-fg:         #e6edf3;
+  --code-keyword:    #9ecbff;
+  --code-inline-bg:  #2a2e35;
 
-  --chip-bg:         #2b37c2;
-  --chip-fg:         #f7f8db;
+  --chip-bg:         #2d3138;
+  --chip-fg:         #e6e8eb;
 
-  --widget-bg:       #121638;
-  --widget-fg:       #f2f3e1;
+  --widget-bg:       #1f2227;
+  --widget-fg:       #e6e8eb;
 
-  --table-fg:        #f2f3e1;
-  --table-head-bg:   #2b37c2;
-  --table-head-fg:   #f7f8db;
-  --table-stripe-bg: #0f1233;
-  --table-border:    #343970;
+  --table-fg:        #e6e8eb;
+  --table-head-bg:   #1f2227;
+  --table-head-fg:   #e6e8eb;
+  --table-stripe-bg: #1a1c20;
+  --table-border:    #3a3f47;
 
   --deck-ply:        #e6d6b8;
   --deck-ply-dark:   #c8ab7c;
 
   --img-bg:          #ffffff11;
-  --selection-bg:    #ff6a6f;
-  --selection-fg:    #0b0e2a;
+  --selection-bg:    #34506f;
+  --selection-fg:    #e6e8eb;
 }

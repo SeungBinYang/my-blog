@@ -97,20 +97,12 @@ li {
 
 /**
  * Headings
- *
- * Anton carries no Hangul, so Korean headings fall through to Pretendard.
- * font-synthesis-weight: none stops the browser from smearing a fake bold
- * onto Anton (already ultra-heavy at 400) while Pretendard still uses its
- * real 700 weight. The skew is applied per-component, not here -- skewing
- * every h2/h3 inside a long technical post hurts more than it looks good.
  */
 h1, h2, h3, h4, h5, h6 {
   font-family: $display-font-family;
   font-weight: 700;
-  font-synthesis-weight: none;
   letter-spacing: -0.01em;
-  line-height: 1.5;
-  text-transform: uppercase;
+  line-height: 1.4;
 }
 
 /**
@@ -121,8 +113,8 @@ a {
   text-decoration: none;
 
   &:hover {
+    color: var(--accent-hover);
     text-decoration: underline;
-    text-decoration-thickness: 2px;
     text-underline-offset: 3px;
   }
 
@@ -140,7 +132,7 @@ a {
  */
 blockquote {
   color: var(--fg-muted);
-  border-left: 6px solid var(--accent);
+  border-left: 3px solid var(--rule-strong);
   padding-left: divide($spacing-unit, 2);
   @include relative-font-size(1.0);
 
@@ -164,6 +156,7 @@ code {
 *:not(pre) > code {
   padding: 2px 6px;
   background-color: var(--code-inline-bg);
+  border-radius: 4px;
   margin: 0 3px;
 }
 
@@ -172,7 +165,8 @@ pre {
   position: relative;
   background-color: var(--code-bg);
   color: var(--code-fg);
-  border-left: 6px solid var(--accent);
+  border-radius: 6px;
+  line-height: 1.6;
 
   > code {
     display: inline-block;
@@ -227,7 +221,6 @@ table {
   color: var(--table-fg);
   border-collapse: collapse;
   overflow: auto;
-  border: 2px solid var(--table-border);
 
   tr {
     &:nth-child(even) {
@@ -237,20 +230,13 @@ table {
 
   th, td {
     padding: divide($spacing-unit, 3) divide($spacing-unit, 2);
+    border: 1px solid var(--table-border);
   }
 
   th {
-    font-family: $mono-font-family;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    font-weight: 600;
     background-color: var(--table-head-bg);
     color: var(--table-head-fg);
-    border: 2px solid var(--table-border);
-  }
-
-  td {
-    border: 2px solid var(--table-border);
   }
 }
 
