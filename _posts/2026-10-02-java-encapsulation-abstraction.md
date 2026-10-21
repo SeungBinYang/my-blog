@@ -9,7 +9,7 @@ mermaid: true
 
 ## 들어가며 (Situation)
 
-학원 자바 수업 세 번째 챕터(`chap03-object-oriented-programming`)의 두 번째 날이다. 어제는 클래스와 생성자를 배웠고([지난 글]({{ site.baseurl }}{% post_url 2026-10-01-java-string-array-class-constructor %})), 오늘은 객체지향의 핵심 개념 두 가지를 실습했다.
+학원 자바 수업 세 번째 챕터(`chap03-object-oriented-programming`)의 두 번째 날이다. 어제는 클래스와 생성자를 배웠고([지난 글]({% post_url 2026-10-01-java-string-array-class-constructor %})), 오늘은 객체지향의 핵심 개념 두 가지를 실습했다.
 
 | 패키지 | 주제 | 실습 내용 |
 |--------|------|-----------|

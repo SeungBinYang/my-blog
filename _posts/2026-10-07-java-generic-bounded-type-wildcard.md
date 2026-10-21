@@ -9,7 +9,7 @@ mermaid: true
 
 ## 들어가며 (Situation)
 
-[제네릭 기초]({{ site.baseurl }}{% post_url 2026-10-07-java-generic-type-parameter-wrapper %})에서 `<T>`에 아무 타입이나 넣을 수 있는 `GenericTest`를 만들었다. 이어서 수업에서는 `a_generic/b_use` 패키지에 동물 클래스들을 만들고 "토끼 농장"을 제네릭으로 만들었다.
+[제네릭 기초]({% post_url 2026-10-07-java-generic-type-parameter-wrapper %})에서 `<T>`에 아무 타입이나 넣을 수 있는 `GenericTest`를 만들었다. 이어서 수업에서는 `a_generic/b_use` 패키지에 동물 클래스들을 만들고 "토끼 농장"을 제네릭으로 만들었다.
 
 | 파일 | 역할 |
 |------|------|

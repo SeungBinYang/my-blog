@@ -9,7 +9,7 @@ mermaid: true
 
 ## 들어가며 (Situation)
 
-[2편 ORDER BY]({{ site.baseurl }}{% post_url 2026-10-12-mysql-order-by-null-sorting %})까지는 테이블의 모든 행을 가져왔다. 세 번째 파일 `03_where.sql`은 이렇게 시작한다.
+[2편 ORDER BY]({% post_url 2026-10-12-mysql-order-by-null-sorting %})까지는 테이블의 모든 행을 가져왔다. 세 번째 파일 `03_where.sql`은 이렇게 시작한다.
 
 > select (조회) — SQL 의 90% 을 차지하는 문법으로 SQL 의 전부라고도 볼 수 있다.
 > 핵심 2가지

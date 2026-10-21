@@ -9,7 +9,7 @@ mermaid: true
 
 ## 들어가며 (Situation)
 
-[1편 SELECT]({{ site.baseurl }}{% post_url 2026-10-12-mysql-select-column-alias %})에서 열을 고르는 법을 배웠다. 두 번째 파일 `02_orderby.sql`에서는 결과를 원하는 순서로 정렬하는 `ORDER BY`를 다뤘다. 실습 테이블은 `menudb`의 `tbl_menu`(메뉴 36개)와 `tbl_category`(카테고리 12개)다.
+[1편 SELECT]({% post_url 2026-10-12-mysql-select-column-alias %})에서 열을 고르는 법을 배웠다. 두 번째 파일 `02_orderby.sql`에서는 결과를 원하는 순서로 정렬하는 `ORDER BY`를 다뤘다. 실습 테이블은 `menudb`의 `tbl_menu`(메뉴 36개)와 `tbl_category`(카테고리 12개)다.
 
 `tbl_category`는 상위 카테고리를 `ref_category_code`로 가리키는 구조라서, 최상위 카테고리 세 개(식사·음료·디저트)는 이 값이 `NULL`이다.
 
@@ -66,7 +66,7 @@ order by menu_price;   -- asc 생략 = 오름차순
 36 rows in set (0.00 sec)
 ```
 
-방향을 생략하면 `asc`(오름차순)이고, 내림차순은 `desc`를 붙인다. 그런데 결과를 보다가 5000원짜리 세 메뉴의 순서가 `2, 22, 21`인 게 눈에 들어왔다. 코드 순서도 아니고 이름 순서도 아니다. 가격이 같은 행끼리의 순서는 **정해지지 않는다**는 뜻인데, 이게 [4편 LIMIT 페이징]({{ site.baseurl }}{% post_url 2026-10-12-mysql-distinct-limit-paging %})에서 실제 문제로 이어졌다.
+방향을 생략하면 `asc`(오름차순)이고, 내림차순은 `desc`를 붙인다. 그런데 결과를 보다가 5000원짜리 세 메뉴의 순서가 `2, 22, 21`인 게 눈에 들어왔다. 코드 순서도 아니고 이름 순서도 아니다. 가격이 같은 행끼리의 순서는 **정해지지 않는다**는 뜻인데, 이게 [4편 LIMIT 페이징]({% post_url 2026-10-12-mysql-distinct-limit-paging %})에서 실제 문제로 이어졌다.
 
 ### 2. 별칭으로 정렬 — 작은따옴표의 함정
 
@@ -313,7 +313,7 @@ select menu_code, menu_name, menu_price from tbl_menu order by 3 desc limit 3;
 - **정렬 안정성(Stable Sort)** — 같은 값끼리 원래 순서를 유지하는 정렬을 말한다. SQL은 이를 약속하지 않기 때문에 동점 처리 기준을 직접 써야 한다.
 - **`NULLS FIRST` / `NULLS LAST`** — PostgreSQL, Oracle은 NULL 위치를 지정하는 문법이 있지만 MySQL에는 없어서 `is null` 기법을 쓴다. DB마다 기본 NULL 위치도 다르다.
 - **인덱스와 정렬(filesort)** — 정렬 열에 인덱스가 있으면 MySQL이 정렬 작업 없이 인덱스 순서로 읽을 수 있다. `EXPLAIN`의 `Using filesort`로 확인한다.
-- **자기 참조 관계** — `tbl_category`가 자기 자신을 가리키는 구조다. [6편 JOIN]({{ site.baseurl }}{% post_url 2026-10-12-mysql-join-inner-left-right %})의 셀프 조인으로 이어진다.
+- **자기 참조 관계** — `tbl_category`가 자기 자신을 가리키는 구조다. [6편 JOIN]({% post_url 2026-10-12-mysql-join-inner-left-right %})의 셀프 조인으로 이어진다.
 
 ## 참고 자료
 

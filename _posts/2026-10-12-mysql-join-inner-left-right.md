@@ -14,7 +14,7 @@ mermaid: true
 > 실제 데이터베이스는 비슷한 의미를 가진 데이터를 각각의 테이블에 분리되어 저장이 되어 있다.
 > 따라서 join 은 각각의 테이블에 존재하는 데이터들을 공통으로 포함하는 값을 기준으로 합쳐서 결과 집합으로 만드는 것을 의미하게 된다.
 
-[5편]({{ site.baseurl }}{% post_url 2026-10-12-mysql-aggregate-group-by-having %})에서 교육자별 강좌 수를 셀 때 결과는 `author_id`라는 **번호**였다. "1번 교육자"가 누구인지는 `users` 테이블에 가서 따로 찾아봐야 했다. 두 테이블을 합쳐서 한 번에 보는 것이 JOIN이다.
+[5편]({% post_url 2026-10-12-mysql-aggregate-group-by-having %})에서 교육자별 강좌 수를 셀 때 결과는 `author_id`라는 **번호**였다. "1번 교육자"가 누구인지는 `users` 테이블에 가서 따로 찾아봐야 했다. 두 테이블을 합쳐서 한 번에 보는 것이 JOIN이다.
 
 | 테이블 | 행 수 | 연결 열 |
 |--------|-------|---------|
@@ -260,7 +260,7 @@ where uap.provider = 'google';
 8
 ```
 
-`ON`의 조건은 "어떤 짝을 붙일지"만 정한다. github 사용자도 왼쪽 행이라 사라지지 않고 오른쪽만 `NULL`이 된다(120행). `WHERE`는 JOIN이 끝난 결과에서 행을 거르기 때문에, `provider`가 `NULL`인 104행과 github 8행이 모두 빠져 8행이 된다. [3편]({{ site.baseurl }}{% post_url 2026-10-12-mysql-where-condition-operators %})에서 본 대로 `NULL = 'google'`은 UNKNOWN이라서다. 결국 LEFT JOIN을 걸어놓고 WHERE에 오른쪽 테이블 조건을 쓰면 INNER JOIN과 같아진다.
+`ON`의 조건은 "어떤 짝을 붙일지"만 정한다. github 사용자도 왼쪽 행이라 사라지지 않고 오른쪽만 `NULL`이 된다(120행). `WHERE`는 JOIN이 끝난 결과에서 행을 거르기 때문에, `provider`가 `NULL`인 104행과 github 8행이 모두 빠져 8행이 된다. [3편]({% post_url 2026-10-12-mysql-where-condition-operators %})에서 본 대로 `NULL = 'google'`은 UNKNOWN이라서다. 결국 LEFT JOIN을 걸어놓고 WHERE에 오른쪽 테이블 조건을 쓰면 INNER JOIN과 같아진다.
 
 ### 6. 주석의 JOIN 종류를 MySQL에서 확인
 

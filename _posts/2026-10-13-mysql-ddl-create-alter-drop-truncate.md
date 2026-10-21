@@ -9,7 +9,7 @@ mermaid: true
 
 ## 들어가며 (Situation)
 
-[7편 서브쿼리]({{ site.baseurl }}{% post_url 2026-10-13-mysql-subquery-where-from %})까지는 이미 있는 테이블을 **조회**만 했다. `09_ddl.sql`부터는 테이블을 직접 만들고 고친다. DDL(Data Definition Language)은 데이터가 아니라 **데이터를 담을 틀**을 정의하는 언어다.
+[7편 서브쿼리]({% post_url 2026-10-13-mysql-subquery-where-from %})까지는 이미 있는 테이블을 **조회**만 했다. `09_ddl.sql`부터는 테이블을 직접 만들고 고친다. DDL(Data Definition Language)은 데이터가 아니라 **데이터를 담을 틀**을 정의하는 언어다.
 
 수업 주석에서 가장 기억에 남은 문장은 이것이다.
 

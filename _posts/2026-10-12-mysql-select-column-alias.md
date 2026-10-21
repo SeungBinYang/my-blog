@@ -21,11 +21,11 @@ mermaid: true
 | 편 | 주제 |
 |----|------|
 | 1 | SELECT와 별칭 (이 글) |
-| 2 | [ORDER BY와 NULL 정렬]({{ site.baseurl }}{% post_url 2026-10-12-mysql-order-by-null-sorting %}) |
-| 3 | [WHERE 조건절과 연산자]({{ site.baseurl }}{% post_url 2026-10-12-mysql-where-condition-operators %}) |
-| 4 | [DISTINCT와 LIMIT 페이징]({{ site.baseurl }}{% post_url 2026-10-12-mysql-distinct-limit-paging %}) |
-| 5 | [집계 함수, GROUP BY, HAVING]({{ site.baseurl }}{% post_url 2026-10-12-mysql-aggregate-group-by-having %}) |
-| 6 | [JOIN]({{ site.baseurl }}{% post_url 2026-10-12-mysql-join-inner-left-right %}) |
+| 2 | [ORDER BY와 NULL 정렬]({% post_url 2026-10-12-mysql-order-by-null-sorting %}) |
+| 3 | [WHERE 조건절과 연산자]({% post_url 2026-10-12-mysql-where-condition-operators %}) |
+| 4 | [DISTINCT와 LIMIT 페이징]({% post_url 2026-10-12-mysql-distinct-limit-paging %}) |
+| 5 | [집계 함수, GROUP BY, HAVING]({% post_url 2026-10-12-mysql-aggregate-group-by-having %}) |
+| 6 | [JOIN]({% post_url 2026-10-12-mysql-join-inner-left-right %}) |
 
 모든 결과는 로컬 MySQL 8.0.46에서 수업 쿼리를 다시 실행해서 얻은 실제 출력이다.
 
@@ -191,7 +191,7 @@ select menu_name 메뉴이름 from tbl_menu limit 2;
 menu_code * menu_price as `코드*가격`
 ```
 
-MySQL에서 작은따옴표 `'...'`는 **문자열 값**, 백틱 `` `...` ``은 테이블·열·별칭 같은 **이름(식별자)**을 감싸는 기호다([MySQL 8.0 Reference - Schema Object Names](https://dev.mysql.com/doc/refman/8.0/en/identifiers.html)). `as` 바로 뒤에서는 둘 다 별칭으로 받아주기 때문에 SELECT 절에서는 차이가 보이지 않는다. 그런데 이 별칭을 `ORDER BY`에서 다시 부를 때는 결과가 완전히 달라졌다. 이 실험은 [2편 ORDER BY]({{ site.baseurl }}{% post_url 2026-10-12-mysql-order-by-null-sorting %})에 정리했다.
+MySQL에서 작은따옴표 `'...'`는 **문자열 값**, 백틱 `` `...` ``은 테이블·열·별칭 같은 **이름(식별자)**을 감싸는 기호다([MySQL 8.0 Reference - Schema Object Names](https://dev.mysql.com/doc/refman/8.0/en/identifiers.html)). `as` 바로 뒤에서는 둘 다 별칭으로 받아주기 때문에 SELECT 절에서는 차이가 보이지 않는다. 그런데 이 별칭을 `ORDER BY`에서 다시 부를 때는 결과가 완전히 달라졌다. 이 실험은 [2편 ORDER BY]({% post_url 2026-10-12-mysql-order-by-null-sorting %})에 정리했다.
 
 ### 5. FROM 없는 SELECT — 값 계산기
 
@@ -267,7 +267,7 @@ use menudb;
 
 ## 더 학습하면 좋은 개념
 
-- **SQL 논리적 실행 순서** — SELECT는 맨 앞에 쓰지만 FROM보다 나중에 처리된다. 별칭을 어디서 쓸 수 있는지가 이 순서로 정해진다([5편]({{ site.baseurl }}{% post_url 2026-10-12-mysql-aggregate-group-by-having %})에서 다룸).
+- **SQL 논리적 실행 순서** — SELECT는 맨 앞에 쓰지만 FROM보다 나중에 처리된다. 별칭을 어디서 쓸 수 있는지가 이 순서로 정해진다([5편]({% post_url 2026-10-12-mysql-aggregate-group-by-having %})에서 다룸).
 - **식별자 따옴표와 `ANSI_QUOTES` 모드** — MySQL은 기본적으로 큰따옴표를 문자열로 보지만, 설정에 따라 이름으로 볼 수도 있다. 다른 DB와 쿼리를 공유할 때 중요하다.
 - **`CONCAT_WS()`와 `IFNULL()`** — `NULL`이 섞여도 문자열을 안전하게 이어붙이는 방법이다.
 - **스키마(Schema)와 데이터베이스** — MySQL에서 `menudb`, `wanted_lms` 같은 단위를 왜 스키마라고도 부르는지 알면 Workbench 화면이 이해된다.

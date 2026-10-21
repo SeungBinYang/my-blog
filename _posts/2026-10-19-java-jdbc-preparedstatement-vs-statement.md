@@ -125,7 +125,7 @@ sequenceDiagram
 
 ### 4. 그렇다면 PreparedStatement를 쓸 이유가 없나?
 
-그렇지 않다. 기본값에서도 `PreparedStatement`는 `?` 바인딩으로 **입력값을 안전하게 처리**해 준다. 이 부분은 다음 글([플레이스홀더와 SQL 인젝션]({{ site.baseurl }}{% post_url 2026-10-19-java-jdbc-placeholder-sql-injection %}))에서 실험으로 확인한다. 정리하면 이렇다.
+그렇지 않다. 기본값에서도 `PreparedStatement`는 `?` 바인딩으로 **입력값을 안전하게 처리**해 준다. 이 부분은 다음 글([플레이스홀더와 SQL 인젝션]({% post_url 2026-10-19-java-jdbc-placeholder-sql-injection %}))에서 실험으로 확인한다. 정리하면 이렇다.
 
 - **성능(컴파일 재사용)**: 서버 준비 구문 옵션을 켰을 때의 이야기이고, 같은 SQL을 반복 실행할 때 의미가 있다.
 - **안전성·편의성(바인딩)**: 기본값에서도 얻을 수 있다.
@@ -134,7 +134,7 @@ sequenceDiagram
 
 ### 5. 곁가지로 본 `finally` 닫기 순서
 
-`Application01`의 `finally`는 `close(con); close(rset); close(pstmt);` 순서다. 연결을 먼저 닫아도 실행은 문제없이 끝났다(`close()` 헬퍼가 `isClosed()`를 먼저 검사하기 때문이다). 하지만 보통은 **만든 순서의 반대(rset → pstmt → con)**로 닫는 편이 읽기에도 자연스럽다. 이 부분은 [chap03에서 try-with-resources로 바뀐다]({{ site.baseurl }}{% post_url 2026-10-19-java-jdbc-classpath-config-try-with-resources %}).
+`Application01`의 `finally`는 `close(con); close(rset); close(pstmt);` 순서다. 연결을 먼저 닫아도 실행은 문제없이 끝났다(`close()` 헬퍼가 `isClosed()`를 먼저 검사하기 때문이다). 하지만 보통은 **만든 순서의 반대(rset → pstmt → con)**로 닫는 편이 읽기에도 자연스럽다. 이 부분은 [chap03에서 try-with-resources로 바뀐다]({% post_url 2026-10-19-java-jdbc-classpath-config-try-with-resources %}).
 
 ## 결과 (Result)
 
@@ -156,7 +156,7 @@ sequenceDiagram
 - **서버 사이드 vs 클라이언트 사이드 PreparedStatement** — 같은 `PreparedStatement` 인터페이스 뒤에서 드라이버가 서로 다른 방식으로 동작한다. 오늘 `Com_stmt_*` 카운터 차이가 그 증거다.
 - **SQL 파싱과 실행 계획** — DB가 SQL을 받아 구문을 해석하고 실행 계획을 세우는 과정. "컴파일 재사용"이 무엇을 아끼는 것인지 알려 준다.
 - **커넥션 풀(HikariCP 등)** — 연결 생성 비용은 SQL 파싱보다 훨씬 큰 경우가 많다. 성능을 따질 때 어디부터 봐야 하는지 알게 된다.
-- **`EXPLAIN`** — 실행 계획을 눈으로 확인하는 방법. [MySQL 인덱스 글]({{ site.baseurl }}{% post_url 2026-10-13-mysql-index-explain %})과 이어진다.
+- **`EXPLAIN`** — 실행 계획을 눈으로 확인하는 방법. [MySQL 인덱스 글]({% post_url 2026-10-13-mysql-index-explain %})과 이어진다.
 - **MySQL 상태 변수(`SHOW STATUS`)** — 서버가 실제로 무엇을 했는지 숫자로 확인하는 도구.
 
 ## 참고 자료

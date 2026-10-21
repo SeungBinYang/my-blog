@@ -9,7 +9,7 @@ mermaid: true
 
 ## 들어가며 (Situation)
 
-[ArrayList 실습]({{ site.baseurl }}{% post_url 2026-10-07-java-arraylist-bookdto %})에 이어 수업 마지막에는 `b_collection/b_set` 패키지에서 `Set`을 다뤘다.
+[ArrayList 실습]({% post_url 2026-10-07-java-arraylist-bookdto %})에 이어 수업 마지막에는 `b_collection/b_set` 패키지에서 `Set`을 다뤘다.
 
 | 파일 | 내용 |
 |------|------|

@@ -9,7 +9,7 @@ mermaid: true
 
 ## 들어가며 (Situation)
 
-`chap03-crud`를 만들면서 `chap02`의 공통 코드도 같이 바뀌었다. 연결을 만드는 `JDBCTemplate`, SQL을 읽는 `QueryUtil`(새로 추가), 설정 파일 위치가 대표적이다. 이 글은 두 프로젝트의 `JDBCTemplate`를 나란히 놓고 **무엇이 왜 바뀌었는지** 정리한 기록이다. 계층 분리는 [앞 글]({{ site.baseurl }}{% post_url 2026-10-19-java-jdbc-layered-architecture-menu %})에서 다뤘으니, 여기서는 설정·자원 관리만 본다.
+`chap03-crud`를 만들면서 `chap02`의 공통 코드도 같이 바뀌었다. 연결을 만드는 `JDBCTemplate`, SQL을 읽는 `QueryUtil`(새로 추가), 설정 파일 위치가 대표적이다. 이 글은 두 프로젝트의 `JDBCTemplate`를 나란히 놓고 **무엇이 왜 바뀌었는지** 정리한 기록이다. 계층 분리는 [앞 글]({% post_url 2026-10-19-java-jdbc-layered-architecture-menu %})에서 다뤘으니, 여기서는 설정·자원 관리만 본다.
 
 ```text
 chap02-statement                          chap03-crud
@@ -21,7 +21,7 @@ common/JDBCTemplate (getConnection + close x3)    →   global/config/JDBCTempla
 
 ## 문제 상황 (Task)
 
-[XML 분리 글]({{ site.baseurl }}{% post_url 2026-10-19-java-jdbc-sql-xml-properties %})에서 `chap02`의 코드가 **상대 경로**(`src/main/java/...`)로 파일을 읽는 탓에 다른 폴더에서 실행하면 `FileNotFoundException`이 난다는 것을 확인했다. `chap02`의 `JDBCTemplate`에는 문제가 몇 가지 더 보였다.
+[XML 분리 글]({% post_url 2026-10-19-java-jdbc-sql-xml-properties %})에서 `chap02`의 코드가 **상대 경로**(`src/main/java/...`)로 파일을 읽는 탓에 다른 폴더에서 실행하면 `FileNotFoundException`이 난다는 것을 확인했다. `chap02`의 `JDBCTemplate`에는 문제가 몇 가지 더 보였다.
 
 1. `getConnection()`을 부를 때마다 설정 파일을 **매번 다시 읽는다**.
 2. 디버깅용 출력에서 `System.out.println("prop = " + prop);`가 **비밀번호가 담긴 설정 전체**를 찍는다.
@@ -107,7 +107,7 @@ public static String getQuery(String key) {
 }
 ```
 
-[XML 글]({{ site.baseurl }}{% post_url 2026-10-19-java-jdbc-sql-xml-properties %})에서 본 XML 값 앞뒤의 줄바꿈·공백을 `trim()`으로 정리하는 곳이 여기다. SQL 키도 `findMenuByMenuName`에서 `menu.findAll`처럼 **`도메인.동작`** 형태로 바뀌었다.
+[XML 글]({% post_url 2026-10-19-java-jdbc-sql-xml-properties %})에서 본 XML 값 앞뒤의 줄바꿈·공백을 `trim()`으로 정리하는 곳이 여기다. SQL 키도 `findMenuByMenuName`에서 `menu.findAll`처럼 **`도메인.동작`** 형태로 바뀌었다.
 
 ### 4. 연결을 새로 만든다는 점은 그대로
 

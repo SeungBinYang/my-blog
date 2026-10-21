@@ -232,7 +232,7 @@ A는 자기 변경(12,000)을 보지만 B는 커밋 전까지 원래 값(15,000)
 
 ### 6. 오늘 배운 DDL과의 연결
 
-[8편]({{ site.baseurl }}{% post_url 2026-10-13-mysql-ddl-create-alter-drop-truncate %})에서 `truncate`는 롤백이 안 됐다. DDL은 실행 전에 진행 중인 트랜잭션을 **암시적으로 커밋**하기 때문이다. 트랜잭션 도중에 `create`, `alter`, `drop`, `truncate`를 실행하면 그때까지의 변경도 함께 커밋되어 버린다([MySQL 8.0 Reference - Statements That Cause an Implicit Commit](https://dev.mysql.com/doc/refman/8.0/en/implicit-commit.html)). 트랜잭션으로 보호되는 건 DML뿐이다.
+[8편]({% post_url 2026-10-13-mysql-ddl-create-alter-drop-truncate %})에서 `truncate`는 롤백이 안 됐다. DDL은 실행 전에 진행 중인 트랜잭션을 **암시적으로 커밋**하기 때문이다. 트랜잭션 도중에 `create`, `alter`, `drop`, `truncate`를 실행하면 그때까지의 변경도 함께 커밋되어 버린다([MySQL 8.0 Reference - Statements That Cause an Implicit Commit](https://dev.mysql.com/doc/refman/8.0/en/implicit-commit.html)). 트랜잭션으로 보호되는 건 DML뿐이다.
 
 ## 결과 (Result)
 

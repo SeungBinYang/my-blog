@@ -9,7 +9,7 @@ mermaid: true
 
 ## 들어가며 (Situation)
 
-학원 자바 수업이 네 번째 챕터(`chap04-generic-and-collection`)로 넘어갔다. 지난 챕터에서 상속과 다형성을 배웠고([지난 글]({{ site.baseurl }}{% post_url 2026-10-06-java-static-singleton-inheritance-polymorphism %})), 이번 챕터의 첫 주제는 **제네릭(Generic)**이다.
+학원 자바 수업이 네 번째 챕터(`chap04-generic-and-collection`)로 넘어갔다. 지난 챕터에서 상속과 다형성을 배웠고([지난 글]({% post_url 2026-10-06-java-static-singleton-inheritance-polymorphism %})), 이번 챕터의 첫 주제는 **제네릭(Generic)**이다.
 
 오늘 제네릭 기초 시간에 만든 파일은 두 개다.
 

@@ -84,7 +84,7 @@ update all rows    -> 36    (UPDATE tmp_menu SET MENU_PRICE = MENU_PRICE)
 
 ### 3. 원인: MySQL의 두 가지 "행 수"
 
-MySQL은 UPDATE 후 두 숫자를 구분한다. 앞의 [트랜잭션 글]({{ site.baseurl }}{% post_url 2026-10-13-mysql-transaction-commit-rollback %})에도 나온 `Rows matched: 1  Changed: 1` 출력이 바로 그것이다.
+MySQL은 UPDATE 후 두 숫자를 구분한다. 앞의 [트랜잭션 글]({% post_url 2026-10-13-mysql-transaction-commit-rollback %})에도 나온 `Rows matched: 1  Changed: 1` 출력이 바로 그것이다.
 
 | 용어 | 의미 |
 |------|------|
@@ -127,7 +127,7 @@ flowchart TD
 
 ### 5. 커밋은 어디서 하나
 
-`Application04`에는 `commit()`이 없는데도 수정이 DB에 반영된다. JDBC 연결은 기본이 **auto-commit 모드**라서 `executeUpdate()`가 끝나는 즉시 커밋되기 때문이다. 하나의 작업이 여러 UPDATE로 이뤄진다면 이 기본값이 위험해진다. [계좌이체 예제]({{ site.baseurl }}{% post_url 2026-10-13-mysql-transaction-commit-rollback %})처럼 묶어야 하는 경우 `setAutoCommit(false)`로 바꾸고 직접 `commit()`/`rollback()`을 호출해야 한다. 이번 실습에서는 단일 UPDATE만 있어서 다루지 않았다.
+`Application04`에는 `commit()`이 없는데도 수정이 DB에 반영된다. JDBC 연결은 기본이 **auto-commit 모드**라서 `executeUpdate()`가 끝나는 즉시 커밋되기 때문이다. 하나의 작업이 여러 UPDATE로 이뤄진다면 이 기본값이 위험해진다. [계좌이체 예제]({% post_url 2026-10-13-mysql-transaction-commit-rollback %})처럼 묶어야 하는 경우 `setAutoCommit(false)`로 바꾸고 직접 `commit()`/`rollback()`을 호출해야 한다. 이번 실습에서는 단일 UPDATE만 있어서 다루지 않았다.
 
 ### 6. 입력 순서 주의
 

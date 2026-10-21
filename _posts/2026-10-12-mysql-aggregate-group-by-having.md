@@ -9,7 +9,7 @@ mermaid: true
 
 ## 들어가며 (Situation)
 
-[4편 DISTINCT와 LIMIT]({{ site.baseurl }}{% post_url 2026-10-12-mysql-distinct-limit-paging %})까지는 메뉴 데이터(`menudb`)로 실습했다. 여섯 번째 파일 `06_grouping.sql`부터는 온라인 강의 서비스(LMS)를 흉내 낸 `wanted_lms` 데이터베이스로 바꿨다. 수업 주석이 던진 질문이 그룹화의 목적을 잘 보여준다.
+[4편 DISTINCT와 LIMIT]({% post_url 2026-10-12-mysql-distinct-limit-paging %})까지는 메뉴 데이터(`menudb`)로 실습했다. 여섯 번째 파일 `06_grouping.sql`부터는 온라인 강의 서비스(LMS)를 흉내 낸 `wanted_lms` 데이터베이스로 바꿨다. 수업 주석이 던진 질문이 그룹화의 목적을 잘 보여준다.
 
 > 우리 서비스에 총 사용자 수?
 > 가장 신고를 많이 당한 사람은?

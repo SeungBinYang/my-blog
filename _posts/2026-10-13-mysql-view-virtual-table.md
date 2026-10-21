@@ -35,7 +35,7 @@ mermaid: true
 
 ### 1. 뷰 만들고 조회하기
 
-수업에서 만든 과정별 등록 학생 수 뷰다. [6편]({{ site.baseurl }}{% post_url 2026-10-12-mysql-join-inner-left-right %})의 LEFT JOIN과 [5편]({{ site.baseurl }}{% post_url 2026-10-12-mysql-aggregate-group-by-having %})의 GROUP BY를 합친 쿼리에 이름을 붙였다.
+수업에서 만든 과정별 등록 학생 수 뷰다. [6편]({% post_url 2026-10-12-mysql-join-inner-left-right %})의 LEFT JOIN과 [5편]({% post_url 2026-10-12-mysql-aggregate-group-by-having %})의 GROUP BY를 합친 쿼리에 이름을 붙였다.
 
 ```sql
 create view v_courses_stats as
@@ -140,11 +140,11 @@ explain select * from v_courses_stats where `등록 학생 수` >= 3;
 
 (주요 열만 남김)
 
-`DERIVED`는 [7편]({{ site.baseurl }}{% post_url 2026-10-13-mysql-subquery-where-from %})에서 본 **파생 테이블**이다. 뷰 조회가 "`courses`와 `enrollments`를 조인해 집계하는 서브쿼리를 FROM에 넣은 쿼리"로 바뀌어 실행된 것이다. 원본 쿼리를 직접 쓴 것과 하는 일이 같다.
+`DERIVED`는 [7편]({% post_url 2026-10-13-mysql-subquery-where-from %})에서 본 **파생 테이블**이다. 뷰 조회가 "`courses`와 `enrollments`를 조인해 집계하는 서브쿼리를 FROM에 넣은 쿼리"로 바뀌어 실행된 것이다. 원본 쿼리를 직접 쓴 것과 하는 일이 같다.
 
 그래서 주석의 세 번째 이유를 이렇게 고쳐 적었다.
 
-> → 뷰는 쿼리를 저장할 뿐 결과를 저장하지 않는다. 필요한 열만 보여주니 **읽기는 쉬워지지만, 실행 속도는 원본 쿼리와 같다.** 빨라지려면 인덱스([12편]({{ site.baseurl }}{% post_url 2026-10-13-mysql-index-explain %}))처럼 원본 쿼리 자체를 개선해야 한다.
+> → 뷰는 쿼리를 저장할 뿐 결과를 저장하지 않는다. 필요한 열만 보여주니 **읽기는 쉬워지지만, 실행 속도는 원본 쿼리와 같다.** 빨라지려면 인덱스([12편]({% post_url 2026-10-13-mysql-index-explain %}))처럼 원본 쿼리 자체를 개선해야 한다.
 
 ### 4. 보안 — 숨긴 열은 뷰로 볼 수 없다
 
@@ -236,7 +236,7 @@ ERROR 1288 (HY000): The target table v_courses_stats of the UPDATE is not updata
 
 수업은 `drop view` 후 `create or replace view`로 `status` 열을 추가했다. `create or replace`는 뷰가 없으면 만들고 있으면 바꾸므로 `drop` 없이도 된다.
 
-추가된 `c.status`는 `group by`에 없는데도 에러가 나지 않았다. [5편]({{ site.baseurl }}{% post_url 2026-10-12-mysql-aggregate-group-by-having %})에서 본 `ONLY_FULL_GROUP_BY`가 켜져 있는데도 통과한 이유는, `course_id`가 기본 키라서 같은 `course_id` 그룹 안에서는 `status`가 하나로 정해지기 때문이다. MySQL은 이런 **함수적 종속**을 인식한다([MySQL 8.0 Reference - Detection of Functional Dependence](https://dev.mysql.com/doc/refman/8.0/en/group-by-functional-dependence.html)).
+추가된 `c.status`는 `group by`에 없는데도 에러가 나지 않았다. [5편]({% post_url 2026-10-12-mysql-aggregate-group-by-having %})에서 본 `ONLY_FULL_GROUP_BY`가 켜져 있는데도 통과한 이유는, `course_id`가 기본 키라서 같은 `course_id` 그룹 안에서는 `status`가 하나로 정해지기 때문이다. MySQL은 이런 **함수적 종속**을 인식한다([MySQL 8.0 Reference - Detection of Functional Dependence](https://dev.mysql.com/doc/refman/8.0/en/group-by-functional-dependence.html)).
 
 실험으로 만든 `v_marketing_users`는 `drop view`로 지웠다.
 

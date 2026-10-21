@@ -9,7 +9,7 @@ mermaid: true
 
 ## 들어가며 (Situation)
 
-[8편 DDL]({{ site.baseurl }}{% post_url 2026-10-13-mysql-ddl-create-alter-drop-truncate %})에서 테이블과 규칙을 만들었다. `10_dml.sql`은 그 테이블에 실제로 데이터를 넣고, 고치고, 지운다. DML(Data Manipulation Language)이다.
+[8편 DDL]({% post_url 2026-10-13-mysql-ddl-create-alter-drop-truncate %})에서 테이블과 규칙을 만들었다. `10_dml.sql`은 그 테이블에 실제로 데이터를 넣고, 고치고, 지운다. DML(Data Manipulation Language)이다.
 
 수업 파일 첫 줄에는 "⭐⭐⭐중요⭐⭐⭐"가 붙어 있었고, 에러 케이스마다 같은 문장이 반복됐다.
 
@@ -273,7 +273,7 @@ where constraint_schema = 'wanted_lms' and referenced_table_name = 'users';
 - **`INSERT ... ON DUPLICATE KEY UPDATE`** — ERROR 1062가 날 상황에서 대신 기존 행을 수정하는 문법.
 - **여러 행 INSERT** — `values (...), (...)`로 한 번에 여러 행을 넣으면 왕복 횟수가 줄어든다.
 - **SQL 모드(sql_mode)** — `STRICT_TRANS_TABLES`가 없으면 오늘 본 에러들이 경고로 바뀐다. 서버 설정이 데이터 품질을 좌우한다.
-- **트랜잭션** — 실수한 UPDATE를 되돌릴 수 있었던 이유. [13편]({{ site.baseurl }}{% post_url 2026-10-13-mysql-transaction-commit-rollback %})에서 다룬다.
+- **트랜잭션** — 실수한 UPDATE를 되돌릴 수 있었던 이유. [13편]({% post_url 2026-10-13-mysql-transaction-commit-rollback %})에서 다룬다.
 
 ## 참고 자료
 

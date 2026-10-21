@@ -128,7 +128,7 @@ raw = [
     ]
 ```
 
-앞뒤로 줄바꿈과 공백이 붙어 있다. 그래도 `prepareStatement(query)`는 문제없이 실행됐다. SQL 문법에서 줄바꿈·공백은 토큰 사이의 구분자로만 쓰이기 때문이다. 필요하면 `trim()`으로 앞뒤 공백을 지울 수 있고, chap03의 `QueryUtil`이 실제로 그렇게 한다([다음 글]({{ site.baseurl }}{% post_url 2026-10-19-java-jdbc-classpath-config-try-with-resources %}) 참고).
+앞뒤로 줄바꿈과 공백이 붙어 있다. 그래도 `prepareStatement(query)`는 문제없이 실행됐다. SQL 문법에서 줄바꿈·공백은 토큰 사이의 구분자로만 쓰이기 때문이다. 필요하면 `trim()`으로 앞뒤 공백을 지울 수 있고, chap03의 `QueryUtil`이 실제로 그렇게 한다([다음 글]({% post_url 2026-10-19-java-jdbc-classpath-config-try-with-resources %}) 참고).
 
 ### 5. 약점 확인 — 키 오타와 경로
 

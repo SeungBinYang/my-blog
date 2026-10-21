@@ -9,7 +9,7 @@ mermaid: true
 
 ## 들어가며 (Situation)
 
-자바 챕터3에서 캡슐화와 추상화를 배우면서([지난 글]({{ site.baseurl }}{% post_url 2026-10-02-java-encapsulation-abstraction %})) `Monster` 클래스로 체력 검증을, `Car`·`CarRacer`로 요구사항에서 객체를 뽑는 연습을 했다. 둘을 따로 연습하다 보니, 객체가 여러 개 얽힌 프로그램에서도 같은 원칙이 지켜지는지 확인하고 싶었다.
+자바 챕터3에서 캡슐화와 추상화를 배우면서([지난 글]({% post_url 2026-10-02-java-encapsulation-abstraction %})) `Monster` 클래스로 체력 검증을, `Car`·`CarRacer`로 요구사항에서 객체를 뽑는 연습을 했다. 둘을 따로 연습하다 보니, 객체가 여러 개 얽힌 프로그램에서도 같은 원칙이 지켜지는지 확인하고 싶었다.
 
 그래서 `d_abstration/practice_dungeon` 패키지에 **포켓 던전 탈출기**라는 콘솔 게임을 만들었다. 캡슐화 실습의 `Monster`를 발전시켜 재사용했다.
 

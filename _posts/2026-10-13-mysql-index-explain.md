@@ -197,7 +197,7 @@ explain select * from users where status = 'active';
 | `left(name, 1) = '홍'` | **`ALL`** | NULL | 120 |
 | `status = 'active'` | `ALL` | NULL | 120 (인덱스 없음) |
 
-인덱스는 **값의 앞부분부터 정렬**된 목차다. `'홍%'`는 "홍"으로 시작하는 구간만 보면 되지만, `'%길동'`은 앞글자를 모르니 목차를 쓸 수 없다. 열에 함수(`left()`)를 씌워도 목차의 값과 비교할 수 없어 전체 스캔이 된다. [7편]({{ site.baseurl }}{% post_url 2026-10-13-mysql-subquery-where-from %})의 `year(created_at) = ...`도 같은 이유로 인덱스를 쓰지 못하는 형태다.
+인덱스는 **값의 앞부분부터 정렬**된 목차다. `'홍%'`는 "홍"으로 시작하는 구간만 보면 되지만, `'%길동'`은 앞글자를 모르니 목차를 쓸 수 없다. 열에 함수(`left()`)를 씌워도 목차의 값과 비교할 수 없어 전체 스캔이 된다. [7편]({% post_url 2026-10-13-mysql-subquery-where-from %})의 `year(created_at) = ...`도 같은 이유로 인덱스를 쓰지 못하는 형태다.
 
 ### 5. PK·UNIQUE·FK에는 자동으로 인덱스가 있다
 

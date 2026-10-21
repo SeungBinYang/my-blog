@@ -9,7 +9,7 @@ mermaid: true
 
 ## 들어가며 (Situation)
 
-학원 자바 수업 세 번째 챕터(`chap03-object-oriented-programming`)의 세 번째 날이다. 지난 시간에 캡슐화와 추상화를 배웠고([지난 글]({{ site.baseurl }}{% post_url 2026-10-02-java-encapsulation-abstraction %})), 오늘은 진도가 많이 나갔다.
+학원 자바 수업 세 번째 챕터(`chap03-object-oriented-programming`)의 세 번째 날이다. 지난 시간에 캡슐화와 추상화를 배웠고([지난 글]({% post_url 2026-10-02-java-encapsulation-abstraction %})), 오늘은 진도가 많이 나갔다.
 
 | 패키지 | 주제 | 실습 내용 |
 |--------|------|-----------|

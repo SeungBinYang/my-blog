@@ -19,7 +19,7 @@ mermaid: true
 > users 테이블에 active 사용자와 suspended 사용자 모두에게 이메일을 발송하고자 한다.
 > 탈퇴한 deleted 유저는 제외한다. 사용자의 이름, 이메일, 상태를 조회해라.
 
-[6편 JOIN]({{ site.baseurl }}{% post_url 2026-10-12-mysql-join-inner-left-right %})이 테이블을 **옆으로** 붙였다면, UNION은 결과를 **아래로** 붙인다.
+[6편 JOIN]({% post_url 2026-10-12-mysql-join-inner-left-right %})이 테이블을 **옆으로** 붙였다면, UNION은 결과를 **아래로** 붙인다.
 
 ```mermaid
 flowchart LR
@@ -65,7 +65,7 @@ select `name`, `email`, `status` from users where status = 'suspended';
 118 rows in set (0.00 sec)
 ```
 
-**1번 질문 확인**: 상태별 인원은 `active` 116명, `suspended` 2명, `deleted` 2명이다. 116 + 2 = 118행. 같은 결과를 [3편]({{ site.baseurl }}{% post_url 2026-10-12-mysql-where-condition-operators %})의 `IN`과 `<>`로도 만들어봤다. (확인용 **예시 코드**)
+**1번 질문 확인**: 상태별 인원은 `active` 116명, `suspended` 2명, `deleted` 2명이다. 116 + 2 = 118행. 같은 결과를 [3편]({% post_url 2026-10-12-mysql-where-condition-operators %})의 `IN`과 `<>`로도 만들어봤다. (확인용 **예시 코드**)
 
 ```sql
 select count(*) from users where status in ('active', 'suspended');
@@ -81,7 +81,7 @@ select count(*) from users where status <> 'deleted';
 
 ### 2. 실행 계획으로 보는 차이
 
-결과가 같으면 무엇이 다를까. `EXPLAIN`으로 실행 계획을 봤다. (`EXPLAIN`은 [12편]({{ site.baseurl }}{% post_url 2026-10-13-mysql-index-explain %})에서 자세히 다룬다.)
+결과가 같으면 무엇이 다를까. `EXPLAIN`으로 실행 계획을 봤다. (`EXPLAIN`은 [12편]({% post_url 2026-10-13-mysql-index-explain %})에서 자세히 다룬다.)
 
 ```sql
 explain
@@ -206,7 +206,7 @@ select title from courses where course_id = 1;
 
 ### 5. UNION이 필요한 경우
 
-**4번 질문 확인**: 같은 테이블이면 `IN`으로 충분했다. UNION이 진짜 필요한 건 **서로 다른 테이블의 결과를 한 목록으로** 만들 때다. 예를 들어 "이메일 발송 대상"이 회원(`users`)과 강좌 개설자 외에 다른 테이블에도 흩어져 있다면 `where` 하나로는 합칠 수 없다. [6편]({{ site.baseurl }}{% post_url 2026-10-12-mysql-join-inner-left-right %})에서 확인한 대로 MySQL에 없는 `FULL OUTER JOIN`을 `LEFT JOIN ... UNION ... RIGHT JOIN`으로 흉내 내는 것도 대표적인 사용처다.
+**4번 질문 확인**: 같은 테이블이면 `IN`으로 충분했다. UNION이 진짜 필요한 건 **서로 다른 테이블의 결과를 한 목록으로** 만들 때다. 예를 들어 "이메일 발송 대상"이 회원(`users`)과 강좌 개설자 외에 다른 테이블에도 흩어져 있다면 `where` 하나로는 합칠 수 없다. [6편]({% post_url 2026-10-12-mysql-join-inner-left-right %})에서 확인한 대로 MySQL에 없는 `FULL OUTER JOIN`을 `LEFT JOIN ... UNION ... RIGHT JOIN`으로 흉내 내는 것도 대표적인 사용처다.
 
 ```mermaid
 flowchart TD

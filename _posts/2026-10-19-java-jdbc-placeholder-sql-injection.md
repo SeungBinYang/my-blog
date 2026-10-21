@@ -118,7 +118,7 @@ flowchart LR
 - `?`는 실행 전에 반드시 `set` 메서드로 채워야 한다.
 - 타입에 맞는 `setString`, `setInt` 등을 쓴다. 다음 글의 `Application04`는 `setInt(1, price)`, `setString(2, menuName)`을 쓴다.
 
-참고로 이 글의 확인은 기본 설정(`useServerPrepStmts=false`)에서 했다. [앞의 글]({{ site.baseurl }}{% post_url 2026-10-19-java-jdbc-preparedstatement-vs-statement %})에서 본 대로 이 모드에서는 드라이버가 값을 이스케이프해서 채우는데, 서버 준비 구문 모드(`true`)에서도 같은 결과가 나오는지는 이번에 확인하지 않았다.
+참고로 이 글의 확인은 기본 설정(`useServerPrepStmts=false`)에서 했다. [앞의 글]({% post_url 2026-10-19-java-jdbc-preparedstatement-vs-statement %})에서 본 대로 이 모드에서는 드라이버가 값을 이스케이프해서 채우는데, 서버 준비 구문 모드(`true`)에서도 같은 결과가 나오는지는 이번에 확인하지 않았다.
 
 ## 결과 (Result)
 
@@ -141,7 +141,7 @@ flowchart LR
 - **입력값 검증(Validation)** — `?`가 막아 주는 것은 SQL 구조 변경뿐이다. 길이·형식 검사는 별개로 필요하다.
 - **식별자 vs 값** — `?`는 값 자리에만 쓸 수 있고 테이블명·컬럼명을 바꾸는 용도는 아니다. 동적 정렬 같은 요구에서 부딪히게 된다.
 - **ORM의 파라미터 바인딩** — JPA·MyBatis 같은 도구도 내부적으로 같은 원리를 쓴다. 이후 배울 때 연결된다.
-- **인덱스와 WHERE 절** — `WHERE menu_name = ?`가 빨라지는 조건. [인덱스 글]({{ site.baseurl }}{% post_url 2026-10-13-mysql-index-explain %})과 이어진다.
+- **인덱스와 WHERE 절** — `WHERE menu_name = ?`가 빨라지는 조건. [인덱스 글]({% post_url 2026-10-13-mysql-index-explain %})과 이어진다.
 
 ## 참고 자료
 

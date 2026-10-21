@@ -14,12 +14,12 @@ MySQL 수업 2일차. 오늘은 `08_subqueries.sql`부터 `14_transaction.sql`�
 | 편 | 주제 | 파일 |
 |----|------|------|
 | 7 | 서브쿼리 (이 글) | `08_subqueries.sql` |
-| 8 | [DDL — CREATE·ALTER·DROP·TRUNCATE]({{ site.baseurl }}{% post_url 2026-10-13-mysql-ddl-create-alter-drop-truncate %}) | `09_ddl.sql` |
-| 9 | [DML — INSERT·UPDATE·DELETE와 제약 조건 에러]({{ site.baseurl }}{% post_url 2026-10-13-mysql-dml-insert-update-delete %}) | `10_dml.sql` |
-| 10 | [UNION과 UNION ALL]({{ site.baseurl }}{% post_url 2026-10-13-mysql-union-union-all %}) | `11_union.sql` |
-| 11 | [VIEW]({{ site.baseurl }}{% post_url 2026-10-13-mysql-view-virtual-table %}) | `12_view.sql` |
-| 12 | [INDEX와 EXPLAIN]({{ site.baseurl }}{% post_url 2026-10-13-mysql-index-explain %}) | `13_index.sql` |
-| 13 | [트랜잭션 — COMMIT·ROLLBACK]({{ site.baseurl }}{% post_url 2026-10-13-mysql-transaction-commit-rollback %}) | `14_transaction.sql` |
+| 8 | [DDL — CREATE·ALTER·DROP·TRUNCATE]({% post_url 2026-10-13-mysql-ddl-create-alter-drop-truncate %}) | `09_ddl.sql` |
+| 9 | [DML — INSERT·UPDATE·DELETE와 제약 조건 에러]({% post_url 2026-10-13-mysql-dml-insert-update-delete %}) | `10_dml.sql` |
+| 10 | [UNION과 UNION ALL]({% post_url 2026-10-13-mysql-union-union-all %}) | `11_union.sql` |
+| 11 | [VIEW]({% post_url 2026-10-13-mysql-view-virtual-table %}) | `12_view.sql` |
+| 12 | [INDEX와 EXPLAIN]({% post_url 2026-10-13-mysql-index-explain %}) | `13_index.sql` |
+| 13 | [트랜잭션 — COMMIT·ROLLBACK]({% post_url 2026-10-13-mysql-transaction-commit-rollback %}) | `14_transaction.sql` |
 
 모든 결과는 로컬 MySQL 8.0.46의 `wanted_lms` 데이터베이스에서 다시 실행한 실제 출력이다. 데이터를 바꾸는 실험은 트랜잭션 안에서 하고 `ROLLBACK`으로 되돌렸다.
 
@@ -130,7 +130,7 @@ where year(created_at) = (
 ERROR 1242 (21000): Subquery returns more than 1 row
 ```
 
-`=`는 값 하나와 비교하는 연산자인데 서브쿼리가 여러 행을 돌려줘서 에러가 났다. 여러 값 중 하나와 같은지 보려면 [3편]({{ site.baseurl }}{% post_url 2026-10-12-mysql-where-condition-operators %})에서 배운 `IN`을 쓴다.
+`=`는 값 하나와 비교하는 연산자인데 서브쿼리가 여러 행을 돌려줘서 에러가 났다. 여러 값 중 하나와 같은지 보려면 [3편]({% post_url 2026-10-12-mysql-where-condition-operators %})에서 배운 `IN`을 쓴다.
 
 ```sql
 select name, created_at from users
@@ -190,7 +190,7 @@ order by `교육자 개설 과정 수` desc;
 15 rows in set (0.00 sec)
 ```
 
-[5편]({{ site.baseurl }}{% post_url 2026-10-12-mysql-aggregate-group-by-having %})에서 `group by author_id`의 결과는 번호뿐이었고, [6편]({{ site.baseurl }}{% post_url 2026-10-12-mysql-join-inner-left-right %})에서 JOIN으로 이름을 붙이는 법을 배웠다. 이 쿼리는 그 둘을 합쳤다. 안쪽 쿼리의 결과(`author_id`, `course_count` 15행)를 `aut`라는 테이블처럼 쓰고 `users`와 조인한다. 공식 문서는 이것을 **파생 테이블(derived table)**이라 부른다([MySQL 8.0 Reference - Derived Tables](https://dev.mysql.com/doc/refman/8.0/en/derived-tables.html)).
+[5편]({% post_url 2026-10-12-mysql-aggregate-group-by-having %})에서 `group by author_id`의 결과는 번호뿐이었고, [6편]({% post_url 2026-10-12-mysql-join-inner-left-right %})에서 JOIN으로 이름을 붙이는 법을 배웠다. 이 쿼리는 그 둘을 합쳤다. 안쪽 쿼리의 결과(`author_id`, `course_count` 15행)를 `aut`라는 테이블처럼 쓰고 `users`와 조인한다. 공식 문서는 이것을 **파생 테이블(derived table)**이라 부른다([MySQL 8.0 Reference - Derived Tables](https://dev.mysql.com/doc/refman/8.0/en/derived-tables.html)).
 
 `as aut`를 빼면 어떻게 될까? (확인용 **예시 코드**)
 
@@ -304,7 +304,7 @@ where g.gradable_item_type = 'quiz'
 - **`EXISTS` / `NOT EXISTS`** — "수강생이 한 명이라도 있는 강좌"처럼 존재 여부만 볼 때 `IN`보다 의도가 분명하다.
 - **SELECT 절의 스칼라 서브쿼리** — 열 자리에 서브쿼리를 넣어 행마다 값을 계산하는 방법과, 이것이 JOIN보다 느려질 수 있는 이유.
 - **CTE와 재귀 CTE** — `WITH RECURSIVE`로 카테고리 계층처럼 자기 자신을 참조하는 데이터를 펼칠 수 있다.
-- **함수를 씌운 열과 인덱스** — `year(created_at)`처럼 열에 함수를 씌우면 인덱스를 쓰지 못한다. [12편]({{ site.baseurl }}{% post_url 2026-10-13-mysql-index-explain %})과 연결된다.
+- **함수를 씌운 열과 인덱스** — `year(created_at)`처럼 열에 함수를 씌우면 인덱스를 쓰지 못한다. [12편]({% post_url 2026-10-13-mysql-index-explain %})과 연결된다.
 
 ## 참고 자료
 

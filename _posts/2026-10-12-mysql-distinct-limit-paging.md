@@ -9,7 +9,7 @@ mermaid: true
 
 ## 들어가며 (Situation)
 
-[3편 WHERE]({{ site.baseurl }}{% post_url 2026-10-12-mysql-where-condition-operators %})에서 조건으로 행을 골랐다. 이번 글은 결과를 줄이는 다른 두 가지 방법을 다룬다.
+[3편 WHERE]({% post_url 2026-10-12-mysql-where-condition-operators %})에서 조건으로 행을 골랐다. 이번 글은 결과를 줄이는 다른 두 가지 방법을 다룬다.
 
 | 파일 | 키워드 | 줄이는 방법 |
 |------|--------|-------------|
@@ -112,7 +112,7 @@ order by category_code;
 | `select distinct category_code` | 11행 | 카테고리 하나 |
 | `select distinct category_code, orderable_status` | 16행 | (카테고리, 판매 상태) 조합 |
 
-개수만 필요하면 집계 함수 안에 넣을 수도 있다. 이 방법은 [5편]({{ site.baseurl }}{% post_url 2026-10-12-mysql-aggregate-group-by-having %})에서 `count(distinct author_id)`로 다시 나온다.
+개수만 필요하면 집계 함수 안에 넣을 수도 있다. 이 방법은 [5편]({% post_url 2026-10-12-mysql-aggregate-group-by-having %})에서 `count(distinct author_id)`로 다시 나온다.
 
 ```sql
 select count(distinct category_code), count(category_code) from tbl_menu;
@@ -174,7 +174,7 @@ select * from tbl_menu order by menu_price desc limit 1,5;
 
 ### 3. 동점의 순서는 보장되지 않는다
 
-이제 문제 상황으로 돌아왔다. 두 결과에서 15000원짜리 7번과 24번의 순서가 바뀌었다. [2편]({{ site.baseurl }}{% post_url 2026-10-12-mysql-order-by-null-sorting %})에서 5000원짜리 메뉴 순서가 `2, 22, 21`로 제멋대로였던 것과 같은 현상이다. 공식 문서에는 이렇게 적혀 있다.
+이제 문제 상황으로 돌아왔다. 두 결과에서 15000원짜리 7번과 24번의 순서가 바뀌었다. [2편]({% post_url 2026-10-12-mysql-order-by-null-sorting %})에서 5000원짜리 메뉴 순서가 `2, 22, 21`로 제멋대로였던 것과 같은 현상이다. 공식 문서에는 이렇게 적혀 있다.
 
 > If multiple rows have identical values in the `ORDER BY` columns, the server is free to return those rows in any order, and may do so differently depending on the overall execution plan.
 >

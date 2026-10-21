@@ -162,7 +162,7 @@ public MenuDAO(Connection connection) { this.connection = connection; }
 - **의존성 주입(DI)과 제어의 역전(IoC)** — `Application`이 생성자로 객체를 넘기는 것이 그 맛보기다. Spring이 이 조립을 자동화한다.
 - **관심사의 분리(Separation of Concerns)** — 계층을 나누는 근본 이유. 입력·비즈니스·저장을 따로 바꿀 수 있게 한다.
 - **MVC 패턴** — Model/View/Controller. 지금 구조는 콘솔 버전이고 웹에서는 Controller가 HTTP 요청을 받는다.
-- **트랜잭션 경계와 Service 계층** — Service가 Connection을 만드는 이유. 여러 DAO 호출을 한 트랜잭션으로 묶는 단위다. [트랜잭션 글]({{ site.baseurl }}{% post_url 2026-10-13-mysql-transaction-commit-rollback %})과 이어진다.
+- **트랜잭션 경계와 Service 계층** — Service가 Connection을 만드는 이유. 여러 DAO 호출을 한 트랜잭션으로 묶는 단위다. [트랜잭션 글]({% post_url 2026-10-13-mysql-transaction-commit-rollback %})과 이어진다.
 - **DTO vs Entity** — DB 행을 나르는 그릇과 도메인 객체의 차이. JPA를 배울 때 다시 만난다.
 
 ## 참고 자료

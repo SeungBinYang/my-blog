@@ -9,7 +9,7 @@ mermaid: true
 
 ## 들어가며 (Situation)
 
-챕터4의 두 번째 주제는 **컬렉션(Collection)**이다. 앞에서 배운 제네릭([기초]({{ site.baseurl }}{% post_url 2026-10-07-java-generic-type-parameter-wrapper %}), [타입 제한과 와일드카드]({{ site.baseurl }}{% post_url 2026-10-07-java-generic-bounded-type-wildcard %}))이 실제로 가장 많이 쓰이는 곳이 바로 컬렉션이라, 제네릭 다음에 배우는 순서가 자연스러웠다.
+챕터4의 두 번째 주제는 **컬렉션(Collection)**이다. 앞에서 배운 제네릭([기초]({% post_url 2026-10-07-java-generic-type-parameter-wrapper %}), [타입 제한과 와일드카드]({% post_url 2026-10-07-java-generic-bounded-type-wildcard %}))이 실제로 가장 많이 쓰이는 곳이 바로 컬렉션이라, 제네릭 다음에 배우는 순서가 자연스러웠다.
 
 오늘 `b_collection/a_list` 패키지에서 작성한 파일은 세 개다.
 
@@ -80,7 +80,7 @@ list = [1, 3.14, hi, false, Wed Oct 07 15:05:10 KST 2026]
 list.size() = 5
 ```
 
-정수, 실수, 문자열, 불리언, 날짜가 한 리스트에 다 들어갔다. 하지만 [제네릭 기초 글]({{ site.baseurl }}{% post_url 2026-10-07-java-generic-type-parameter-wrapper %})에서 본 raw type 문제가 그대로 있다. `-Xlint:all`로 컴파일하니 이 파일에서만 경고가 **8개**(`rawtypes` 2개, `unchecked` 6개) 나왔다. 꺼낼 때 무엇이 들어 있는지 알 수 없으니 `(String) list.get(0)` 같은 캐스팅이 실행 중에 터질 수 있다.
+정수, 실수, 문자열, 불리언, 날짜가 한 리스트에 다 들어갔다. 하지만 [제네릭 기초 글]({% post_url 2026-10-07-java-generic-type-parameter-wrapper %})에서 본 raw type 문제가 그대로 있다. `-Xlint:all`로 컴파일하니 이 파일에서만 경고가 **8개**(`rawtypes` 2개, `unchecked` 6개) 나왔다. 꺼낼 때 무엇이 들어 있는지 알 수 없으니 `(String) list.get(0)` 같은 캐스팅이 실행 중에 터질 수 있다.
 
 바로 아래 코드는 `List<Character>`로 타입을 지정했고, 경고가 하나도 나오지 않았다. 실무에서는 항상 이렇게 타입을 지정한다고 한다.
 
